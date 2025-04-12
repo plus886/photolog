@@ -11,7 +11,8 @@
 }
 
 @theme {
-  --font-serif: serif;
-  --font-h1: serif;
-  --font-sub: sans-serif;
+  --font-serif: "Shippori Mincho B1", serif;
+  --font-sub: "Barlow Condensed", sans-serif;
+  --font-cactus: "Cactus Classical Serif", serif;
+  --font-lens: "Alice", serif;
 }

@@ -12,7 +12,9 @@
   }}
 >
   <div class="flex h-lvh flex-col items-center justify-between gap-4">
-    <h1 class="font-h1 px-12 text-xl tracking-[1em] [writing-mode:vertical-lr]">
+    <h1
+      class="font-cactus px-12 text-xl tracking-[1em] [writing-mode:vertical-lr]"
+    >
       翳光台灣
     </h1>
     <DrawerButton />
