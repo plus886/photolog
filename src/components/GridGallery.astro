@@ -1,0 +1,69 @@
+---
+import { Image } from "astro:assets";
+import sample1Image from "../assets/sample_1.jpg";
+import sample2Image from "../assets/sample_2.jpg";
+import sample3Image from "../assets/sample_3.jpg";
+import sample4Image from "../assets/sample_4.jpg";
+import sample5Image from "../assets/sample_5.jpg";
+import sample6Image from "../assets/sample_6.jpg";
+import sample7Image from "../assets/sample_7.jpg";
+
+const sampleImageArr = [
+  sample1Image,
+  sample2Image,
+  sample3Image,
+  sample4Image,
+  sample5Image,
+  sample6Image,
+  sample7Image,
+];
+
+const uniqArr = [1, 2, 3, 4, 5, 6, 7];
+---
+
+<div class="grid grid-cols-7 lg:grid-cols-11">
+  <div
+    class="col-span-7 grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] grid-rows-[repeat(auto-fill,5rem)] lg:col-span-10"
+  >
+    <div class="font-sub flex items-center justify-center text-zinc-500">
+      2025
+    </div>
+    {
+      uniqArr.map((e) => {
+        return (
+          <a
+            href={`/days/${e}`}
+            class="transition-all"
+            transition:name={`days_${e}_container`}
+          >
+            <Image
+              src={sampleImageArr[e - 1]}
+              alt="test"
+              class={`grayscale-[${Math.floor(Math.random() * 101)}] h-full w-full object-cover`}
+            />
+          </a>
+        );
+      })
+    }
+    <!-- {
+      Array(200)
+        .fill(undefined)
+        .map(() => {
+          const id = Math.floor(Math.random() * 7);
+          return (
+            <a
+              href={`/days/${id + 1}`}
+              class="transition-all"
+              transition:name={`days_${id + 1}_container`}
+            >
+              <Image
+                src={sampleImageArr[id]}
+                alt="test"
+                class={`grayscale-[${Math.floor(Math.random() * 101)}] h-full w-full object-cover`}
+              />
+            </a>
+          );
+        })
+    } -->
+  </div>
+</div>

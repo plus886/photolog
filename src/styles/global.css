@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@layer base {
+  a {
+    text-decoration: underline;
+  }
+  a:hover {
+    background-color: #e6e5d7;
+    transition: all 0.3s ease-in;
+  }
+}
+
+@theme {
+  --font-serif: serif;
+  --font-h1: serif;
+  --font-sub: sans-serif;
+}
