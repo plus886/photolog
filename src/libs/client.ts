@@ -19,9 +19,8 @@ type DayContent = {
 };
 
 export type Day = DayContent & MicroCMSListContent;
-export type OptimizedDay = Required<DayContent> & MicroCMSListContent;
 
-const optimizeDate = (item: Day): OptimizedDay => {
+const optimizeDate = (item: Day) => {
   const { date, ...rest } = item;
   if (date)
     return {
