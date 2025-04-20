@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getDays, getDayDetail } from "../../libs/client";
+import dayjs from "dayjs";
+
+export async function getStaticPaths() {
+  const response = await getDays({ fields: ["id"] });
+  return response.contents.map((content: any) => ({
+    params: {
+      dayId: content.id,
+    },
+  }));
+}
+
+const { dayId } = Astro.params;
+const item = await getDayDetail(dayId as string);
+---
+
+<Layout>
+  <section
+    class="grid h-lvh grid-cols-[1fr_3fr_2fr] items-center justify-center"
+  >
+    <div></div>
+    <figure>
+      <img
+        src={item.image.url}
+        alt={`gay`}
+        class="w-full transition-all"
+        transition:name={`days_${item.id}_container`}
+      />
+      <figcaption class="font-leica pt-3 text-right text-[7px]">
+        {`${item.camera}${item.lens.length > 0 ? `, ${item.lens}` : ""}`}
+      </figcaption>
+    </figure>
+    <div class="font-cactus flex items-center justify-center gap-2">
+      <p>{dayjs(item.date).format("YYYY年")}</p>
+      <p class="text-2xl font-bold">{dayjs(item.date).format("M月D日")}</p>
+    </div>
+  </section>
+</Layout>

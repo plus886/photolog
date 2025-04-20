@@ -18,7 +18,7 @@
       翳光台灣
     </h1>
     <DrawerButton />
-    <p class="font-sub px-12 text-xs tracking-wider [writing-mode:vertical-lr]">
+    <p class="font-leica px-12 text-[10px] [writing-mode:vertical-lr]">
       FORMOSA CHIAROSCURO
     </p>
   </div>

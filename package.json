@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/svelte": "^7.0.9",
+    "@astrojs/svelte": "^7.0.10",
     "@fontsource/alice": "^5.2.5",
     "@fontsource/barlow-condensed": "^5.2.5",
     "@fontsource/cactus-classical-serif": "^5.2.6",
@@ -18,9 +18,11 @@
     "@fontsource/new-tegomin": "^5.2.5",
     "@fontsource/shippori-mincho-b1": "^5.2.5",
     "@tailwindcss/vite": "^4.1.3",
-    "astro": "^5.6.1",
+    "astro": "^5.7.4",
     "dayjs": "^1.11.13",
     "lenis": "^1.2.3",
+    "lodash": "^4.17.21",
+    "microcms-js-sdk": "^3.2.0",
     "nanostores": "^0.11.4",
     "svelte": "^5.25.7",
     "tailwindcss": "^4.1.3",
@@ -28,6 +30,7 @@
   },
   "devDependencies": {
     "@iconify-json/material-symbols-light": "^1.2.17",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^20.17.0",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",

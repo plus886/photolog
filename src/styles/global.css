@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "F5.6";
+  src: url("/fonts/f5.6.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   a {
     text-decoration: underline;
@@ -15,4 +23,5 @@
   --font-sub: "Barlow Condensed", sans-serif;
   --font-cactus: "Cactus Classical Serif", serif;
   --font-lens: "Alice", serif;
+  --font-leica: "F5.6", serif;
 }

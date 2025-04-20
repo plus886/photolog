@@ -5,12 +5,12 @@ declare namespace App {
   }
 }
 
-interface FONTPLUS {
-  reload: (init?: boolean) => void;
-  isloading: () => boolean;
+namespace NodeJS {
+  interface ProcessEnv {
+    MICROCMS_DOMAIN: string;
+    MICROCMS_API_KEY: string;
+  }
 }
-
-declare let FONTPLUS: FONTPLUS;
 
 interface Window {
   FONTPLUS: FONTPLUS;
