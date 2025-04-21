@@ -1,35 +1,48 @@
 ---
 import { getAllDays } from "../libs/client";
+import groupBy from "lodash/groupBy";
+import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
+import dayjs from "dayjs";
 
 const response = await getAllDays();
 const items = response.map((e) => ({
   src: `${e.image.url}?w=150`,
   ...e,
 }));
+const groupedItems = groupBy(items, (e) => dayjs(e.date).format("YYYY"));
+const years = Object.keys(groupedItems).reverse();
 ---
 
 <div class="grid grid-cols-7 lg:grid-cols-11">
   <div
     class="col-span-7 grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] grid-rows-[repeat(auto-fill,5rem)] lg:col-span-10"
   >
-    <div class="font-sub flex items-center justify-center text-zinc-500">
-      2025
-    </div>
     {
-      items.map((e) => {
-        return (
-          <a
-            href={`/days/${e.slug}`}
-            class="transition-all"
-            transition:name={`days_${e.id}_container`}
-          >
-            <img
-              src={e.src}
-              alt="test"
-              class="h-full w-full object-cover transition-all hover:invert-30 hover:sepia-50"
-            />
-          </a>
-        );
+      years.map((year) => {
+        const arr = groupedItems[year];
+        return arr.map((e, i) => {
+          return (
+            <>
+              <a
+                href={`/days/${e.slug}`}
+                class="transition-all"
+                transition:name={`days_${e.id}_container`}
+              >
+                <img
+                  src={e.src}
+                  alt="test"
+                  class="h-full w-full object-cover transition-all hover:invert-30 hover:sepia-50"
+                />
+              </a>
+              {i === arr.length - 1 && (
+                <div class="flex items-center justify-center bg-stone-300 text-stone-700">
+                  <IconLeft />
+                  <p class="font-leica text-[10px]">{year}</p>
+                </div>
+              )}
+            </>
+          );
+        });
       })
     }
   </div>

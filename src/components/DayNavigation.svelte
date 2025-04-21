@@ -23,7 +23,7 @@
       <a href={nextSlug ? `/days/${nextSlug}` : ""}>
         <button
           class={{
-            "flex cursor-pointer justify-center transition-all hover:scale-130": true,
+            "flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
             "pointer-events-none opacity-20": !nextSlug,
           }}
         >
@@ -32,7 +32,7 @@
       </a>
       <a href="/">
         <button
-          class="flex cursor-pointer justify-center transition-all hover:scale-130"
+          class="flex cursor-pointer justify-center p-2 transition-all hover:scale-130"
         >
           <IconGrid class="text-lg" />
         </button>
@@ -40,7 +40,7 @@
       <a href={prevSlug ? `/days/${prevSlug}` : ""}>
         <button
           class={{
-            "flex cursor-pointer justify-center transition-all hover:scale-130": true,
+            "flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
             "pointer-events-none opacity-20": !prevSlug,
           }}
         >
