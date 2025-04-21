@@ -1,10 +1,11 @@
 import type {
   MicroCMSQueries,
   MicroCMSListContent,
-  MicroCMSListResponse,
   MicroCMSImage,
 } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
+import dayjs from "dayjs";
+import orderBy from "lodash/orderBy";
 
 const client = createClient({
   serviceDomain: import.meta.env.MICROCMS_DOMAIN,
@@ -22,13 +23,10 @@ export type Day = DayContent & MicroCMSListContent;
 
 const optimizeDate = (item: Day) => {
   const { date, ...rest } = item;
-  if (date)
-    return {
-      date,
-      ...item,
-    };
+  const safeDate = date || rest.publishedAt || rest.createdAt;
   return {
-    date: rest.publishedAt || rest.createdAt,
+    date: safeDate,
+    slug: dayjs(safeDate).format("YYYYMMDD"),
     ...rest,
   };
 };
@@ -39,20 +37,35 @@ export const getDays = async (queries?: MicroCMSQueries) => {
     queries,
   });
   return {
-    contents: contents.map((e) => optimizeDate(e)),
+    contents: orderBy(
+      contents.map((e) => optimizeDate(e)),
+      (i) => i.date,
+      "desc",
+    ),
     ...rest,
   };
+};
+
+export const getAllDays = async (queries?: MicroCMSQueries) => {
+  const response = await client.getAllContents<Day>({
+    endpoint: "days",
+    queries,
+  });
+  return orderBy(
+    response.map((e) => optimizeDate(e)),
+    (i) => i.date,
+    "desc",
+  );
 };
 
 export const getDayDetail = async (
   contentId: string,
   queries?: MicroCMSQueries,
 ) => {
-  return optimizeDate(
-    await client.getListDetail({
-      endpoint: "days",
-      contentId,
-      queries,
-    }),
-  );
+  const result = await client.getListDetail({
+    endpoint: "days",
+    contentId,
+    queries,
+  });
+  return optimizeDate(result);
 };

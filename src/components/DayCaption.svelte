@@ -1,8 +1,22 @@
 <script lang="ts">
+  import { fade } from "svelte/transition";
+  import { isDrawerOpen } from "../libs/stores";
+
+  interface Props {
+    camera: string;
+    lens?: string;
+  }
+
+  const { camera, lens }: Props = $props();
 </script>
 
-<figcaption class="font-leica pt-3 text-right text-[6px]">
-  {day % 2
-    ? "LEICA M11, LEICA APO-SUMMICRON-M F2/35mm ASPH."
-    : "LEICA M11, LEICA SUMMILUX-M F1.4/35mm ASPH."}
-</figcaption>
+<!-- svelte-ignore a11y_figcaption_parent -->
+{#if !$isDrawerOpen}
+  <figcaption
+    class="font-leica flex justify-end pt-3 text-[7px]"
+    in:fade={{ delay: 600, duration: 500 }}
+    out:fade={{ duration: 200 }}
+  >
+    {`${camera}${lens && lens.length > 0 ? `, ${lens}` : ""}`}
+  </figcaption>
+{/if}

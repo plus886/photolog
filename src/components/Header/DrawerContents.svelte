@@ -4,8 +4,8 @@
 
 <div
   class="flex items-center justify-center"
-  in:fade={{ delay: 500, duration: 500 }}
-  out:fade={{ duration: 200 }}
+  in:fade={{ delay: 600, duration: 500 }}
+  out:fade={{ duration: 150 }}
 >
   <div class="max-w-2xl pr-12 font-serif text-sm/6 tracking-wide">
     <p class="py-4">

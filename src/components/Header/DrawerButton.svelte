@@ -8,7 +8,7 @@
   };
 </script>
 
-<button {onclick} class="cursor-pointer">
+<button {onclick} class="cursor-pointer transition-all hover:scale-85">
   {#if $isDrawerOpen}
     <IconClose class="text-3xl" />
   {:else}

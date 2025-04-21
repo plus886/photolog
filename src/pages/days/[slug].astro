@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DayNavigation from "../../components/DayNavigation.svelte";
+import DayCaption from "../../components/DayCaption.svelte";
+import DayDate from "../../components/DayDate.svelte";
+import DaySpacer from "../../components/DaySpacer.svelte";
+import { getAllDays, getDayDetail } from "../../libs/client";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async () => {
+  const response = await getAllDays({
+    fields: ["id", "date", "publishedAt", "createdAt"],
+  });
+  const length = response.length;
+  return response.map((e, i) => ({
+    params: {
+      slug: e.slug,
+    },
+    props: {
+      dayId: e.id,
+      nextPost: i === 0 ? null : response[i - 1],
+      prevPost: i + 1 === length ? null : response[i + 1],
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { dayId, nextPost, prevPost } = Astro.props;
+const item = await getDayDetail(dayId as string);
+---
+
+<Layout>
+  <section
+    class="grid h-lvh grid-cols-[1fr_3fr_2fr] items-center justify-center"
+  >
+    <DayNavigation
+      client:only="svelte"
+      prevSlug={prevPost && prevPost.slug}
+      nextSlug={nextPost && nextPost.slug}
+    />
+    <figure class="flex flex-col items-center justify-center">
+      <DaySpacer client:only="svelte" />
+      <img
+        src={`${item.image.url}?w=1024`}
+        alt={item.slug}
+        class="w-full transition-all"
+        transition:name={`days_${item.id}_container`}
+      />
+      <DayCaption camera={item.camera} lens={item.lens} client:only="svelte" />
+    </figure>
+    <DayDate date={item.date} client:only="svelte" />
+  </section>
+</Layout>

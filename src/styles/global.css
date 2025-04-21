@@ -12,16 +12,14 @@
   a {
     text-decoration: underline;
   }
-  a:hover {
+  /* a:hover {
     background-color: #e6e5d7;
     transition: all 0.3s ease-in;
-  }
+  } */
 }
 
 @theme {
   --font-serif: "Shippori Mincho B1", serif;
-  --font-sub: "Barlow Condensed", sans-serif;
   --font-cactus: "Cactus Classical Serif", serif;
-  --font-lens: "Alice", serif;
   --font-leica: "F5.6", serif;
 }
