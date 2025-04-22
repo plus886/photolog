@@ -22,7 +22,7 @@ import "@fontsource/cormorant-garamond";
   <body>
     <div
       id="layout"
-      class="grid h-lvh text-zinc-800 transition-all delay-150 duration-500 ease-in-out"
+      class="h-lvh text-zinc-800 transition-all delay-150 duration-500 ease-in-out md:grid"
     >
       <Header client:only="svelte" transition:name="header" />
       <div class="overflow-auto">
@@ -41,8 +41,8 @@ import "@fontsource/cormorant-garamond";
       isDrawerOpen.set(false);
     }
     isDrawerOpen.subscribe((open) => {
-      el?.classList.toggle("grid-cols-[1fr_1fr]", open);
-      el?.classList.toggle("grid-cols-[1fr_5fr]", !open);
+      el?.classList.toggle("md:grid-cols-[1fr_1fr]", open);
+      el?.classList.toggle("md:grid-cols-[1fr_5fr]", !open);
     });
   });
 </script>

@@ -12,7 +12,7 @@
 <div
   class={{
     "font-cactus flex items-center justify-center gap-2 transition-all delay-150 duration-500 ease-in-out": true,
-    "scale-65": $isDrawerOpen,
+    "md:scale-65": $isDrawerOpen,
   }}
 >
   <p>

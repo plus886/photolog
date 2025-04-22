@@ -16,7 +16,7 @@
 <nav class="self-center">
   {#if !$isDrawerOpen}
     <div
-      class="flex flex-col items-start justify-start gap-6 self-end-safe"
+      class="flex items-center justify-center gap-6 self-end-safe md:flex-col md:items-start md:justify-start"
       in:fade={{ delay: 500, duration: 500 }}
       out:fade={{ duration: 200 }}
     >
@@ -27,14 +27,14 @@
             "pointer-events-none opacity-20": !nextSlug,
           }}
         >
-          <IconLeft class="text-lg" />
+          <IconLeft class="text-xl" />
         </button>
       </a>
       <a href="/">
         <button
           class="flex cursor-pointer justify-center p-2 transition-all hover:scale-130"
         >
-          <IconGrid class="text-lg" />
+          <IconGrid class="text-xl" />
         </button>
       </a>
       <a href={prevSlug ? `/days/${prevSlug}` : ""}>
@@ -44,7 +44,7 @@
             "pointer-events-none opacity-20": !prevSlug,
           }}
         >
-          <IconRight class="text-lg" />
+          <IconRight class="text-xl" />
         </button>
       </a>
     </div>

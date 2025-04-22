@@ -3,14 +3,11 @@ import { getAllDays } from "../libs/client";
 import groupBy from "lodash/groupBy";
 import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
 import dayjs from "dayjs";
+import GridThumbnail from "./GridThumbnail.astro";
 
 const response = await getAllDays();
-const items = response.map((e) => ({
-  src: `${e.image.url}?w=150`,
-  ...e,
-}));
-const groupedItems = groupBy(items, (e) => dayjs(e.date).format("YYYY"));
-const years = Object.keys(groupedItems).reverse();
+const itemsByYear = groupBy(response, (e) => dayjs(e.date).format("YYYY"));
+const years = Object.keys(itemsByYear).reverse();
 ---
 
 <div class="grid grid-cols-7 lg:grid-cols-11">
@@ -19,25 +16,20 @@ const years = Object.keys(groupedItems).reverse();
   >
     {
       years.map((year) => {
-        const arr = groupedItems[year];
-        return arr.map((e, i) => {
+        const arr = itemsByYear[year];
+        return arr.map((e, innerIndex) => {
           return (
             <>
-              <a
-                href={`/days/${e.slug}`}
-                class="transition-all"
-                transition:name={`days_${e.id}_container`}
-              >
-                <img
-                  src={e.src}
-                  alt="test"
-                  class="h-full w-full object-cover transition-all hover:invert-30 hover:sepia-50"
-                />
-              </a>
-              {i === arr.length - 1 && (
+              <GridThumbnail
+                src={e.image.url}
+                slug={e.slug}
+                id={e.id}
+                featured={false}
+              />
+              {innerIndex === arr.length - 1 && (
                 <div class="flex items-center justify-center bg-stone-300 text-stone-700">
-                  <IconLeft />
-                  <p class="font-leica text-[10px]">{year}</p>
+                  <IconLeft class="animate-pulse" />
+                  <p class="font-leica animate-pulse text-[0.6rem]">{year}</p>
                 </div>
               )}
             </>

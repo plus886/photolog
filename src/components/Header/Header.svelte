@@ -6,19 +6,23 @@
 
 <header
   class={{
-    "grid overflow-hidden transition-all delay-150 duration-500 ease-in-out": true,
-    "grid-cols-[calc(100vw/12)_calc(100vw/12*5)] bg-stone-300": $isDrawerOpen,
-    "grid-cols-[calc(100vw/12)_calc(100vw/12)]": !$isDrawerOpen,
+    "sticky top-0 z-10 grid overflow-hidden transition-all delay-150 duration-500 ease-in-out md:static md:top-auto md:z-auto": true,
+    "grid-rows-[10dvh_55dvh] bg-white md:grid-cols-[calc(100vw/12)_calc(100vw/12*5)] md:grid-rows-1 md:bg-stone-300":
+      $isDrawerOpen,
+    "grid-rows-[10dvh_0dvh] bg-white md:grid-cols-[calc(100vw/12)_calc(100vw/12)] md:grid-rows-1":
+      !$isDrawerOpen,
   }}
 >
-  <div class="flex h-lvh flex-col items-center justify-between gap-4">
+  <div class="flex items-center justify-between gap-4 md:h-lvh md:flex-col">
     <h1
-      class="font-cactus px-12 text-xl tracking-[1em] [writing-mode:vertical-lr]"
+      class="font-cactus px-4 text-lg tracking-[0.5em] text-nowrap md:px-12 md:text-xl md:tracking-[1em] md:[writing-mode:vertical-lr]"
     >
       翳光台灣
     </h1>
     <DrawerButton />
-    <p class="font-leica px-12 text-[10px] [writing-mode:vertical-lr]">
+    <p
+      class="font-leica hidden text-[0.625rem] md:block md:px-12 md:[writing-mode:vertical-lr]"
+    >
       FORMOSA CHIAROSCURO
     </p>
   </div>

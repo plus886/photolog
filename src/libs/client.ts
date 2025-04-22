@@ -17,6 +17,7 @@ type DayContent = {
   camera: string[];
   lens: string[];
   date?: string;
+  featured: boolean;
 };
 
 export type Day = DayContent & MicroCMSListContent;

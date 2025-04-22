@@ -7,7 +7,9 @@
   in:fade={{ delay: 600, duration: 500 }}
   out:fade={{ duration: 150 }}
 >
-  <div class="max-w-2xl pr-12 font-serif text-sm/6 tracking-wide">
+  <div
+    class="max-w-2xl px-6 font-serif text-sm/6 tracking-wide md:pr-12 md:pl-0"
+  >
     <p class="py-4">
       台湾で生活する日本人が、一日一枚、写真を投稿するフォトログです。
       ここで生きているといろいろなことがあるものですが、なるべくその「いろいろ」が表現できるといいな、と思いながらやっています。

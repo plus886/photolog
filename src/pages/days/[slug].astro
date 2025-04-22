@@ -29,7 +29,7 @@ const item = await getDayDetail(dayId as string);
 
 <Layout>
   <section
-    class="grid h-lvh grid-cols-[1fr_3fr_2fr] items-center justify-center"
+    class="grid h-[90dvh] grid-rows-[10dvh_1fr_25dvh] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
   >
     <DayNavigation
       client:only="svelte"
@@ -41,7 +41,7 @@ const item = await getDayDetail(dayId as string);
       <img
         src={`${item.image.url}?w=1024`}
         alt={item.slug}
-        class="w-full transition-all"
+        class="max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full"
         transition:name={`days_${item.id}_container`}
       />
       <DayCaption camera={item.camera} lens={item.lens} client:only="svelte" />
