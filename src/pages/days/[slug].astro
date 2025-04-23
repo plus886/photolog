@@ -32,20 +32,20 @@ const item = await getDayDetail(dayId as string);
     class="grid h-[90dvh] grid-rows-[10dvh_1fr_25dvh] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
   >
     <DayNavigation
-      client:only="svelte"
+      client:load
       prevSlug={prevPost && prevPost.slug}
       nextSlug={nextPost && nextPost.slug}
     />
     <figure class="flex flex-col items-center justify-center">
-      <DaySpacer client:only="svelte" />
+      <DaySpacer client:load />
       <img
         src={`${item.image.url}?w=1024`}
         alt={item.slug}
         class="max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full"
         transition:name={`days_${item.id}_container`}
       />
-      <DayCaption camera={item.camera} lens={item.lens} client:only="svelte" />
+      <DayCaption camera={item.camera} lens={item.lens} client:load />
     </figure>
-    <DayDate date={item.date} client:only="svelte" />
+    <DayDate date={item.date} client:load />
   </section>
 </Layout>

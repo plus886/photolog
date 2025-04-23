@@ -6,10 +6,10 @@
 
 <header
   class={{
-    "sticky top-0 z-10 grid overflow-hidden transition-all delay-150 duration-500 ease-in-out md:static md:top-auto md:z-auto": true,
-    "grid-rows-[10dvh_55dvh] bg-white md:grid-cols-[calc(100vw/12)_calc(100vw/12*5)] md:grid-rows-1 md:bg-stone-300":
+    "sticky top-0 z-10 grid overflow-hidden transition-[grid,background-color] delay-150 duration-500 ease-in-out md:static md:top-auto md:z-auto": true,
+    "md:bg-pale-accent md:dark:bg-inky-accent grid-rows-[10dvh_55dvh] md:grid-cols-[calc(100vw/12)_calc(100vw/12*5)] md:grid-rows-1":
       $isDrawerOpen,
-    "grid-rows-[10dvh_0dvh] bg-white md:grid-cols-[calc(100vw/12)_calc(100vw/12)] md:grid-rows-1":
+    "grid-rows-[10dvh_0dvh] md:grid-cols-[calc(100vw/12)_calc(100vw/12)] md:grid-rows-1":
       !$isDrawerOpen,
   }}
 >

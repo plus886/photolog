@@ -1,12 +1,9 @@
 ---
-import "./src/styles/global.css";
+import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header";
 import "@fontsource/shippori-mincho-b1";
 import "@fontsource/cactus-classical-serif";
-import "@fontsource/barlow-condensed";
-import "@fontsource/alice";
-import "@fontsource/cormorant-garamond";
 ---
 
 <!doctype html>
@@ -17,14 +14,18 @@ import "@fontsource/cormorant-garamond";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>翳光臺灣 | Formosa Chiaroscuro</title>
+    <script is:inline>
+      const lastTheme = localStorage.getItem("theme");
+      document.documentElement.classList.toggle("dark", lastTheme === "dark");
+    </script>
     <ClientRouter />
   </head>
-  <body>
+  <body class="dark:bg-inky dark:text-pale text-zinc-800">
     <div
       id="layout"
-      class="h-lvh text-zinc-800 transition-all delay-150 duration-500 ease-in-out md:grid"
+      class="h-lvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
     >
-      <Header client:only="svelte" transition:name="header" />
+      <Header client:load transition:persist />
       <div class="overflow-auto">
         <slot />
       </div>
@@ -33,7 +34,7 @@ import "@fontsource/cormorant-garamond";
 </html>
 
 <script>
-  import { isDrawerOpen } from "../libs/stores";
+  import { isDrawerOpen, theme } from "../libs/stores";
 
   document.addEventListener("astro:page-load", () => {
     const el = document.getElementById("layout");
@@ -44,11 +45,11 @@ import "@fontsource/cormorant-garamond";
       el?.classList.toggle("md:grid-cols-[1fr_1fr]", open);
       el?.classList.toggle("md:grid-cols-[1fr_5fr]", !open);
     });
+
+    const lastTheme = localStorage.getItem("theme");
+    if (lastTheme) theme.set(lastTheme as "light" | "dark");
+    theme.subscribe((v, o) => {
+      document.documentElement.classList.toggle("dark", v === "dark");
+    });
   });
 </script>
-
-<script>
-  import smoothScroll from "../libs/smoothScroll";
-  // smoothScroll();
-</script>
-<script></script>
