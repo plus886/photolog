@@ -13,18 +13,16 @@
   <div
     class="max-w-2xl px-6 font-serif text-sm/6 tracking-wide md:pr-12 md:pl-0"
   >
-    <div
-      class={{
-        "flex justify-start": true,
-        invisible: $theme === "light",
-      }}
-    >
-      <button
-        onclick={() => theme.set("light")}
-        class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
-      >
-        <IconSun class="text-xl md:text-3xl" />
-      </button>
+    <div class="flex h-18 items-start justify-center">
+      {#if $theme === "dark"}
+        <button
+          onclick={() => theme.set("light")}
+          class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
+          transition:fade={{ duration: 200 }}
+        >
+          <IconSun class="animate-wiggle text-xl md:text-2xl" />
+        </button>
+      {/if}
     </div>
     <div class="px-4">
       <p class="py-4">
@@ -37,18 +35,16 @@
         生活環境や風景にしても、それらが真の姿を明らかにするのは、写真家がそうした対象を、それらの顔貌に現れている名づけようのない現象において把握することを心得ている場合だけである。（ヴァルター・ベンヤミン）
       </p>
     </div>
-    <div
-      class={{
-        "flex justify-end": true,
-        invisible: $theme !== "light",
-      }}
-    >
-      <button
-        onclick={() => theme.set("dark")}
-        class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
-      >
-        <IconMoon class="text-xl md:text-3xl" />
-      </button>
+    <div class="flex h-18 items-end justify-center">
+      {#if $theme === "light"}
+        <button
+          onclick={() => theme.set("dark")}
+          class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
+          transition:fade={{ duration: 200 }}
+        >
+          <IconMoon class="animate-wiggle text-xl md:text-2xl" />
+        </button>
+      {/if}
     </div>
   </div>
 </div>

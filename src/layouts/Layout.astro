@@ -20,7 +20,9 @@ import "@fontsource/cactus-classical-serif";
     </script>
     <ClientRouter />
   </head>
-  <body class="dark:bg-inky dark:text-pale text-zinc-800">
+  <body
+    class="dark:bg-inky dark:text-pale transition-color text-zinc-800 delay-150 duration-500"
+  >
     <div
       id="layout"
       class="h-lvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
@@ -36,6 +38,12 @@ import "@fontsource/cactus-classical-serif";
 <script>
   import { isDrawerOpen, theme } from "../libs/stores";
 
+  document.addEventListener("astro:after-swap", () => {
+    theme.subscribe((v) => {
+      document.documentElement.classList.toggle("dark", v === "dark");
+    });
+  });
+
   document.addEventListener("astro:page-load", () => {
     const el = document.getElementById("layout");
     if (isDrawerOpen.get()) {
@@ -44,12 +52,6 @@ import "@fontsource/cactus-classical-serif";
     isDrawerOpen.subscribe((open) => {
       el?.classList.toggle("md:grid-cols-[1fr_1fr]", open);
       el?.classList.toggle("md:grid-cols-[1fr_5fr]", !open);
-    });
-
-    const lastTheme = localStorage.getItem("theme");
-    if (lastTheme) theme.set(lastTheme as "light" | "dark");
-    theme.subscribe((v, o) => {
-      document.documentElement.classList.toggle("dark", v === "dark");
     });
   });
 </script>

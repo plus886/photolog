@@ -4,10 +4,12 @@ import tailwindcss from "@tailwindcss/vite";
 import svelte from "@astrojs/svelte";
 import Icons from "unplugin-icons/vite";
 
+import purgecss from "astro-purgecss";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss(), Icons({ compiler: "svelte" })],
   },
-  integrations: [svelte()],
+  integrations: [svelte(), purgecss()],
 });

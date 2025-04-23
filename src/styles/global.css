@@ -24,4 +24,15 @@
   --color-pale: var(--color-zinc-300);
   --color-inky-accent: var(--color-zinc-900);
   --color-pale-accent: var(--color-stone-300);
+
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
+  }
 }
