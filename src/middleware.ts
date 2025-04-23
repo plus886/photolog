@@ -3,10 +3,7 @@ import childProcess from "child_process";
 import dayjs from "dayjs";
 
 export const onRequest = defineMiddleware((context, next) => {
-  const hash = childProcess
-    .execSync("git rev-parse --short HEAD")
-    .toString()
-    .trim();
+  const hash = childProcess.execSync("git rev-parse HEAD").toString().trim();
 
   const time = dayjs(
     childProcess
