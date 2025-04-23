@@ -10,4 +10,5 @@ export default defineConfig({
     plugins: [tailwindcss(), Icons({ compiler: "svelte" })],
   },
   integrations: [svelte()],
+  site: "https://photolog.kokaiji.tw",
 });
