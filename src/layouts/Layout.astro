@@ -38,6 +38,10 @@ import "@fontsource/cactus-classical-serif";
 <script>
   import { isDrawerOpen, theme } from "../libs/stores";
 
+  theme.subscribe((v) => {
+    document.documentElement.classList.toggle("dark", v === "dark");
+  });
+
   document.addEventListener("astro:after-swap", () => {
     theme.subscribe((v) => {
       document.documentElement.classList.toggle("dark", v === "dark");
@@ -52,6 +56,12 @@ import "@fontsource/cactus-classical-serif";
     isDrawerOpen.subscribe((open) => {
       el?.classList.toggle("md:grid-cols-[1fr_1fr]", open);
       el?.classList.toggle("md:grid-cols-[1fr_5fr]", !open);
+      document
+        .getElementById("layout")
+        ?.classList.toggle("overflow-hidden", open);
+      document
+        .getElementById("layout")
+        ?.classList.toggle("md:overflow-auto", open);
     });
   });
 </script>
