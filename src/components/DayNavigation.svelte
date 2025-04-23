@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy, onMount } from "svelte";
   import { fade } from "svelte/transition";
   import IconLeft from "~icons/material-symbols-light/chevron-left-rounded";
   import IconRight from "~icons/material-symbols-light/chevron-right-rounded";
@@ -15,18 +16,24 @@
 
   const { nextSlug, prevSlug }: Props = $props();
 
-  hotkeys("left", () => {
-    if (!nextSlug) return;
-    navigate(`/days/${nextSlug}`);
+  onMount(() => {
+    hotkeys("left", () => {
+      if (!nextSlug) return;
+      navigate(`/days/${nextSlug}`);
+    });
+
+    hotkeys("right", () => {
+      if (!prevSlug) return;
+      navigate(`/days/${prevSlug}`);
+    });
+
+    hotkeys("space, backspace, delete", () => {
+      navigate(`/`);
+    });
   });
 
-  hotkeys("right", () => {
-    if (!prevSlug) return;
-    navigate(`/days/${prevSlug}`);
-  });
-
-  hotkeys("space, backspace, delete", () => {
-    navigate(`/`);
+  onDestroy(() => {
+    hotkeys.unbind();
   });
 </script>
 
