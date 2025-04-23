@@ -4,6 +4,8 @@ import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header";
 import "@fontsource/shippori-mincho-b1";
 import "@fontsource/cactus-classical-serif";
+
+const locals = Astro.locals;
 ---
 
 <!doctype html>
@@ -27,7 +29,7 @@ import "@fontsource/cactus-classical-serif";
       id="layout"
       class="h-lvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
     >
-      <Header client:load transition:persist />
+      <Header astroLocals={locals} client:load transition:persist />
       <div class="overflow-auto">
         <slot />
       </div>

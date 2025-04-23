@@ -14,7 +14,7 @@ export const onRequest = defineMiddleware((context, next) => {
       .toString(),
   )
     .locale("ja")
-    .format("YYYY年M月D日 H:mm");
+    .format("YYYY/M/D H:mm");
 
   context.locals.lastCommitHash = hash;
   context.locals.lastCommitTime = time;

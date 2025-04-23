@@ -1,8 +1,11 @@
 <script lang="ts">
+  import { getContext } from "svelte";
   import { fade } from "svelte/transition";
   import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
   import { theme } from "../../libs/stores";
+
+  const astroLocals = getContext<App.Locals>("astro-locals");
 </script>
 
 <div
@@ -36,9 +39,12 @@
           target="_blank">ポートフォリオサイト</a
         >をご覧ください。
       </p>
-      <p class="py-4 italic">
+      <blockquote class="pt-4 pb-8 italic">
         ——
         生活環境や風景にしても、それらが真の姿を明らかにするのは、写真家がそうした対象を、それらの顔貌に現れている名づけようのない現象において把握することを心得ている場合だけである。（ヴァルター・ベンヤミン）
+      </blockquote>
+      <p class="font-leica flex justify-end text-[0.45rem] tracking-normal">
+        LAST DEPLOY: {astroLocals.lastCommitTime} | #{astroLocals.lastCommitHash}
       </p>
     </div>
     <div class="hidden h-18 items-end justify-center md:flex">

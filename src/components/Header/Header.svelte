@@ -1,7 +1,16 @@
 <script lang="ts">
+  import { setContext } from "svelte";
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
   import { isDrawerOpen } from "../../libs/stores";
+
+  interface Props {
+    astroLocals: App.Locals;
+  }
+
+  const { astroLocals }: Props = $props();
+
+  setContext("astro-locals", astroLocals);
 </script>
 
 <header
