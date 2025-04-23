@@ -5,7 +5,6 @@
   import IconRight from "~icons/material-symbols-light/chevron-right-rounded";
   import IconGrid from "~icons/material-symbols-light/grid-view";
   import { isDrawerOpen } from "../libs/stores";
-
   import { navigate } from "astro:transitions/client";
   import hotkeys from "hotkeys-js";
 
