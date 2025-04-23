@@ -31,11 +31,13 @@ const item = await getDayDetail(dayId as string);
   <section
     class="grid h-[90dvh] grid-rows-[10dvh_1fr_25dvh] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
   >
-    <DayNavigation
-      client:load
-      prevSlug={prevPost && prevPost.slug}
-      nextSlug={nextPost && nextPost.slug}
-    />
+    <nav class="self-center">
+      <DayNavigation
+        client:only="svelte"
+        prevSlug={prevPost && prevPost.slug}
+        nextSlug={nextPost && nextPost.slug}
+      />
+    </nav>
     <figure class="flex flex-col items-center justify-center">
       <DaySpacer client:load />
       <img

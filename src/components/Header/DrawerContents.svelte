@@ -17,8 +17,8 @@
       {#if $theme === "dark"}
         <button
           onclick={() => theme.set("light")}
-          class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
-          transition:fade={{ duration: 200 }}
+          class="cursor-pointer p-4 transition-transform hover:scale-90 md:p-2"
+          transition:fade={{ duration: 200, delay: 100 }}
         >
           <IconSun class="animate-wiggle text-xl md:text-2xl" />
         </button>
@@ -29,7 +29,13 @@
         台湾で生活する日本人が、一日一枚、写真を投稿するフォトログです。
         ここで生きているといろいろなことがあるものですが、なるべくその「いろいろ」が表現できるといいな、と思いながらやっています。
       </p>
-      <p class="py-4">作者のプロフィールはこちらをご覧ください。</p>
+      <p class="py-4">
+        作者のプロフィールは<a
+          class="hover:animate-pulse"
+          href="https://kokaiji.tw"
+          target="_blank">ポートフォリオサイト</a
+        >をご覧ください。
+      </p>
       <p class="py-4 italic">
         ——
         生活環境や風景にしても、それらが真の姿を明らかにするのは、写真家がそうした対象を、それらの顔貌に現れている名づけようのない現象において把握することを心得ている場合だけである。（ヴァルター・ベンヤミン）
@@ -39,8 +45,8 @@
       {#if $theme === "light"}
         <button
           onclick={() => theme.set("dark")}
-          class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
-          transition:fade={{ duration: 200 }}
+          class="cursor-pointer p-4 transition-transform hover:scale-90 md:p-2"
+          transition:fade={{ duration: 200, delay: 100 }}
         >
           <IconMoon class="animate-wiggle text-xl md:text-2xl" />
         </button>
@@ -49,10 +55,13 @@
     <div class="flex items-center justify-end md:hidden">
       <button
         onclick={() => theme.set($theme === "dark" ? "light" : "dark")}
-        class="cursor-pointer p-4 transition-all hover:scale-90 md:p-2"
-        transition:fade={{ duration: 200 }}
+        class="cursor-pointer p-4 transition-transform hover:scale-90 md:p-2"
       >
-        <IconMoon class="animate-wiggle text-xl md:text-2xl" />
+        {#if $theme === "light"}
+          <IconMoon class="animate-wiggle text-xl md:text-2xl" />
+        {:else}
+          <IconSun class="animate-wiggle text-xl md:text-2xl" />
+        {/if}
       </button>
     </div>
   </div>
