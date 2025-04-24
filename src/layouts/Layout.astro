@@ -6,11 +6,23 @@ import "@fontsource/shippori-mincho-b1";
 import "@fontsource/cactus-classical-serif";
 import { getDays } from "../libs/client";
 
-const response = await getDays({ limit: 1, fields: ["publishedAt", "date"] });
+export interface Props {
+  title?: string;
+  description?: string;
+  thumbnail?: string;
+}
+
+const response = await getDays({ limit: 1 });
 const timestamps = {
   locals: Astro.locals,
   latestItem: response.contents[0],
 };
+
+const {
+  title = "翳光臺灣 | Formosa Chiaroscuro",
+  description = "台湾で生きる日本人が一日一枚写真を投稿するフォトログ",
+  thumbnail = response.contents[0].image.url,
+}: Props = Astro.props;
 ---
 
 <!doctype html>
@@ -18,9 +30,16 @@ const timestamps = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>翳光臺灣 | Formosa Chiaroscuro</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${thumbnail}?w=1200&h=630`} />
+    <meta property="og:url" content={Astro.request.url} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@plus886" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
     <script is:inline>
       const lastTheme = localStorage.getItem("theme");
       document.documentElement.classList.toggle("dark", lastTheme === "dark");

@@ -1,4 +1,5 @@
 ---
+import dayjs from "dayjs";
 import Layout from "../../layouts/Layout.astro";
 import DayNavigation from "../../components/DayNavigation.svelte";
 import DayCaption from "../../components/DayCaption.svelte";
@@ -25,9 +26,14 @@ export const getStaticPaths = (async () => {
 
 const { dayId, nextPost, prevPost } = Astro.props;
 const item = await getDayDetail(dayId as string);
+const formattedDate = dayjs(item.date).format("YYYY年M月D日");
 ---
 
-<Layout>
+<Layout
+  title={`翳光臺灣 | ${formattedDate}`}
+  thumbnail={item.image.url}
+  description={`${formattedDate} | 台湾で生きる日本人が一日一枚写真を投稿するフォトログ`}
+>
   <section
     class="grid h-[90dvh] grid-rows-[10dvh_1fr_25dvh] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
   >

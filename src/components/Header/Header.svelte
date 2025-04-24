@@ -32,7 +32,7 @@
     <h1
       class="font-cactus px-6 text-lg tracking-[0.5em] text-nowrap md:px-12 md:text-xl md:tracking-[1em] md:[writing-mode:vertical-lr]"
     >
-      翳光台灣
+      翳光臺灣
     </h1>
     <DrawerButton />
     <p
