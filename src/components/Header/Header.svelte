@@ -3,14 +3,20 @@
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
   import { isDrawerOpen } from "../../libs/stores";
+  import type { Day } from "../../libs/client";
+
+  export type Timestamps = {
+    locals: App.Locals;
+    latestItem: Day;
+  };
 
   interface Props {
-    astroLocals: App.Locals;
+    timestamps: Timestamps;
   }
 
-  const { astroLocals }: Props = $props();
+  const { timestamps }: Props = $props();
 
-  setContext("astro-locals", astroLocals);
+  setContext("timestamps", timestamps);
 </script>
 
 <header

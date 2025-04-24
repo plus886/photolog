@@ -4,8 +4,13 @@ import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header";
 import "@fontsource/shippori-mincho-b1";
 import "@fontsource/cactus-classical-serif";
+import { getDays } from "../libs/client";
 
-const locals = Astro.locals;
+const response = await getDays({ limit: 1, fields: ["publishedAt", "date"] });
+const timestamps = {
+  locals: Astro.locals,
+  latestItem: response.contents[0],
+};
 ---
 
 <!doctype html>
@@ -29,7 +34,7 @@ const locals = Astro.locals;
       id="layout"
       class="h-lvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
     >
-      <Header astroLocals={locals} client:load transition:persist />
+      <Header timestamps={timestamps} client:load transition:persist />
       <div class="overflow-auto">
         <slot />
       </div>

@@ -1,11 +1,13 @@
 <script lang="ts">
   import { getContext } from "svelte";
+  import dayjs from "dayjs";
   import { fade } from "svelte/transition";
   import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
   import { theme } from "../../libs/stores";
+  import type { Timestamps } from "./Header.svelte";
 
-  const astroLocals = getContext<App.Locals>("astro-locals");
+  const timestamps = getContext<Timestamps>("timestamps");
 </script>
 
 <div
@@ -43,15 +45,21 @@
         ——
         生活環境や風景にしても、それらが真の姿を明らかにするのは、写真家がそうした対象を、それらの顔貌に現れている名づけようのない現象において把握することを心得ている場合だけである。（ヴァルター・ベンヤミン）
       </blockquote>
-      <p class="font-leica flex justify-end text-[0.45rem] tracking-normal">
-        LAST DEPLOY: {astroLocals.lastCommitTime} |
+      <p
+        class="font-leica flex justify-end gap-2 text-[0.45rem] tracking-normal"
+      >
         <a
           class="hover:animate-pulse"
-          href={`https://github.com/plus886/photolog/commit/${astroLocals.lastCommitHash}`}
+          href={`https://github.com/plus886/photolog/commit/${timestamps.locals.lastCommitHash}`}
           target="_blank"
         >
-          #{astroLocals.lastCommitHash.slice(0, 7)}</a
+          #{timestamps.locals.lastCommitHash.slice(0, 7)}</a
         >
+        <span>
+          LAST DEPLOYMENT: {dayjs(timestamps.latestItem.publishedAt)
+            .locale("ja")
+            .format("YYYY/M/D H:mm")}
+        </span>
       </p>
     </div>
     <div class="hidden h-18 items-end justify-center md:flex">
