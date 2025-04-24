@@ -11,9 +11,3 @@ namespace NodeJS {
     MICROCMS_API_KEY: string;
   }
 }
-
-interface Window {
-  FONTPLUS: FONTPLUS;
-}
-
-declare let window: Window;
