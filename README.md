@@ -4,4 +4,4 @@ Implementation example of a photo gallery created with Astro and Svelte, managed
 
 ## Live Example
 
-[Here](https://photolog.kokaiji.tw)
+[Here](https://photo.kokaiji.tw)
