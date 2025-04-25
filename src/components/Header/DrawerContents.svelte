@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext } from "svelte";
-  import dayjs from "dayjs";
+  import dayjs from "../../libs/dayjs";
   import { fade } from "svelte/transition";
   import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";

@@ -4,7 +4,7 @@ import type {
   MicroCMSImage,
 } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
-import dayjs from "dayjs";
+import dayjs from "./dayjs";
 import orderBy from "lodash/orderBy";
 
 const client = createClient({

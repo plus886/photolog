@@ -1,5 +1,5 @@
 <script lang="ts">
-  import dayjs from "dayjs";
+  import dayjs from "../libs/dayjs";
   import { isDrawerOpen } from "../libs/stores";
 
   interface Props {
