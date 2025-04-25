@@ -25,6 +25,7 @@ export type Day = DayContent & MicroCMSListContent;
 const optimizeDate = (item: Day) => {
   const { date, ...rest } = item;
   const safeDate = date || rest.publishedAt || rest.createdAt;
+  console.warn(safeDate, dayjs(safeDate).format("MMDD"));
   return {
     date: safeDate,
     slug: dayjs(safeDate).format("YYYYMMDD"),
