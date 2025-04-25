@@ -29,7 +29,7 @@ const item = await getDayDetail(dayId as string);
 ---
 
 <Layout
-  title={`翳光臺灣 | ${dayjs.tz(item.date).format("YYYY年M月D日")}`}
+  title={`翳光臺灣 | ${dayjs.tz(dayjs(item.date)).format("YYYY年M月D日")}`}
   thumbnail={item.image.url}
 >
   <section

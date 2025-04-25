@@ -8,8 +8,8 @@
   import type { Timestamps } from "./Header.svelte";
 
   const timestamps = getContext<Timestamps>("timestamps");
-  const lastPublishedAt = dayjs.tz(timestamps.latestItem.publishedAt);
-  const lastCommittedAt = dayjs.tz(timestamps.locals.lastCommitTime);
+  const lastPublishedAt = dayjs.tz(dayjs(timestamps.latestItem.publishedAt));
+  const lastCommittedAt = dayjs.tz(dayjs(timestamps.locals.lastCommitTime));
 </script>
 
 <div
@@ -61,9 +61,7 @@
           LAST DEPLOYMENT: {(lastCommittedAt.isAfter(lastPublishedAt)
             ? lastCommittedAt
             : lastPublishedAt
-          )
-            .locale("ja")
-            .format("YYYY/M/D H:mm")}
+          ).format("YYYY/M/D H:mm")}
         </span>
       </p>
     </div>

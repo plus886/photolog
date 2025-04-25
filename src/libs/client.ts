@@ -27,7 +27,7 @@ const optimizeDate = (item: Day) => {
   const safeDate = date || rest.publishedAt || rest.createdAt;
   return {
     date: safeDate,
-    slug: dayjs.tz(safeDate).format("YYYYMMDD"),
+    slug: dayjs.tz(dayjs(safeDate)).format("YYYYMMDD"),
     ...rest,
   };
 };
