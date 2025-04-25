@@ -19,7 +19,6 @@
     {dayjs.tz(date).format("YYYY年")}
   </p>
   <p class="text-2xl font-bold">
-    {date}
     {dayjs.tz(date).format("M月D日")}
   </p>
 </div>
