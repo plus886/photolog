@@ -8,8 +8,8 @@
   import type { Timestamps } from "./Header.svelte";
 
   const timestamps = getContext<Timestamps>("timestamps");
-  const lastPublishedAt = dayjs(timestamps.latestItem.publishedAt);
-  const lastCommittedAt = dayjs(timestamps.locals.lastCommitTime);
+  const lastPublishedAt = dayjs.tz(timestamps.latestItem.publishedAt);
+  const lastCommittedAt = dayjs.tz(timestamps.locals.lastCommitTime);
 </script>
 
 <div

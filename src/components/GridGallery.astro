@@ -6,7 +6,7 @@ import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
 import GridThumbnail from "./GridThumbnail.astro";
 
 const response = await getAllDays();
-const itemsByYear = groupBy(response, (e) => dayjs(e.date).format("YYYY"));
+const itemsByYear = groupBy(response, (e) => dayjs.tz(e.date).format("YYYY"));
 const years = Object.keys(itemsByYear).reverse();
 ---
 

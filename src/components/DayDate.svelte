@@ -16,9 +16,10 @@
   }}
 >
   <p>
-    {dayjs(date).format("YYYY年")}
+    {dayjs.tz(date).format("YYYY年")}
   </p>
   <p class="text-2xl font-bold">
-    {dayjs(date).format("M月D日")}
+    {date}
+    {dayjs.tz(date).format("M月D日")}
   </p>
 </div>
