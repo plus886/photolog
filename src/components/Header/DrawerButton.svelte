@@ -3,7 +3,7 @@
   import IconMenu from "~icons/material-symbols-light/menu-rounded";
   // @ts-ignore
   import IconClose from "~icons/material-symbols-light/close-rounded";
-  import { isDrawerOpen } from "../../libs/stores";
+  import { isDrawerOpen } from "libs/stores";
 
   const onclick = () => {
     isDrawerOpen.set(!$isDrawerOpen);

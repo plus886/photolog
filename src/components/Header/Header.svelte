@@ -1,8 +1,8 @@
 <script lang="ts">
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
-  import { isDrawerOpen } from "../../libs/stores";
-  import type { HeaderProps } from "../../types";
+  import { isDrawerOpen } from "libs/stores";
+  import type { HeaderProps } from "types/index";
 
   const headerProps: HeaderProps = $props();
 </script>

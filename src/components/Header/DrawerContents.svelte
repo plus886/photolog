@@ -3,10 +3,10 @@
   import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
   // @ts-ignore
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
-  import dayjs from "../../libs/dayjs";
+  import dayjs from "libs/dayjs";
   import { fade } from "svelte/transition";
-  import { theme } from "../../libs/stores";
-  import type { HeaderProps } from "../../types";
+  import { theme } from "libs/stores";
+  import type { HeaderProps } from "types/index";
 
   const { lastCommitHash, lastCommitTime, publishedAt }: HeaderProps = $props();
 

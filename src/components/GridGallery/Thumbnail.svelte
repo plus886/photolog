@@ -1,25 +1,21 @@
----
-interface Props {
-  src: string;
-  slug: string;
-  featured: boolean;
-  id: string;
-}
-const { src, slug, featured, id }: Props = Astro.props;
----
+<script lang="ts">
+  import type { OptimizedDay } from "types/index";
+
+  const { image, slug, featured, id }: OptimizedDay = $props();
+</script>
 
 <a
   href={`/days/${slug}`}
-  class:list={{
+  class={{
     "relative transition-all": true,
     "col-span-2 row-span-2": featured,
   }}
   style={`view-transition-name: days_${id}_container`}
 >
   <img
-    src={`${src}?w=${featured ? 300 : 150}`}
+    src={`${image.url}?w=${featured ? 300 : 150}`}
     alt={slug}
-    class:list={{
+    class={{
       "h-full w-full object-cover": true,
     }}
   /></a

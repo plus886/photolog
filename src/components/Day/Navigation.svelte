@@ -1,10 +1,13 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import { fade } from "svelte/transition";
+  // @ts-ignore
   import IconLeft from "~icons/material-symbols-light/chevron-left-rounded";
+  // @ts-ignore
   import IconRight from "~icons/material-symbols-light/chevron-right-rounded";
+  // @ts-ignore
   import IconGrid from "~icons/material-symbols-light/grid-view";
-  import { isDrawerOpen } from "../libs/stores";
+  import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
   import hotkeys from "hotkeys-js";
 

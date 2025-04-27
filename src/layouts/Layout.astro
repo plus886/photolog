@@ -1,10 +1,10 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import Header from "../components/Header";
+import Header from "components/Header";
 import "@fontsource/shippori-mincho-b1";
 import "@fontsource/cactus-classical-serif";
-import { getDays } from "../libs/client";
+import { getDays } from "libs/client";
 
 export interface Props {
   title?: string;
@@ -62,7 +62,7 @@ const {
 </html>
 
 <script>
-  import { isDrawerOpen, theme } from "../libs/stores";
+  import { isDrawerOpen, theme } from "libs/stores";
 
   theme.subscribe((v) => {
     document.documentElement.classList.toggle("dark", v === "dark");
