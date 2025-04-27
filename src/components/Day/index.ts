@@ -1,3 +1,3 @@
-import Day from "./DayWrapper.astro";
+import Day from "./Day.svelte";
 
 export default Day;
