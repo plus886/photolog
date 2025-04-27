@@ -1,15 +1,17 @@
 <script lang="ts">
-  import { getContext } from "svelte";
+  // @ts-ignore
+  import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
+  // @ts-ignore
+  import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
   import dayjs from "../../libs/dayjs";
   import { fade } from "svelte/transition";
-  import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
-  import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
   import { theme } from "../../libs/stores";
-  import type { Timestamps } from "./Header.svelte";
+  import type { HeaderProps } from "../../types";
 
-  const timestamps = getContext<Timestamps>("timestamps");
-  const lastPublishedAt = dayjs.tz(dayjs(timestamps.latestItem.publishedAt));
-  const lastCommittedAt = dayjs.tz(dayjs(timestamps.locals.lastCommitTime));
+  const { lastCommitHash, lastCommitTime, publishedAt }: HeaderProps = $props();
+
+  const lastPublishedAt = dayjs.tz(dayjs(publishedAt));
+  const lastCommittedAt = dayjs.tz(dayjs(lastCommitTime));
 </script>
 
 <div
@@ -52,10 +54,10 @@
       >
         <a
           class="hover:animate-pulse"
-          href={`https://github.com/plus886/photolog/commit/${timestamps.locals.lastCommitHash}`}
+          href={`https://github.com/plus886/photolog/commit/${lastCommitHash}`}
           target="_blank"
         >
-          #{timestamps.locals.lastCommitHash.slice(0, 7)}</a
+          #{lastCommitHash.slice(0, 7)}</a
         >
         <span>
           LAST DEPLOYMENT: {(lastCommittedAt.isAfter(lastPublishedAt)

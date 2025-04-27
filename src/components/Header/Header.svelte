@@ -1,25 +1,13 @@
 <script lang="ts">
-  import { setContext } from "svelte";
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
   import { isDrawerOpen } from "../../libs/stores";
-  import type { Day } from "../../libs/client";
+  import type { HeaderProps } from "../../types";
 
-  export type Timestamps = {
-    locals: App.Locals;
-    latestItem: Day;
-  };
-
-  interface Props {
-    timestamps: Timestamps;
-  }
-
-  const { timestamps }: Props = $props();
-
-  setContext("timestamps", timestamps);
+  const headerProps: HeaderProps = $props();
 </script>
 
-<header
+<div
   class={{
     "sticky top-0 z-10 grid touch-none overflow-hidden transition-[grid,background-color] delay-150 duration-500 ease-in-out md:static md:top-auto md:z-auto": true,
     "bg-pale-accent dark:bg-inky-accent grid-rows-[10dvh_90dvh] md:grid-cols-[calc(100vw/12)_calc(100vw/12*5)] md:grid-rows-1":
@@ -42,6 +30,6 @@
     </p>
   </div>
   {#if $isDrawerOpen}
-    <DrawerContents />
+    <DrawerContents {...headerProps} />
   {/if}
-</header>
+</div>

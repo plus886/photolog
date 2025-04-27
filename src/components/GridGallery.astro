@@ -1,8 +1,9 @@
 ---
+// @ts-ignore
+import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
 import { getAllDays } from "../libs/client";
 import dayjs from "../libs/dayjs";
 import groupBy from "lodash/groupBy";
-import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
 import GridThumbnail from "./GridThumbnail.astro";
 
 const response = await getAllDays();

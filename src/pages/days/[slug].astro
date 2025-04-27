@@ -2,9 +2,8 @@
 import dayjs from "../../libs/dayjs";
 import Layout from "../../layouts/Layout.astro";
 import DayNavigation from "../../components/DayNavigation.svelte";
-import DayCaption from "../../components/DayCaption.svelte";
 import DayDate from "../../components/DayDate.svelte";
-import DaySpacer from "../../components/DaySpacer.svelte";
+import DayImage from "../../components/DayImage";
 import { getAllDays, getDayDetail } from "../../libs/client";
 import type { GetStaticPaths } from "astro";
 
@@ -43,14 +42,7 @@ const item = await getDayDetail(dayId as string);
       />
     </nav>
     <figure class="flex flex-col items-center justify-center">
-      <DaySpacer client:load />
-      <img
-        src={`${item.image.url}?w=1024`}
-        alt={item.slug}
-        class="max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full"
-        transition:name={`days_${item.id}_container`}
-      />
-      <DayCaption camera={item.camera} lens={item.lens} client:load />
+      <DayImage client:load {...item} />
     </figure>
     <DayDate date={item.date} client:load />
   </section>

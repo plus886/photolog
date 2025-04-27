@@ -1,5 +1,7 @@
 <script lang="ts">
+  // @ts-ignore
   import IconMenu from "~icons/material-symbols-light/menu-rounded";
+  // @ts-ignore
   import IconClose from "~icons/material-symbols-light/close-rounded";
   import { isDrawerOpen } from "../../libs/stores";
 

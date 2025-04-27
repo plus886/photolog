@@ -1,10 +1,11 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { isDrawerOpen } from "../libs/stores";
+  import { isDrawerOpen } from "../../libs/stores";
+  import type { Day } from "../../libs/client";
 
   interface Props {
-    camera: string;
-    lens?: string;
+    camera: Day["camera"];
+    lens?: Day["lens"];
   }
 
   const { camera, lens }: Props = $props();

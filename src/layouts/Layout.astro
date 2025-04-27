@@ -13,15 +13,12 @@ export interface Props {
 }
 
 const response = await getDays({ limit: 1 });
-const timestamps = {
-  locals: Astro.locals,
-  latestItem: response.contents[0],
-};
+const latestItem = response.contents[0];
 
 const {
   title = "翳光臺灣 | Formosa Chiaroscuro",
   description = "台湾で生きる日本人が一日一枚写真を投稿するフォトログ",
-  thumbnail = response.contents[0].image.url,
+  thumbnail = latestItem.image.url,
 }: Props = Astro.props;
 ---
 
@@ -56,7 +53,7 @@ const {
       id="layout"
       class="h-dvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
     >
-      <Header timestamps={timestamps} client:load transition:persist />
+      <Header latestItem={latestItem} />
       <div class="overflow-auto">
         <slot />
       </div>

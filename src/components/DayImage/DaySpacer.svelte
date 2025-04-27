@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { isDrawerOpen } from "../libs/stores";
+  import { isDrawerOpen } from "../../libs/stores";
 </script>
 
 {#if !$isDrawerOpen}

@@ -5,4 +5,3 @@ export type ThemeValue = "dark" | "light";
 
 export const isDrawerOpen = atom(false);
 export const theme = persistentAtom<ThemeValue>("theme", "light");
-export const availableSlugs = atom<string[]>([]);

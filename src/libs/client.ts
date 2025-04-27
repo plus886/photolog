@@ -20,7 +20,8 @@ type DayContent = {
   featured: boolean;
 };
 
-export type Day = DayContent & MicroCMSListContent;
+type Day = DayContent & MicroCMSListContent;
+export type OptimizedDay = ReturnType<typeof optimizeDate>;
 
 const optimizeDate = (item: Day) => {
   const { date, ...rest } = item;
@@ -63,7 +64,7 @@ export const getDayDetail = async (
   contentId: string,
   queries?: MicroCMSQueries,
 ) => {
-  const result = await client.getListDetail({
+  const result = await client.getListDetail<Day>({
     endpoint: "days",
     contentId,
     queries,

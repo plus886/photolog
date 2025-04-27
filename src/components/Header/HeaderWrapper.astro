@@ -1,0 +1,19 @@
+---
+import Header from "./Header.svelte";
+import type { OptimizedDay } from "../../types";
+
+interface Props {
+  latestItem: OptimizedDay;
+}
+
+const { latestItem } = Astro.props;
+const headerProps = {
+  lastCommitTime: Astro.locals.lastCommitTime,
+  lastCommitHash: Astro.locals.lastCommitHash,
+  ...latestItem,
+};
+---
+
+<header transition:persist>
+  <Header {...headerProps} client:only="svelte" />
+</header>

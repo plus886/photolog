@@ -14,7 +14,7 @@ const { src, slug, featured, id }: Props = Astro.props;
     "relative transition-all": true,
     "col-span-2 row-span-2": featured,
   }}
-  transition:name={`days_${id}_container`}
+  style={`view-transition-name: days_${id}_container`}
 >
   <img
     src={`${src}?w=${featured ? 300 : 150}`}
