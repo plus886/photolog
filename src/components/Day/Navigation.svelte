@@ -10,13 +10,13 @@
   import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
   import hotkeys from "hotkeys-js";
+  import type { DayProps } from "types/index";
 
-  interface Props {
-    nextSlug?: string;
-    prevSlug?: string;
-  }
+  type Props = Pick<DayProps, "nextPost" | "prevPost">;
 
-  const { nextSlug, prevSlug }: Props = $props();
+  const { nextPost, prevPost }: Props = $props();
+  const nextSlug = nextPost && nextPost.slug;
+  const prevSlug = prevPost && prevPost.slug;
 
   onMount(() => {
     hotkeys("left", () => {

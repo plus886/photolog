@@ -32,6 +32,11 @@ const item = await getDayDetail(dayId as string);
   <section
     class="grid h-[90dvh] grid-rows-[10dvh_1fr_25dvh] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
   >
-    <Day item={item} nextPost={nextPost} prevPost={prevPost} />
+    <Day
+      item={item}
+      nextPost={nextPost}
+      prevPost={prevPost}
+      client:only="svelte"
+    />
   </section>
 </Layout>

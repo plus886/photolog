@@ -1,10 +1,9 @@
 <script lang="ts">
   import dayjs from "libs/dayjs";
   import { isDrawerOpen } from "libs/stores";
+  import type { OptimizedDay } from "types/index";
 
-  interface Props {
-    date: Date;
-  }
+  type Props = Pick<OptimizedDay, "date">;
 
   const { date }: Props = $props();
 </script>

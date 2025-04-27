@@ -7,3 +7,8 @@ export type GridGalleryProps = {
   items: ItemsByYear;
   years: Years;
 };
+export type DayProps = {
+  item: OptimizedDay;
+  nextPost: OptimizedDay | null;
+  prevPost: OptimizedDay | null;
+};
