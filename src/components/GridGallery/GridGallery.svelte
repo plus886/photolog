@@ -9,7 +9,7 @@
 
 <div class="grid grid-cols-7 lg:grid-cols-11">
   <ul
-    class="col-span-7 grid auto-rows-[5rem] grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-2 lg:col-span-10"
+    class="col-span-7 grid auto-rows-[5rem] grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-1 lg:col-span-10"
   >
     {#each response.items as item}
       <li>
