@@ -9,14 +9,15 @@ export const getStaticPaths = (async () => {
   const response = await getAllDays({
     fields: ["id", "date", "publishedAt", "createdAt"],
   });
-  return response.map((e, i) => ({
+  const { items } = response;
+  return items.map((e, i) => ({
     params: {
       slug: e.slug,
     },
     props: {
       dayId: e.id,
-      nextPost: i === 0 ? null : response[i - 1],
-      prevPost: i + 1 === response.length ? null : response[i + 1],
+      nextPost: i === 0 ? null : items[i - 1],
+      prevPost: i + 1 === items.length ? null : items[i + 1],
     },
   }));
 }) satisfies GetStaticPaths;

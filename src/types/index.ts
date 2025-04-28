@@ -1,11 +1,10 @@
 import type { OptimizedDay } from "libs/client";
-import type { ItemsByYear, Years } from "components/GridGallery";
+import type { GetAllDays } from "libs/client";
 
 export type { OptimizedDay };
 export type HeaderProps = App.Locals & OptimizedDay;
 export type GridGalleryProps = {
-  items: ItemsByYear;
-  years: Years;
+  response: GetAllDays;
 };
 export type DayProps = {
   item: OptimizedDay;

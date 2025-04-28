@@ -5,7 +5,6 @@
   import DaySpacer from "./Spacer.svelte";
   import DayCaption from "./Caption.svelte";
   import type { DayProps } from "types/index";
-  import { isDayImageLoading } from "libs/stores";
 
   const { item, nextPost, prevPost }: DayProps = $props();
 </script>

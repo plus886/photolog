@@ -1,7 +1,22 @@
 <script lang="ts">
+  import type { Action } from "svelte/action";
   import type { OptimizedDay } from "types/index";
 
   const { image, slug, featured, id }: OptimizedDay = $props();
+  let isLoading = $state(false);
+
+  const onload: Action<HTMLImageElement> = (e) => {
+    const handleImageLoad = () => {
+      isLoading = false;
+      e.removeEventListener("load", handleImageLoad);
+    };
+    isLoading = true;
+    if (e.complete) {
+      isLoading = false;
+      return;
+    }
+    e.addEventListener("load", handleImageLoad);
+  };
 </script>
 
 <a
@@ -16,8 +31,10 @@
     src={`${image.url}?w=${featured ? 300 : 150}`}
     alt={slug}
     class={{
-      "h-full w-full object-cover": true,
+      "h-full w-full object-cover transition-opacity duration-700": true,
+      "opacity-0": isLoading,
     }}
+    use:onload
   /></a
 >
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import type { Action } from "svelte/action";
   import type { OptimizedDay } from "types/index";
   import { isDayImageLoading } from "libs/stores";
   type Props = OptimizedDay;
+
   const { image, slug, id }: Props = $props();
 
   const onload: Action<HTMLImageElement> = (e) => {

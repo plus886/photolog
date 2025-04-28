@@ -22,6 +22,7 @@ type DayContent = {
 
 type Day = DayContent & MicroCMSListContent;
 export type OptimizedDay = ReturnType<typeof optimizeDate>;
+export type GetAllDays = Awaited<ReturnType<typeof getAllDays>>;
 
 const optimizeDate = (item: Day) => {
   const { date, ...rest } = item;
@@ -53,11 +54,27 @@ export const getAllDays = async (queries?: MicroCMSQueries) => {
     endpoint: "days",
     queries,
   });
-  return orderBy(
+  const optimized = orderBy(
     response.map((e) => optimizeDate(e)),
     (i) => i.date,
     "desc",
   );
+  const annotated = optimized.map((item, idx, arr) => {
+    const year = dayjs.tz(dayjs(item.date)).format("YYYY");
+    const nextYear =
+      idx < arr.length - 1
+        ? dayjs.tz(dayjs(arr[idx + 1].date)).format("YYYY")
+        : null;
+    return {
+      ...item,
+      year,
+      isLastOfYear: nextYear !== year,
+    };
+  });
+
+  return {
+    items: annotated,
+  };
 };
 
 export const getDayDetail = async (

@@ -1,17 +1,10 @@
 ---
-import dayjs from "libs/dayjs";
-import groupBy from "lodash/groupBy";
 import GridGallery from "./GridGallery.svelte";
 import { getAllDays } from "libs/client";
 
-const response = await getAllDays();
-const itemsByYear = groupBy(response, (e) =>
-  dayjs.tz(dayjs(e.date)).format("YYYY"),
-);
-const years = Object.keys(itemsByYear).reverse();
-
-export type ItemsByYear = typeof itemsByYear;
-export type Years = typeof years;
+const response = await getAllDays({
+  fields: ["slug", "date", "image", "publishedAt", "createdAt", "id"],
+});
 ---
 
-<GridGallery client:only="svelte" items={itemsByYear} years={years} />
+<GridGallery client:only="svelte" response={response} />
