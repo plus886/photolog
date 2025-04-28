@@ -28,7 +28,7 @@
   style={`view-transition-name: days_${id}_container`}
 >
   <img
-    src={`${image.url}?w=${featured ? 300 : 150}`}
+    src={`${image.url}?w=${featured ? 300 : 150}&q=40`}
     alt={slug}
     class={{
       "h-full w-full object-cover transition-opacity duration-700": true,

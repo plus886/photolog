@@ -5,7 +5,6 @@
   import type { GridGalleryProps } from "types/index";
 
   let { response }: GridGalleryProps = $props();
-  console.warn(response);
 </script>
 
 <div class="grid grid-cols-7 lg:grid-cols-11">
