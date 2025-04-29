@@ -59,6 +59,7 @@ export const getDays = async (queries?: MicroCMSQueries) => {
   });
   return {
     contents: contents.map((e) => addSlug(e)),
+    totalPages: Math.ceil(rest.totalCount / DEFAULT_LIMIT),
     ...rest,
   };
 };

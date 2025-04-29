@@ -3,8 +3,9 @@ import { getDays, DEFAULT_LIMIT, getAllDayIds } from "libs/client";
 
 export const GET: APIRoute = async ({ params }) => {
   console.warn(params);
+  const currentPage = Number(params.page);
   const res = await getDays({
-    offset: (Number(params.page) - 1) * DEFAULT_LIMIT,
+    offset: (currentPage - 1) * DEFAULT_LIMIT,
   });
   return new Response(JSON.stringify(res), {
     status: 200,

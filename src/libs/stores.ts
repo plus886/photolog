@@ -10,3 +10,4 @@ export const theme = persistentAtom<ThemeValue>("theme", "light");
 export const isDayImageLoading = atom(false);
 export const cachedDays = atom<CachedDays>([]);
 export const currentPage = atom(1);
+export const totalPages = atom(1);
