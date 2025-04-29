@@ -5,7 +5,6 @@ import type {
 } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
 import dayjs from "./dayjs";
-import orderBy from "lodash/orderBy";
 
 const client = createClient({
   serviceDomain: import.meta.env.MICROCMS_DOMAIN,
@@ -16,50 +15,26 @@ type DayContent = {
   image: MicroCMSImage;
   camera: string[];
   lens: string[];
-  date?: string;
+  date: string;
   featured: boolean;
 };
 
 type Day = DayContent & MicroCMSListContent;
 export type OptimizedDay = ReturnType<typeof optimizeDate>;
 export type GetAllDays = Awaited<ReturnType<typeof getAllDays>>;
+export const DEFAULT_LIMIT = 10;
 
 const optimizeDate = (item: Day) => {
   const { date, ...rest } = item;
-  const safeDate = date || rest.publishedAt || rest.createdAt;
   return {
-    date: safeDate,
-    slug: dayjs.tz(dayjs(safeDate)).format("YYYYMMDD"),
+    slug: dayjs.tz(dayjs(date)).format("YYYYMMDD"),
+    date,
     ...rest,
   };
 };
 
-export const getDays = async (queries?: MicroCMSQueries) => {
-  const { contents, ...rest } = await client.getList<Day>({
-    endpoint: "days",
-    queries,
-  });
-  return {
-    contents: orderBy(
-      contents.map((e) => optimizeDate(e)),
-      (i) => i.date,
-      "desc",
-    ),
-    ...rest,
-  };
-};
-
-export const getAllDays = async (queries?: MicroCMSQueries) => {
-  const response = await client.getAllContents<Day>({
-    endpoint: "days",
-    queries,
-  });
-  const optimized = orderBy(
-    response.map((e) => optimizeDate(e)),
-    (i) => i.date,
-    "desc",
-  );
-  const annotated = optimized.map((item, idx, arr) => {
+const annotate = (optimizedArr: OptimizedDay[]) =>
+  optimizedArr.map((item, idx, arr) => {
     const year = dayjs.tz(dayjs(item.date)).format("YYYY");
     const nextYear =
       idx < arr.length - 1
@@ -71,6 +46,28 @@ export const getAllDays = async (queries?: MicroCMSQueries) => {
       isLastOfYear: nextYear !== year,
     };
   });
+
+export const getDays = async (queries?: MicroCMSQueries) => {
+  const { contents, ...rest } = await client.getList<Day>({
+    endpoint: "days",
+    queries: {
+      limit: DEFAULT_LIMIT,
+      orders: "-date",
+      ...queries,
+    },
+  });
+  return {
+    contents: annotate(contents.map((e) => optimizeDate(e))),
+    ...rest,
+  };
+};
+
+export const getAllDays = async (queries?: MicroCMSQueries) => {
+  const response = await client.getAllContents<Day>({
+    endpoint: "days",
+    queries,
+  });
+  const annotated = annotate(response.map((e) => optimizeDate(e)));
 
   return {
     items: annotated,
