@@ -53,7 +53,10 @@ export const getDays = async (queries?: MicroCMSQueries) => {
 export const getAllDays = async (queries?: MicroCMSQueries) => {
   const response = await client.getAllContents<Day>({
     endpoint: "days",
-    queries,
+    queries: {
+      orders: "-date",
+      ...queries,
+    },
   });
 
   return {
