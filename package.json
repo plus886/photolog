@@ -9,7 +9,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.5.1",
     "@astrojs/sitemap": "^3.3.1",
     "@astrojs/svelte": "^7.0.10",
     "@fontsource/cactus-classical-serif": "^5.2.6",

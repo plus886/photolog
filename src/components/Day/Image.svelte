@@ -4,7 +4,7 @@
   import { isDayImageLoading } from "libs/stores";
   type Props = OptimizedDay;
 
-  const { image, slug, id }: Props = $props();
+  let { image, slug, id }: Props = $props();
 
   const onload: Action<HTMLImageElement> = (e) => {
     const handleImageLoad = () => {

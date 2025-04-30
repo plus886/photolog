@@ -5,7 +5,7 @@
 
   type Props = Pick<OptimizedDay, "date">;
 
-  const { date }: Props = $props();
+  let { date }: Props = $props();
 </script>
 
 <div

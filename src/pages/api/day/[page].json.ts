@@ -2,7 +2,6 @@ import type { APIRoute } from "astro";
 import { getDays, DEFAULT_LIMIT, getAllDayIds } from "libs/client";
 
 export const GET: APIRoute = async ({ params }) => {
-  console.warn(params);
   const currentPage = Number(params.page);
   const res = await getDays({
     offset: (currentPage - 1) * DEFAULT_LIMIT,

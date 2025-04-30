@@ -6,8 +6,6 @@ import Icons from "unplugin-icons/vite";
 
 import sitemap from "@astrojs/sitemap";
 
-import cloudflare from "@astrojs/cloudflare";
-
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -16,5 +14,4 @@ export default defineConfig({
 
   integrations: [svelte(), sitemap()],
   site: "https://photo.kokaiji.tw",
-  adapter: cloudflare(),
 });

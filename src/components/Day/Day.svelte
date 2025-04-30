@@ -5,8 +5,14 @@
   import DaySpacer from "./Spacer.svelte";
   import DayCaption from "./Caption.svelte";
   import type { DayProps } from "types/index";
+  import { lastShowedDayId } from "libs/stores";
+  import { onMount } from "svelte";
 
-  const { item, nextPost, prevPost }: DayProps = $props();
+  let { item, nextPost, prevPost }: DayProps = $props();
+
+  onMount(() => {
+    lastShowedDayId.set(item.id);
+  });
 </script>
 
 <nav class="self-center">

@@ -14,7 +14,7 @@
 
   type Props = Pick<DayProps, "nextPost" | "prevPost">;
 
-  const { nextPost, prevPost }: Props = $props();
+  let { nextPost, prevPost }: Props = $props();
   const nextSlug = nextPost && nextPost.slug;
   const prevSlug = prevPost && prevPost.slug;
 

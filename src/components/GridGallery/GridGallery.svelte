@@ -4,18 +4,25 @@
   import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
   import Thumbnail from "./Thumbnail.svelte";
   import type { GetDays } from "types/index";
-  import { currentPage, cachedDays, totalPages } from "libs/stores";
+  import {
+    currentPage,
+    cachedDays,
+    totalPages,
+    lastShowedDayId,
+  } from "libs/stores";
 
   const fetchItems = async (page: number) => {
     console.warn("fetching", page);
     const res = await fetch(`/api/day/${page}.json`);
     const body: GetDays = await res.json();
     cachedDays.set($cachedDays.concat(body.contents));
+    console.warn($cachedDays);
     return body;
   };
 
   onMount(async () => {
-    if ($currentPage > 1) return;
+    console.warn(lastShowedDayId);
+    if ($cachedDays.length > 0) return;
     console.warn($currentPage);
     const result = await fetchItems($currentPage);
     totalPages.set(result.totalPages);

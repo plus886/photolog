@@ -5,7 +5,7 @@
 
   type Props = Pick<OptimizedDay, "camera" | "lens">;
 
-  const { camera, lens }: Props = $props();
+  let { camera, lens }: Props = $props();
 </script>
 
 <!-- svelte-ignore a11y_figcaption_parent -->
