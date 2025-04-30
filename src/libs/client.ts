@@ -23,7 +23,7 @@ type Day = DayContent & MicroCMSListContent;
 export type OptimizedDay = ReturnType<typeof addSlug>;
 export type GetAllDays = Awaited<ReturnType<typeof getAllDays>>;
 export type GetDays = Awaited<ReturnType<typeof getDays>>;
-export const DEFAULT_LIMIT = 10;
+export const DEFAULT_LIMIT = 100;
 
 const addSlug = (item: Day) => {
   const { date, ...rest } = item;
@@ -33,20 +33,6 @@ const addSlug = (item: Day) => {
     ...rest,
   };
 };
-
-// const annotate = (optimizedArr: OptimizedDay[]) =>
-//   optimizedArr.map((item, idx, arr) => {
-//     const year = dayjs.tz(dayjs(item.date)).format("YYYY");
-//     const nextYear =
-//       idx < arr.length - 1
-//         ? dayjs.tz(dayjs(arr[idx + 1].date)).format("YYYY")
-//         : null;
-//     return {
-//       ...item,
-//       year,
-//       isLastOfYear: nextYear !== year,
-//     };
-//   });
 
 export const getDays = async (queries?: MicroCMSQueries) => {
   const { contents, ...rest } = await client.getList<Day>({

@@ -7,7 +7,7 @@
   import { currentPage, cachedDays, totalPages } from "libs/stores";
 
   const fetchItems = async (page: number) => {
-    console.warn("fetching", page, totalPages);
+    console.warn("fetching", page);
     const res = await fetch(`/api/day/${page}.json`);
     const body: GetDays = await res.json();
     cachedDays.set($cachedDays.concat(body.contents));
@@ -46,7 +46,7 @@
     </li>
     {#each $cachedDays as item, i}
       {@const year = getYearFromSlug(item.slug)}
-      <li>
+      <li class="snap-end">
         <Thumbnail {...item} />
       </li>
       {#if i === $cachedDays.length - 1 || (i < $cachedDays.length - 1 && year !== getYearFromSlug($cachedDays[i + 1].slug))}
