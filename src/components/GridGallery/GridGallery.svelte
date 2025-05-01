@@ -3,8 +3,10 @@
   import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
   import Thumbnail from "./Thumbnail.svelte";
   import { currentPage, cachedDays } from "libs/stores";
-  import type { GetDays, GridGalleryProps } from "types/index";
   import { onDestroy, onMount } from "svelte";
+  import { createObserver } from "libs/intersectionObserver";
+  import type { GetDays, GridGalleryProps } from "types/index";
+  import type { Action } from "svelte/action";
 
   const { totalPages }: GridGalleryProps = $props();
   let isInitialLoad = $derived($cachedDays.length === 0);
@@ -16,9 +18,26 @@
     return body;
   };
 
+  const getYearFromSlug = (slug: string) => slug.slice(0, 4);
+
   const unbindListener = currentPage.listen((v) => {
     fetchItems(v);
   });
+
+  const getNextPage = () => {
+    if ($currentPage >= totalPages) return;
+    currentPage.set($currentPage + 1);
+  };
+
+  const handlePaginationOnScroll: Action<HTMLElement, boolean> = (
+    e,
+    shouldTrigger,
+  ) => {
+    if (!shouldTrigger) return;
+
+    const observer = createObserver(getNextPage);
+    observer.observe(e);
+  };
 
   onMount(() => {
     if (!isInitialLoad) return;
@@ -28,14 +47,6 @@
   onDestroy(() => {
     unbindListener();
   });
-
-  const getNextPage = () => {
-    if ($currentPage < totalPages) {
-      currentPage.set($currentPage + 1);
-    }
-  };
-
-  const getYearFromSlug = (slug: string) => slug.slice(0, 4);
 </script>
 
 <div class="grid grid-cols-7 lg:grid-cols-11">
@@ -44,12 +55,14 @@
   >
     {#each $cachedDays as item, i}
       {@const year = getYearFromSlug(item.slug)}
+      {@const isLastItem = i === $cachedDays.length - 1}
       <li class="snap-end">
         <Thumbnail {...item} />
       </li>
-      {#if i === $cachedDays.length - 1 || (i < $cachedDays.length - 1 && year !== getYearFromSlug($cachedDays[i + 1].slug))}
+      {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYearFromSlug($cachedDays[i + 1].slug))}
         <li
           class="bg-pale-accent dark:bg-inky-accent dark:text-pale flex items-center justify-center text-stone-700 transition-colors delay-150 duration-500"
+          use:handlePaginationOnScroll={isLastItem}
         >
           <IconLeft class="animate-ping" />
           <p class="font-leica text-[0.6rem]">{year}</p>
