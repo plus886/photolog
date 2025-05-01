@@ -12,7 +12,7 @@
 
 <button
   {onclick}
-  class="cursor-pointer p-6 transition-transform hover:scale-90 md:p-2"
+  class="cursor-pointer p-6 transition-transform outline-none hover:scale-90 md:p-2"
 >
   {#if $isDrawerOpen}
     <IconClose class="text-xl md:text-2xl" />
