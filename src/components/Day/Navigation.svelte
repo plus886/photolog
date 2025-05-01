@@ -31,7 +31,11 @@
       if (!prevSlug) return;
       navigate(`/days/${prevSlug}`);
     });
-    hotkeys("space, backspace, delete", () => {
+    hotkeys("space", () => {
+      if (isRandomizing) return;
+      randomize();
+    });
+    hotkeys("backspace, delete", () => {
       navigate(`/`);
     });
   });
