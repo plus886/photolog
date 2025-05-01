@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { lastShowedDayId } from "libs/stores";
   import type { Action } from "svelte/action";
   import type { OptimizedDay } from "types/index";
 
   const { image, slug, featured, id }: OptimizedDay = $props();
   let isLoading = $state(false);
+  let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
 
   const onload: Action<HTMLImageElement> = (e) => {
     const handleImageLoad = () => {
@@ -17,6 +19,15 @@
     }
     e.addEventListener("load", handleImageLoad);
   };
+
+  const handleScroll: Action<HTMLElement> = (e) => {
+    if (!isLastShowedBySinglePage) return;
+    e.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest",
+    });
+  };
 </script>
 
 <a
@@ -26,6 +37,7 @@
     "col-span-2 row-span-2": featured,
   }}
   style={`view-transition-name: days_${id}_container`}
+  use:handleScroll
 >
   <img
     src={`${image.url}?w=${featured ? 300 : 150}&q=40`}
@@ -33,6 +45,7 @@
     class={{
       "h-full w-full object-cover transition-opacity duration-700": true,
       "opacity-0": isLoading,
+      "animate-pulse": isLastShowedBySinglePage,
     }}
     use:onload
   /></a

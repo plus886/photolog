@@ -1,5 +1,13 @@
 ---
 import GridGallery from "./GridGallery.svelte";
+import { getAllDayIds, DEFAULT_LIMIT } from "libs/client";
+
+const res = await getAllDayIds();
+const totalItemsLength = res.length;
 ---
 
-<GridGallery client:load />
+<GridGallery
+  client:load
+  {totalItemsLength}
+  totalPages={Math.ceil(totalItemsLength / DEFAULT_LIMIT)}
+/>

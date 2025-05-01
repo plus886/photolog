@@ -8,3 +8,8 @@ export type DayProps = {
   nextPost: OptimizedDay | null;
   prevPost: OptimizedDay | null;
 };
+
+export type GridGalleryProps = {
+  totalItemsLength: number;
+  totalPages: number;
+};

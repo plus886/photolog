@@ -23,7 +23,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { dayId, nextPost, prevPost } = Astro.props;
-const item = await getDayDetail(dayId as string);
+const item = await getDayDetail(dayId);
 ---
 
 <Layout

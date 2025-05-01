@@ -1,44 +1,38 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
   // @ts-ignore
   import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
   import Thumbnail from "./Thumbnail.svelte";
-  import type { GetDays } from "types/index";
-  import {
-    currentPage,
-    cachedDays,
-    totalPages,
-    lastShowedDayId,
-  } from "libs/stores";
+  import { currentPage, cachedDays } from "libs/stores";
+  import type { GetDays, GridGalleryProps } from "types/index";
+  import { onDestroy, onMount } from "svelte";
 
-  const fetchItems = async (page: number) => {
-    console.warn("fetching", page);
+  const { totalPages }: GridGalleryProps = $props();
+  let isInitialLoad = $derived($cachedDays.length === 0);
+
+  const fetchItems = async (page: number): Promise<GetDays> => {
     const res = await fetch(`/api/day/${page}.json`);
     const body: GetDays = await res.json();
-    cachedDays.set($cachedDays.concat(body.contents));
-    console.warn($cachedDays);
+    cachedDays.set([...$cachedDays, ...body.contents]);
     return body;
   };
 
-  onMount(async () => {
-    console.warn(lastShowedDayId);
-    if ($cachedDays.length > 0) return;
-    console.warn($currentPage);
-    const result = await fetchItems($currentPage);
-    totalPages.set(result.totalPages);
+  const unbindListener = currentPage.listen((v) => {
+    fetchItems(v);
+  });
+
+  onMount(() => {
+    if (!isInitialLoad) return;
+    fetchItems($currentPage);
   });
 
   onDestroy(() => {
     unbindListener();
   });
 
-  const unbindListener = currentPage.listen(async (v) => {
-    fetchItems(v);
-  });
-
   const getNextPage = () => {
-    if ($currentPage >= $totalPages) return;
-    currentPage.set($currentPage + 1);
+    if ($currentPage < totalPages) {
+      currentPage.set($currentPage + 1);
+    }
   };
 
   const getYearFromSlug = (slug: string) => slug.slice(0, 4);
@@ -48,9 +42,6 @@
   <ul
     class="col-span-7 grid auto-rows-[5rem] grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-1 lg:col-span-10"
   >
-    <li>
-      <button onclick={getNextPage}>OSEYO {$currentPage}</button>
-    </li>
     {#each $cachedDays as item, i}
       {@const year = getYearFromSlug(item.slug)}
       <li class="snap-end">
