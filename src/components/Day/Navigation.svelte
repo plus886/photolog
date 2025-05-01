@@ -73,10 +73,12 @@
     </a>
     <button
       class={{
-        "flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
-        "animate-spin": isRandomizing,
+        "flex justify-center p-2 transition-all hover:scale-130": true,
+        "animate-spin opacity-60": isRandomizing,
+        "cursor-pointer": !isRandomizing,
       }}
       onclick={randomize}
+      disabled={isRandomizing}
     >
       <IconReload class="text-xl" />
     </button>
