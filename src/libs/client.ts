@@ -19,7 +19,7 @@ type DayContent = {
   featured: boolean;
 };
 
-type Day = DayContent & MicroCMSListContent;
+export type Day = DayContent & MicroCMSListContent;
 export type OptimizedDay = ReturnType<typeof addSlug>;
 export type GetAllDays = Awaited<ReturnType<typeof getAllDays>>;
 export type GetDays = Awaited<ReturnType<typeof getDays>>;
@@ -63,11 +63,12 @@ export const getAllDays = async (queries?: MicroCMSQueries) => {
   };
 };
 
-export const getAllDayIds = async () => {
+export const getAllDayIds = async (alternateField: string = "date") => {
   const response = await client.getAllContentIds({
     endpoint: "days",
+    alternateField,
   });
-  return response;
+  return response.map((e) => dayjs.tz(dayjs(e)).format("YYYYMMDD"));
 };
 
 export const getDayDetail = async (

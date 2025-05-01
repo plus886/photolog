@@ -11,11 +11,10 @@
   const { totalPages }: GridGalleryProps = $props();
   let isInitialLoad = $derived($cachedDays.length === 0);
 
-  const fetchItems = async (page: number): Promise<GetDays> => {
+  const fetchItems = async (page: number): Promise<void> => {
     const res = await fetch(`/api/day/${page}.json`);
     const body: GetDays = await res.json();
     cachedDays.set([...$cachedDays, ...body.contents]);
-    return body;
   };
 
   const getYearFromSlug = (slug: string) => slug.slice(0, 4);
@@ -34,7 +33,6 @@
     shouldTrigger,
   ) => {
     if (!shouldTrigger) return;
-
     const observer = createObserver(getNextPage);
     observer.observe(e);
   };

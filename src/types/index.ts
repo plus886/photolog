@@ -1,6 +1,6 @@
-import type { OptimizedDay, GetAllDays, GetDays } from "libs/client";
+import type { OptimizedDay, GetAllDays, GetDays, Day } from "libs/client";
 
-export type { OptimizedDay, GetAllDays, GetDays };
+export type { OptimizedDay, GetAllDays, GetDays, Day };
 export type HeaderProps = App.Locals & OptimizedDay;
 
 export type DayProps = {

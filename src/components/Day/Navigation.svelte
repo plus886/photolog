@@ -7,6 +7,8 @@
   import IconRight from "~icons/material-symbols-light/chevron-right-rounded";
   // @ts-ignore
   import IconGrid from "~icons/material-symbols-light/grid-view";
+  // @ts-ignore
+  import IconReload from "~icons/material-symbols-light/autorenew-rounded";
   import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
   import hotkeys from "hotkeys-js";
@@ -15,20 +17,20 @@
   type Props = Pick<DayProps, "nextPost" | "prevPost">;
 
   let { nextPost, prevPost }: Props = $props();
+  let isRandomizing = $state(false);
   const nextSlug = nextPost && nextPost.slug;
   const prevSlug = prevPost && prevPost.slug;
 
   onMount(() => {
+    isRandomizing = false;
     hotkeys("left", () => {
       if (!nextSlug) return;
       navigate(`/days/${nextSlug}`);
     });
-
     hotkeys("right", () => {
       if (!prevSlug) return;
       navigate(`/days/${prevSlug}`);
     });
-
     hotkeys("space, backspace, delete", () => {
       navigate(`/`);
     });
@@ -37,6 +39,13 @@
   onDestroy(() => {
     hotkeys.unbind();
   });
+
+  const randomize = async () => {
+    isRandomizing = true;
+    const res = await fetch("/api/day/random.json");
+    const slugs: string[] = await res.json();
+    navigate(`/days/${slugs[Math.floor(Math.random() * slugs.length)]}`);
+  };
 </script>
 
 {#if !$isDrawerOpen}
@@ -62,6 +71,15 @@
         <IconGrid class="text-xl" />
       </button>
     </a>
+    <button
+      class={{
+        "flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
+        "animate-spin": isRandomizing,
+      }}
+      onclick={randomize}
+    >
+      <IconReload class="text-xl" />
+    </button>
     <a href={prevSlug ? `/days/${prevSlug}` : ""}>
       <button
         class={{
