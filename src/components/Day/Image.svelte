@@ -25,8 +25,8 @@
     src={`${image.url}?w=1024`}
     alt={slug}
     class={{
-      "block max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full": true,
-      "opacity-0": $isDayImageLoading,
+      "max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full": true,
+      "opacity-0 md:h-[30dvh] md:w-full": $isDayImageLoading,
     }}
     use:onload
   />
