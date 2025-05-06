@@ -35,9 +35,28 @@
     </div>
     <div class="px-4">
       <p class="py-4">
-        台湾で生活する日本人が、一日一枚、写真を投稿するフォトログです。
-        記録でもあり、表現でもあり、祈りでもある。いつかそういうものになったらいいな、と思いながらやっています。
+        台湾で生活する日本人が一日一枚写真を投稿するフォトログです。以下のキーボードショートカットが使えます。
       </p>
+      <table class="mx-auto">
+        <tbody>
+          <tr>
+            <td class="p-1 px-2">←</td>
+            <td class="p-1 px-2">次の日</td>
+          </tr>
+          <tr>
+            <td class="p-1 px-2">→</td>
+            <td class="p-1 px-2">前の日</td>
+          </tr>
+          <tr>
+            <td class="p-1 px-2">Space</td>
+            <td class="p-1 px-2">ランダム</td>
+          </tr>
+          <tr>
+            <td class="p-1 px-2">Backspace</td>
+            <td class="p-1 px-2">リストに戻る</td>
+          </tr>
+        </tbody>
+      </table>
       <p class="py-4">
         作者のプロフィールは<a
           class="hover:animate-pulse"
