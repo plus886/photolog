@@ -37,7 +37,7 @@
       <p class="py-4">
         台湾で生活する日本人が一日一枚写真を投稿するフォトログです。以下のキーボードショートカットが使えます。
       </p>
-      <table class="mx-auto">
+      <table class="mx-auto md:my-4">
         <tbody>
           <tr>
             <td class="p-1 px-2">←</td>

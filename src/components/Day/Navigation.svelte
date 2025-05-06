@@ -38,7 +38,7 @@
       if ($isDrawerOpen) return;
       randomize();
     });
-    hotkeys("backspace, delete", () => {
+    hotkeys("backspace, delete, esc", () => {
       if ($isDrawerOpen) return;
       navigate(`/`);
     });
