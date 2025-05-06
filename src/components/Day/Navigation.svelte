@@ -25,21 +25,17 @@
     isRandomizing = false;
     hotkeys("left", () => {
       if (!nextSlug) return;
-      if ($isDrawerOpen) return;
       navigate(`/days/${nextSlug}`);
     });
     hotkeys("right", () => {
       if (!prevSlug) return;
-      if ($isDrawerOpen) return;
       navigate(`/days/${prevSlug}`);
     });
     hotkeys("space", () => {
       if (isRandomizing) return;
-      if ($isDrawerOpen) return;
       randomize();
     });
     hotkeys("backspace, delete, esc", () => {
-      if ($isDrawerOpen) return;
       navigate(`/`);
     });
   });
