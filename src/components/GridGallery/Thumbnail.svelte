@@ -40,7 +40,7 @@
   use:handleScroll
 >
   <img
-    src={`${image.url}?w=${featured ? 300 : 150}&q=40`}
+    src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}
     alt={slug}
     class={{
       "h-full w-full object-cover transition-opacity duration-700": true,
