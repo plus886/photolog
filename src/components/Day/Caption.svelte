@@ -12,7 +12,7 @@
 {#if !$isDrawerOpen}
   <figcaption
     class={{
-      "font-leica flex justify-end pt-3 text-[0.5rem]": true,
+      "font-leica flex justify-end pt-3 text-[0.42rem]": true,
       "opacity-0": $isDayImageLoading,
     }}
     in:fade={{ delay: 600, duration: 500 }}
