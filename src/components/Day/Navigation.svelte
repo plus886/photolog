@@ -18,18 +18,18 @@
 
   let { nextPost, prevPost }: Props = $props();
   let isRandomizing = $state(false);
-  const nextSlug = nextPost && nextPost.slug;
-  const prevSlug = prevPost && prevPost.slug;
+  const nextId = nextPost && nextPost.id;
+  const prevId = prevPost && prevPost.id;
 
   onMount(() => {
     isRandomizing = false;
     hotkeys("left", () => {
-      if (!nextSlug) return;
-      navigate(`/days/${nextSlug}`);
+      if (!nextId) return;
+      navigate(`/days/${nextId}`);
     });
     hotkeys("right", () => {
-      if (!prevSlug) return;
-      navigate(`/days/${prevSlug}`);
+      if (!prevId) return;
+      navigate(`/days/${prevId}`);
     });
     hotkeys("space", () => {
       if (isRandomizing) return;
@@ -47,8 +47,8 @@
   const randomize = async () => {
     isRandomizing = true;
     const res = await fetch("/api/day/random.json");
-    const slugs: string[] = await res.json();
-    navigate(`/days/${slugs[Math.floor(Math.random() * slugs.length)]}`);
+    const ids: string[] = await res.json();
+    navigate(`/days/${ids[Math.floor(Math.random() * ids.length)]}`);
   };
 </script>
 
@@ -58,11 +58,11 @@
     in:fade={{ delay: 500, duration: 500 }}
     out:fade={{ duration: 200 }}
   >
-    <a href={nextSlug ? `/days/${nextSlug}` : ""}>
+    <a href={nextId ? `/days/${nextId}` : ""}>
       <button
         class={{
           "hover:animate-bounce-left flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
-          "pointer-events-none opacity-20": !nextSlug,
+          "pointer-events-none opacity-20": !nextId,
         }}
       >
         <IconLeft class="text-xl" />
@@ -86,11 +86,11 @@
     >
       <IconReload class="text-xl" />
     </button>
-    <a href={prevSlug ? `/days/${prevSlug}` : ""}>
+    <a href={prevId ? `/days/${prevId}` : ""}>
       <button
         class={{
           "hover:animate-bounce-right flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
-          "pointer-events-none opacity-20": !prevSlug,
+          "pointer-events-none opacity-20": !prevId,
         }}
       >
         <IconRight class="text-xl" />

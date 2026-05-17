@@ -31,7 +31,7 @@
 </script>
 
 <a
-  href={`/days/${slug}`}
+  href={`/days/${id}`}
   class={{
     "relative transition-all": true,
     "col-span-2 row-span-2": featured,

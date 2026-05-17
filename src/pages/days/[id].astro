@@ -5,13 +5,14 @@ import dayjs from "libs/dayjs";
 import Layout from "layouts/Layout.astro";
 import Day from "components/Day";
 import { getAllDays, getDayDetail } from "libs/client";
+import { SSR_CACHE_CONTROL } from "libs/cache";
 
-const { slug } = Astro.params;
+const { id } = Astro.params;
 
 const { items } = await getAllDays({
   fields: ["id", "date", "publishedAt", "createdAt"],
 });
-const index = items.findIndex((e) => e.slug === slug);
+const index = items.findIndex((e) => e.id === id);
 
 if (index === -1) {
   return new Response(null, { status: 404, statusText: "Not Found" });
@@ -21,10 +22,7 @@ const item = await getDayDetail(items[index].id);
 const nextPost = index === 0 ? null : items[index - 1];
 const prevPost = index + 1 === items.length ? null : items[index + 1];
 
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
-);
+Astro.response.headers.set("Cache-Control", SSR_CACHE_CONTROL);
 ---
 
 <Layout

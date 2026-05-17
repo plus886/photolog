@@ -63,12 +63,8 @@ export const getAllDays = async (queries?: MicroCMSQueries) => {
   };
 };
 
-export const getAllDayIds = async (alternateField: string = "date") => {
-  const response = await client.getAllContentIds({
-    endpoint: "days",
-    alternateField,
-  });
-  return response.map((e) => dayjs.tz(dayjs(e)).format("YYYYMMDD"));
+export const getAllDayIds = async () => {
+  return client.getAllContentIds({ endpoint: "days" });
 };
 
 export const getDayDetail = async (
