@@ -54,7 +54,10 @@ const {
       class="h-dvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
     >
       <Header />
-      <div class="overflow-auto scroll-smooth">
+      <!-- overflow-anchor:none — scroll anchoring miscalculates when the
+           gallery grid reflows on image load / pagination, yanking the
+           scroll position. -->
+      <div class="overflow-auto scroll-smooth [overflow-anchor:none]">
         <slot />
       </div>
     </div>
