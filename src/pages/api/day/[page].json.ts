@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getDays, DEFAULT_LIMIT } from "libs/client";
+import { SSR_CACHE_CONTROL } from "libs/cache";
 
 export const prerender = false;
 
@@ -12,7 +13,7 @@ export const GET: APIRoute = async ({ params }) => {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+      "Cache-Control": SSR_CACHE_CONTROL,
     },
   });
 };
