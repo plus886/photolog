@@ -1,18 +1,7 @@
 ---
 import Header from "./Header.svelte";
-import type { OptimizedDay } from "types/index";
-
-type Props = {
-  latestItem: OptimizedDay;
-};
-
-const headerProps = {
-  lastCommitTime: Astro.locals.lastCommitTime,
-  lastCommitHash: Astro.locals.lastCommitHash,
-  ...Astro.props.latestItem,
-};
 ---
 
 <header>
-  <Header {...headerProps} client:load />
+  <Header client:load />
 </header>

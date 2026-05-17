@@ -17,7 +17,7 @@
     cachedDays.set([...$cachedDays, ...body.contents]);
   };
 
-  const getYearFromSlug = (slug: string) => slug.slice(0, 4);
+  const getYearFromDate = (date: string) => date.slice(0, 4);
 
   const unbindListener = currentPage.listen((v) => {
     fetchItems(v);
@@ -52,12 +52,12 @@
     class="col-span-7 grid auto-rows-[4rem] grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-1 md:grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] lg:col-span-10"
   >
     {#each $cachedDays as item, i}
-      {@const year = getYearFromSlug(item.slug)}
+      {@const year = getYearFromDate(item.date)}
       {@const isLastItem = i === $cachedDays.length - 1}
       <li class="snap-end">
         <Thumbnail {...item} />
       </li>
-      {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYearFromSlug($cachedDays[i + 1].slug))}
+      {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYearFromDate($cachedDays[i + 1].date))}
         <li
           class="bg-pale-accent dark:bg-inky-accent dark:text-pale flex items-center justify-center text-stone-700 transition-colors delay-150 duration-500"
           use:handlePaginationOnScroll={isLastItem}

@@ -2,9 +2,6 @@
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
   import { isDrawerOpen } from "libs/stores";
-  import type { HeaderProps } from "types/index";
-
-  const headerProps: HeaderProps = $props();
 </script>
 
 <div
@@ -30,6 +27,6 @@
     </p>
   </div>
   {#if $isDrawerOpen}
-    <DrawerContents {...headerProps} />
+    <DrawerContents />
   {/if}
 </div>

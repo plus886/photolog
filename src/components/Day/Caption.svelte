@@ -1,9 +1,9 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
   import { isDrawerOpen, isDayImageLoading } from "libs/stores";
-  import type { OptimizedDay } from "types/index";
+  import type { Day } from "types/index";
 
-  type Props = Pick<OptimizedDay, "camera" | "lens">;
+  type Props = Pick<Day, "camera" | "lens">;
 
   let { camera, lens }: Props = $props();
 </script>

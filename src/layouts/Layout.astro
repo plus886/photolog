@@ -53,7 +53,7 @@ const {
       id="layout"
       class="h-dvh transition-[grid] delay-150 duration-500 ease-in-out md:grid md:grid-cols-[1fr_5fr]"
     >
-      <Header latestItem={latestItem} />
+      <Header />
       <div class="snap-y overflow-auto scroll-smooth">
         <slot />
       </div>
@@ -64,30 +64,25 @@ const {
 <script>
   import { isDrawerOpen, theme } from "libs/stores";
 
-  theme.subscribe((v) => {
+  const applyTheme = (v: string) =>
     document.documentElement.classList.toggle("dark", v === "dark");
-  });
 
-  document.addEventListener("astro:after-swap", () => {
-    theme.subscribe((v) => {
-      document.documentElement.classList.toggle("dark", v === "dark");
-    });
+  // View Transitions reset the <html> class on swap, so re-apply once
+  // after each swap rather than re-subscribing (which would leak).
+  theme.subscribe(applyTheme);
+  document.addEventListener("astro:after-swap", () => applyTheme(theme.get()));
+
+  // #layout is recreated on each navigation; query it fresh inside the
+  // callback so a single subscription always targets the current element.
+  isDrawerOpen.subscribe((open) => {
+    const el = document.getElementById("layout");
+    el?.classList.toggle("md:grid-cols-[1fr_1fr]", open);
+    el?.classList.toggle("md:grid-cols-[1fr_5fr]", !open);
+    el?.classList.toggle("overflow-hidden", open);
+    el?.classList.toggle("md:overflow-auto", open);
   });
 
   document.addEventListener("astro:page-load", () => {
-    const el = document.getElementById("layout");
-    if (isDrawerOpen.get()) {
-      isDrawerOpen.set(false);
-    }
-    isDrawerOpen.subscribe((open) => {
-      el?.classList.toggle("md:grid-cols-[1fr_1fr]", open);
-      el?.classList.toggle("md:grid-cols-[1fr_5fr]", !open);
-      document
-        .getElementById("layout")
-        ?.classList.toggle("overflow-hidden", open);
-      document
-        .getElementById("layout")
-        ?.classList.toggle("md:overflow-auto", open);
-    });
+    if (isDrawerOpen.get()) isDrawerOpen.set(false);
   });
 </script>

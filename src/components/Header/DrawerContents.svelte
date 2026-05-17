@@ -3,15 +3,8 @@
   import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
   // @ts-ignore
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
-  import dayjs from "libs/dayjs";
   import { fade } from "svelte/transition";
   import { theme } from "libs/stores";
-  import type { HeaderProps } from "types/index";
-
-  const { lastCommitHash, lastCommitTime, publishedAt }: HeaderProps = $props();
-
-  const lastPublishedAt = dayjs.tz(dayjs(publishedAt));
-  const lastCommittedAt = dayjs.tz(dayjs(lastCommitTime));
 </script>
 
 <div
@@ -68,23 +61,6 @@
         ——
         生活環境や風景にしても、それらが真の姿を明らかにするのは、写真家がそうした対象を、それらの顔貌に現れている名づけようのない現象において把握することを心得ている場合だけである。（ヴァルター・ベンヤミン）
       </blockquote>
-      <p
-        class="font-leica flex justify-end gap-2 text-[0.45rem] tracking-normal"
-      >
-        <a
-          class="hover:animate-pulse"
-          href={`https://github.com/plus886/photolog/commit/${lastCommitHash}`}
-          target="_blank"
-        >
-          #{lastCommitHash.slice(0, 7)}</a
-        >
-        <span>
-          LAST DEPLOYMENT: {(lastCommittedAt.isAfter(lastPublishedAt)
-            ? lastCommittedAt
-            : lastPublishedAt
-          ).format("YYYY/M/D H:mm")}
-        </span>
-      </p>
     </div>
     <div class="hidden h-18 items-end justify-center md:flex">
       {#if $theme === "light"}

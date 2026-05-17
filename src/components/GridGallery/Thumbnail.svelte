@@ -1,9 +1,9 @@
 <script lang="ts">
   import { lastShowedDayId } from "libs/stores";
   import type { Action } from "svelte/action";
-  import type { OptimizedDay } from "types/index";
+  import type { Day } from "types/index";
 
-  const { image, slug, featured, id }: OptimizedDay = $props();
+  const { image, date, featured, id }: Day = $props();
   let isLoading = $state(false);
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
 
@@ -41,7 +41,7 @@
 >
   <img
     src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}
-    alt={slug}
+    alt={date}
     class={{
       "h-full w-full object-cover transition-opacity duration-700": true,
       "opacity-0": isLoading,

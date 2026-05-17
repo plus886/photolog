@@ -4,7 +4,6 @@ import type {
   MicroCMSImage,
 } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
-import dayjs from "./dayjs";
 
 const client = createClient({
   serviceDomain: import.meta.env.MICROCMS_DOMAIN,
@@ -20,21 +19,11 @@ type DayContent = {
 };
 
 export type Day = DayContent & MicroCMSListContent;
-export type OptimizedDay = ReturnType<typeof addSlug>;
 export type GetDays = Awaited<ReturnType<typeof getDays>>;
 export const DEFAULT_LIMIT = 100;
 
-const addSlug = (item: Day) => {
-  const { date, ...rest } = item;
-  return {
-    slug: dayjs.tz(dayjs(date)).format("YYYYMMDD"),
-    date,
-    ...rest,
-  };
-};
-
 export const getDays = async (queries?: MicroCMSQueries) => {
-  const { contents, ...rest } = await client.getList<Day>({
+  return client.getList<Day>({
     endpoint: "days",
     queries: {
       limit: DEFAULT_LIMIT,
@@ -42,10 +31,6 @@ export const getDays = async (queries?: MicroCMSQueries) => {
       ...queries,
     },
   });
-  return {
-    contents: contents.map((e) => addSlug(e)),
-    ...rest,
-  };
 };
 
 // 指定日の前後（隣接）の day を 1 件ずつ取得する。
@@ -61,8 +46,8 @@ export const getAdjacentDays = async (date: string) => {
     neighbor(`date[less_than]${date}`, "-date"),
   ]);
   return {
-    nextPost: newer.contents[0] ? addSlug(newer.contents[0]) : null,
-    prevPost: older.contents[0] ? addSlug(older.contents[0]) : null,
+    nextPost: newer.contents[0] ?? null,
+    prevPost: older.contents[0] ?? null,
   };
 };
 
@@ -74,10 +59,5 @@ export const getDayDetail = async (
   contentId: string,
   queries?: MicroCMSQueries,
 ) => {
-  const result = await client.getListDetail<Day>({
-    endpoint: "days",
-    contentId,
-    queries,
-  });
-  return addSlug(result);
+  return client.getListDetail<Day>({ endpoint: "days", contentId, queries });
 };

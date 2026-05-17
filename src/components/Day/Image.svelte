@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Action } from "svelte/action";
-  import type { OptimizedDay } from "types/index";
+  import type { Day } from "types/index";
   import { isDayImageLoading } from "libs/stores";
-  type Props = OptimizedDay;
+  type Props = Day;
 
-  let { image, slug, id }: Props = $props();
+  let { image, date, id }: Props = $props();
 
   const onload: Action<HTMLImageElement> = (e) => {
     const handleImageLoad = () => {
@@ -23,7 +23,7 @@
 <div style={`view-transition-name: days_${id}_container`}>
   <img
     src={`${image.url}?w=1024`}
-    alt={slug}
+    alt={date}
     class={{
       "max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full": true,
       "opacity-0 md:h-[30dvh] md:w-full": $isDayImageLoading,

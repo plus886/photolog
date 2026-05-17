@@ -1,12 +1,11 @@
-import type { OptimizedDay, GetDays, Day } from "libs/client";
+import type { GetDays, Day } from "libs/client";
 
-export type { OptimizedDay, GetDays, Day };
-export type HeaderProps = App.Locals & OptimizedDay;
+export type { GetDays, Day };
 
 export type DayProps = {
-  item: OptimizedDay;
-  nextPost: OptimizedDay | null;
-  prevPost: OptimizedDay | null;
+  item: Day;
+  nextPost: Day | null;
+  prevPost: Day | null;
 };
 
 export type GridGalleryProps = {

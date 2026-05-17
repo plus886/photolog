@@ -1,9 +1,9 @@
 <script lang="ts">
   import dayjs from "libs/dayjs";
   import { isDrawerOpen } from "libs/stores";
-  import type { OptimizedDay } from "types/index";
+  import type { Day } from "types/index";
 
-  type Props = Pick<OptimizedDay, "date">;
+  type Props = Pick<Day, "date">;
 
   let { date }: Props = $props();
 </script>
