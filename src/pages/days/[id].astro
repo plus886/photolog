@@ -4,23 +4,16 @@ export const prerender = false;
 import dayjs from "libs/dayjs";
 import Layout from "layouts/Layout.astro";
 import Day from "components/Day";
-import { getAllDays, getDayDetail } from "libs/client";
+import { getAdjacentDays, getDayDetail } from "libs/client";
 import { SSR_CACHE_CONTROL } from "libs/cache";
 
 const { id } = Astro.params;
+if (!id) return new Response(null, { status: 404, statusText: "Not Found" });
 
-const { items } = await getAllDays({
-  fields: ["id", "date", "publishedAt", "createdAt"],
-});
-const index = items.findIndex((e) => e.id === id);
+const item = await getDayDetail(id).catch(() => null);
+if (!item) return new Response(null, { status: 404, statusText: "Not Found" });
 
-if (index === -1) {
-  return new Response(null, { status: 404, statusText: "Not Found" });
-}
-
-const item = await getDayDetail(items[index].id);
-const nextPost = index === 0 ? null : items[index - 1];
-const prevPost = index + 1 === items.length ? null : items[index + 1];
+const { nextPost, prevPost } = await getAdjacentDays(item.date);
 
 Astro.response.headers.set("Cache-Control", SSR_CACHE_CONTROL);
 ---
