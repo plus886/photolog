@@ -1,29 +1,30 @@
 ---
+export const prerender = false;
+
 import dayjs from "libs/dayjs";
 import Layout from "layouts/Layout.astro";
 import Day from "components/Day";
 import { getAllDays, getDayDetail } from "libs/client";
-import type { GetStaticPaths } from "astro";
 
-export const getStaticPaths = (async () => {
-  const response = await getAllDays({
-    fields: ["id", "date", "publishedAt", "createdAt"],
-  });
-  const { items } = response;
-  return items.map((e, i) => ({
-    params: {
-      slug: e.slug,
-    },
-    props: {
-      dayId: e.id,
-      nextPost: i === 0 ? null : items[i - 1],
-      prevPost: i + 1 === items.length ? null : items[i + 1],
-    },
-  }));
-}) satisfies GetStaticPaths;
+const { slug } = Astro.params;
 
-const { dayId, nextPost, prevPost } = Astro.props;
-const item = await getDayDetail(dayId);
+const { items } = await getAllDays({
+  fields: ["id", "date", "publishedAt", "createdAt"],
+});
+const index = items.findIndex((e) => e.slug === slug);
+
+if (index === -1) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
+}
+
+const item = await getDayDetail(items[index].id);
+const nextPost = index === 0 ? null : items[index - 1];
+const prevPost = index + 1 === items.length ? null : items[index + 1];
+
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+);
 ---
 
 <Layout

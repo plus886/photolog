@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
-import { getDays, DEFAULT_LIMIT, getAllDayIds } from "libs/client";
+import { getDays, DEFAULT_LIMIT } from "libs/client";
+
+export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
   const currentPage = Number(params.page);
@@ -8,19 +10,9 @@ export const GET: APIRoute = async ({ params }) => {
   });
   return new Response(JSON.stringify(res), {
     status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
-};
-
-export const getStaticPaths = async () => {
-  const response = await getAllDayIds();
-  const totalPages = Math.ceil(response.length / DEFAULT_LIMIT);
-
-  return Array.from(Array(totalPages), (e, i) => {
-    return {
-      params: {
-        page: i + 1,
-      },
-    };
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+    },
   });
 };

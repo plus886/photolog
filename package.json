@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/cloudflare": "^12.6.13",
     "@astrojs/svelte": "^7.0.10",
     "@fontsource/cactus-classical-serif": "^5.2.6",
     "@fontsource/shippori-mincho-b1": "^5.2.5",
@@ -27,6 +27,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@iconify-json/material-symbols-light": "^1.2.17",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20.17.0",
