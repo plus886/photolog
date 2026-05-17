@@ -54,7 +54,7 @@
     {#each $cachedDays as item, i}
       {@const year = getYearFromDate(item.date)}
       {@const isLastItem = i === $cachedDays.length - 1}
-      <li class="snap-end">
+      <li>
         <Thumbnail {...item} />
       </li>
       {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYearFromDate($cachedDays[i + 1].date))}
