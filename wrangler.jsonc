@@ -1,12 +1,14 @@
 {
-  // Cloudflare Workers デプロイ設定。
-  // astro build が @astrojs/cloudflare アダプタ経由でこの設定を読み、
-  // dist/server/wrangler.json（main / assets を解決済み）を生成する。
-  // `wrangler deploy` は .wrangler/deploy/config.json のリダイレクトで
-  // 生成側の設定を使用するため、main / assets はここに書かなくてよい。
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "photolog",
-  "main": "@astrojs/cloudflare/entrypoints/server",
-  "compatibility_date": "2026-05-01",
-  "compatibility_flags": ["nodejs_compat"]
+	// Cloudflare Workers デプロイ設定。
+	// astro build が @astrojs/cloudflare アダプタ経由でこの設定を読み、
+	// dist/server/wrangler.json（main / assets を解決済み）を生成する。
+	// `wrangler deploy` は .wrangler/deploy/config.json のリダイレクトで
+	// 生成側の設定を使用するため、main / assets はここに書かなくてよい。
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "photolog",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"compatibility_date": "2026-05-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	]
 }
