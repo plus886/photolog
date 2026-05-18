@@ -90,14 +90,13 @@
      the gradient inside, leaving just the ring. */
   .spinner {
     --fill: #ffffff;
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    border: 4px solid transparent;
+    border: 2px solid transparent;
     background:
       linear-gradient(var(--fill), var(--fill)) padding-box,
       linear-gradient(45deg, #e4e4e7, #3f3f46) border-box;
-    backdrop-filter: blur(8px);
     animation: spinner-spin 1.2s linear infinite;
   }
 
