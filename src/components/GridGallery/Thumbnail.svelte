@@ -3,7 +3,7 @@
   import type { Action } from "svelte/action";
   import type { Day } from "types/index";
 
-  const { image, date, featured, id, localePrefix }: Day & {
+  const { image, publishedAt, featured, id, localePrefix }: Day & {
     localePrefix: string;
   } = $props();
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
@@ -34,7 +34,7 @@
 >
   <img
     src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}
-    alt={date}
+    alt={publishedAt?.slice(0, 10)}
     class={{
       "h-full w-full object-cover": true,
       "animate-pulse": isLastShowedBySinglePage,

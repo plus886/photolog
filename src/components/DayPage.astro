@@ -1,5 +1,4 @@
 ---
-import dayjs from "libs/dayjs";
 import Layout from "layouts/Layout.astro";
 import Day from "components/Day";
 import { resolveLocale } from "i18n/utils";
@@ -14,7 +13,7 @@ const { item, nextPost, prevPost } = Astro.props.data;
 const locale = resolveLocale(Astro.currentLocale);
 const localePrefix = locale === "zh" ? "/zh" : "";
 const passage = locale === "zh" ? item.passageZh : item.passageJa;
-const title = `翳光臺灣 | ${dayjs.tz(dayjs(item.date)).format("YYYY年M月D日")}`;
+const title = `翳光臺灣 | ${item.id}`;
 ---
 
 <Layout title={title} thumbnail={item.image.url}>

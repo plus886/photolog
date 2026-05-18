@@ -4,7 +4,7 @@
   import { isDayImageLoading } from "libs/stores";
   type Props = Day;
 
-  let { image, date, id }: Props = $props();
+  let { image, publishedAt, id }: Props = $props();
 
   const onload: Action<HTMLImageElement> = (e) => {
     const handleImageLoad = () => {
@@ -23,7 +23,7 @@
 <div style={`view-transition-name: days_${id}_container`}>
   <img
     src={`${image.url}?w=1024`}
-    alt={date}
+    alt={publishedAt?.slice(0, 10)}
     class={{
       "max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full": true,
       "opacity-0 md:h-[30dvh] md:w-full": $isDayImageLoading,

@@ -18,7 +18,7 @@
     cachedDays.set([...$cachedDays, ...body.contents]);
   };
 
-  const getYearFromDate = (date: string) => date.slice(0, 4);
+  const getYear = (d?: string) => (d ?? "").slice(0, 4);
 
   const unbindListener = currentPage.listen((v) => {
     fetchItems(v);
@@ -63,7 +63,7 @@
     class="col-span-7 grid auto-rows-[4rem] grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-1 md:grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] lg:col-span-10"
   >
     {#each $cachedDays as item, i}
-      {@const year = getYearFromDate(item.date)}
+      {@const year = getYear(item.publishedAt)}
       {@const isLastItem = i === $cachedDays.length - 1}
       <!-- Per-item random delay (a {@const}, so it is evaluated once per
            row rather than hoisted) gives a staggered fade-in. -->
@@ -71,7 +71,7 @@
       <li in:fade={{ delay: fadeDelay, duration: 500 }}>
         <Thumbnail {...item} {localePrefix} />
       </li>
-      {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYearFromDate($cachedDays[i + 1].date))}
+      {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYear($cachedDays[i + 1].publishedAt))}
         <li
           class="bg-pale-accent dark:bg-inky-accent dark:text-pale flex items-center justify-center text-stone-700 transition-colors delay-150 duration-500"
           use:handlePaginationOnScroll={isLastItem}

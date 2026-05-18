@@ -17,6 +17,8 @@ export const loadDayPage = async (
   if (!id) return null;
   const item = await getDayDetail(id).catch(() => null);
   if (!item) return null;
-  const { nextPost, prevPost } = await getAdjacentDays(item.date);
+  const { nextPost, prevPost } = await getAdjacentDays(
+    item.publishedAt ?? item.createdAt,
+  );
   return { item, nextPost, prevPost };
 };
