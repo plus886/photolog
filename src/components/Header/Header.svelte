@@ -2,6 +2,7 @@
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
   import { isDrawerOpen } from "libs/stores";
+  import { locales, localeNames } from "i18n/ui";
   import type { Locale } from "i18n/utils";
 
   let {
@@ -29,13 +30,30 @@
       >
     </h1>
     <DrawerButton />
-    <p
-      class="font-leica hidden text-[0.625rem] md:block md:px-12 md:[writing-mode:vertical-lr]"
+    <!-- Always-visible language switcher: both endonyms, the current
+         one dimmed, the other a link to the same page. It occupies the
+         rail's bottom slot so the menu button keeps the dead-centre. -->
+    <nav
+      aria-label="Language"
+      class="font-serif flex items-center gap-2 pr-6 text-xs tracking-wide whitespace-nowrap md:px-12 md:pr-0 md:[writing-mode:vertical-lr]"
     >
-      FORMOSA CHIAROSCURO
-    </p>
+      {#each locales as loc, i}
+        {#if i > 0}
+          <span aria-hidden="true" class="opacity-30">／</span>
+        {/if}
+        {#if loc === locale}
+          <span aria-current="true" class="opacity-40">{localeNames[loc]}</span>
+        {:else}
+          <a
+            href={switchUrl}
+            hreflang={loc}
+            class="no-underline hover:animate-pulse">{localeNames[loc]}</a
+          >
+        {/if}
+      {/each}
+    </nav>
   </div>
   {#if $isDrawerOpen}
-    <DrawerContents {locale} {switchUrl} />
+    <DrawerContents {locale} />
   {/if}
 </div>

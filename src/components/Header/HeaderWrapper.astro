@@ -7,7 +7,7 @@ const locale = resolveLocale(Astro.currentLocale);
 const otherLocale = locale === "zh" ? "ja" : "zh";
 const localePrefix = locale === "zh" ? "/zh" : "";
 
-// Same page in the other locale, for the drawer language switch.
+// Same page in the other locale, for the header language switch.
 const pathNoLocale = Astro.url.pathname.replace(/^\/zh(?=\/|$)/, "") || "/";
 const switchUrl = getRelativeLocaleUrl(otherLocale, pathNoLocale);
 ---
