@@ -5,6 +5,10 @@
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
   import { fade } from "svelte/transition";
   import { theme } from "libs/stores";
+  import { useTranslations, type Locale } from "i18n/utils";
+
+  let { locale, switchUrl }: { locale: Locale; switchUrl: string } = $props();
+  const t = useTranslations(locale);
 </script>
 
 <div
@@ -15,7 +19,7 @@
   <div
     class="max-w-2xl px-6 font-serif text-sm/6 tracking-wide md:pr-12 md:pl-0"
   >
-    <div class="hidden h-18 items-start justify-center md:flex">
+    <div class="hidden h-18 items-start justify-center gap-1 md:flex">
       {#if $theme === "dark"}
         <button
           onclick={() => theme.set("light")}
@@ -24,45 +28,49 @@
         >
           <IconSun class="animate-wiggle text-xl md:text-2xl" />
         </button>
+        <a
+          href={switchUrl}
+          class="cursor-pointer p-4 text-sm no-underline transition-transform hover:scale-90 md:p-2"
+          transition:fade={{ duration: 200, delay: 100 }}
+        >
+          {t("lang.switch")}
+        </a>
       {/if}
     </div>
     <div class="px-4">
-      <p class="py-4">
-        台湾人の家族と共に生きる日本人が、日常を写真で綴るフォトログです。以下のキーボードショートカットが使えます。
-      </p>
+      <p class="py-4">{t("drawer.intro")}</p>
       <table class="mx-auto md:my-4">
         <tbody>
           <tr>
             <td class="p-1 px-2">←</td>
-            <td class="p-1 px-2">次の日</td>
+            <td class="p-1 px-2">{t("drawer.shortcut.next")}</td>
           </tr>
           <tr>
             <td class="p-1 px-2">→</td>
-            <td class="p-1 px-2">前の日</td>
+            <td class="p-1 px-2">{t("drawer.shortcut.prev")}</td>
           </tr>
           <tr>
             <td class="p-1 px-2">Space</td>
-            <td class="p-1 px-2">ランダム</td>
+            <td class="p-1 px-2">{t("drawer.shortcut.random")}</td>
           </tr>
           <tr>
             <td class="p-1 px-2">Backspace</td>
-            <td class="p-1 px-2">リストに戻る</td>
+            <td class="p-1 px-2">{t("drawer.shortcut.back")}</td>
           </tr>
         </tbody>
       </table>
       <p class="py-4">
-        作者のプロフィールは<a
+        {t("drawer.profile.pre")}<a
           class="hover:animate-pulse"
           href="https://kokaiji.tw"
-          target="_blank">ポートフォリオサイト</a
-        >をご覧ください。
+          target="_blank">{t("drawer.profile.link")}</a
+        >{t("drawer.profile.post")}
       </p>
       <blockquote class="pt-4 pb-8 italic">
-        ——
-        生活環境や風景にしても、それらが真の姿を明らかにするのは、写真家がそうした対象を、それらの顔貌に現れている名づけようのない現象において把握することを心得ている場合だけである。（ヴァルター・ベンヤミン）
+        {t("drawer.quote")}
       </blockquote>
     </div>
-    <div class="hidden h-18 items-end justify-center md:flex">
+    <div class="hidden h-18 items-end justify-center gap-1 md:flex">
       {#if $theme === "light"}
         <button
           onclick={() => theme.set("dark")}
@@ -71,9 +79,16 @@
         >
           <IconMoon class="animate-wiggle text-xl md:text-2xl" />
         </button>
+        <a
+          href={switchUrl}
+          class="cursor-pointer p-4 text-sm no-underline transition-transform hover:scale-90 md:p-2"
+          transition:fade={{ duration: 200, delay: 100 }}
+        >
+          {t("lang.switch")}
+        </a>
       {/if}
     </div>
-    <div class="flex items-center justify-end md:hidden">
+    <div class="flex items-center justify-end gap-1 md:hidden">
       <button
         onclick={() => theme.set($theme === "dark" ? "light" : "dark")}
         class="cursor-pointer p-4 transition-transform hover:scale-90 md:p-2"
@@ -84,6 +99,12 @@
           <IconSun class="animate-wiggle text-xl md:text-2xl" />
         {/if}
       </button>
+      <a
+        href={switchUrl}
+        class="cursor-pointer p-4 text-sm no-underline transition-transform hover:scale-90 md:p-2"
+      >
+        {t("lang.switch")}
+      </a>
     </div>
   </div>
 </div>

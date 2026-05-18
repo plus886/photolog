@@ -1,7 +1,22 @@
 ---
 import Header from "./Header.svelte";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { resolveLocale } from "i18n/utils";
+
+const locale = resolveLocale(Astro.currentLocale);
+const otherLocale = locale === "zh" ? "ja" : "zh";
+const localePrefix = locale === "zh" ? "/zh" : "";
+
+// Same page in the other locale, for the drawer language switch.
+const pathNoLocale = Astro.url.pathname.replace(/^\/zh(?=\/|$)/, "") || "/";
+const switchUrl = getRelativeLocaleUrl(otherLocale, pathNoLocale);
 ---
 
 <header>
-  <Header client:load />
+  <Header
+    client:load
+    locale={locale}
+    switchUrl={switchUrl}
+    localePrefix={localePrefix}
+  />
 </header>

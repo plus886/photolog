@@ -2,6 +2,13 @@
   import DrawerButton from "./DrawerButton.svelte";
   import DrawerContents from "./DrawerContents.svelte";
   import { isDrawerOpen } from "libs/stores";
+  import type { Locale } from "i18n/utils";
+
+  let {
+    locale,
+    switchUrl,
+    localePrefix,
+  }: { locale: Locale; switchUrl: string; localePrefix: string } = $props();
 </script>
 
 <div
@@ -17,7 +24,9 @@
     <h1
       class="font-cactus px-6 text-lg tracking-[0.5em] text-nowrap md:px-12 md:text-xl md:tracking-[1em] md:[writing-mode:vertical-lr]"
     >
-      <a href="/" class="no-underline hover:animate-pulse">翳光臺灣</a>
+      <a href={`${localePrefix}/`} class="no-underline hover:animate-pulse"
+        >翳光臺灣</a
+      >
     </h1>
     <DrawerButton />
     <p
@@ -27,6 +36,6 @@
     </p>
   </div>
   {#if $isDrawerOpen}
-    <DrawerContents />
+    <DrawerContents {locale} {switchUrl} />
   {/if}
 </div>

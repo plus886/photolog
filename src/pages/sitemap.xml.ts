@@ -8,9 +8,10 @@ export const GET: APIRoute = async ({ site }) => {
   const base = (site ?? new URL("https://photo.kokaiji.tw")).origin;
   const ids = await getAllDayIds();
 
+  const paths = ["/", ...ids.map((id) => `/days/${id}`)];
   const urls = [
-    `${base}/`,
-    ...ids.map((id) => `${base}/days/${id}`),
+    ...paths.map((p) => `${base}${p}`),
+    ...paths.map((p) => `${base}/zh${p}`),
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

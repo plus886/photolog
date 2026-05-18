@@ -10,7 +10,8 @@
       "types/*": ["src/types/*"],
       "layouts/*": ["src/layouts/*"],
       "pages/*": ["src/pages/*"],
-      "libs/*": ["src/libs/*"]
+      "libs/*": ["src/libs/*"],
+      "i18n/*": ["src/i18n/*"]
     }
   }
 }

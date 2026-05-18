@@ -8,7 +8,7 @@
   import { lastShowedDayId } from "libs/stores";
   import { onMount } from "svelte";
 
-  let { item, nextPost, prevPost }: DayProps = $props();
+  let { item, nextPost, prevPost, localePrefix, passage }: DayProps = $props();
 
   onMount(() => {
     lastShowedDayId.set(item.id);
@@ -16,11 +16,11 @@
 </script>
 
 <nav class="self-center">
-  <Navigation {prevPost} {nextPost} />
+  <Navigation {prevPost} {nextPost} {localePrefix} />
 </nav>
 <figure class="flex flex-col items-center justify-center">
   <DaySpacer />
   <Image {...item} />
   <DayCaption camera={item.camera} lens={item.lens} />
 </figure>
-<Passage />
+<Passage {passage} />

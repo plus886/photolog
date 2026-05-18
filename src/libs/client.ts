@@ -16,6 +16,10 @@ type DayContent = {
   lens: string[];
   date: string;
   featured: boolean;
+  // Per-locale vertical-text passage (microCMS textArea fields).
+  // Optional: existing entries are empty until filled in microCMS.
+  passageJa?: string;
+  passageZh?: string;
 };
 
 export type Day = DayContent & MicroCMSListContent;

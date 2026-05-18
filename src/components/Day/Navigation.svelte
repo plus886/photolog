@@ -14,9 +14,9 @@
   import hotkeys from "hotkeys-js";
   import type { DayProps } from "types/index";
 
-  type Props = Pick<DayProps, "nextPost" | "prevPost">;
+  type Props = Pick<DayProps, "nextPost" | "prevPost" | "localePrefix">;
 
-  let { nextPost, prevPost }: Props = $props();
+  let { nextPost, prevPost, localePrefix }: Props = $props();
   let isRandomizing = $state(false);
   const nextId = nextPost && nextPost.id;
   const prevId = prevPost && prevPost.id;
@@ -25,18 +25,18 @@
     isRandomizing = false;
     hotkeys("left", () => {
       if (!nextId) return;
-      navigate(`/days/${nextId}`);
+      navigate(`${localePrefix}/days/${nextId}`);
     });
     hotkeys("right", () => {
       if (!prevId) return;
-      navigate(`/days/${prevId}`);
+      navigate(`${localePrefix}/days/${prevId}`);
     });
     hotkeys("space", () => {
       if (isRandomizing) return;
       randomize();
     });
     hotkeys("backspace, delete, esc", () => {
-      navigate(`/`);
+      navigate(`${localePrefix}/`);
     });
   });
 
@@ -48,7 +48,9 @@
     isRandomizing = true;
     const res = await fetch("/api/day/random.json");
     const ids: string[] = await res.json();
-    navigate(`/days/${ids[Math.floor(Math.random() * ids.length)]}`);
+    navigate(
+      `${localePrefix}/days/${ids[Math.floor(Math.random() * ids.length)]}`,
+    );
   };
 </script>
 
@@ -58,7 +60,7 @@
     in:fade={{ delay: 500, duration: 500 }}
     out:fade={{ duration: 200 }}
   >
-    <a href={nextId ? `/days/${nextId}` : ""}>
+    <a href={nextId ? `${localePrefix}/days/${nextId}` : ""}>
       <button
         class={{
           "hover:animate-bounce-left flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
@@ -68,7 +70,7 @@
         <IconLeft class="text-xl" />
       </button>
     </a>
-    <a href="/">
+    <a href={`${localePrefix}/`}>
       <button
         class="flex cursor-pointer justify-center p-2 transition-all hover:scale-130"
       >
@@ -86,7 +88,7 @@
     >
       <IconReload class="text-xl" />
     </button>
-    <a href={prevId ? `/days/${prevId}` : ""}>
+    <a href={prevId ? `${localePrefix}/days/${prevId}` : ""}>
       <button
         class={{
           "hover:animate-bounce-right flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,

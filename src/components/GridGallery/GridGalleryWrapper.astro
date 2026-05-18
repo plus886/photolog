@@ -1,13 +1,16 @@
 ---
 import GridGallery from "./GridGallery.svelte";
 import { getAllDayIds, DEFAULT_LIMIT } from "libs/client";
+import { resolveLocale } from "i18n/utils";
 
 const res = await getAllDayIds();
 const totalItemsLength = res.length;
+const localePrefix = resolveLocale(Astro.currentLocale) === "zh" ? "/zh" : "";
 ---
 
 <GridGallery
   client:load
   {totalItemsLength}
   totalPages={Math.ceil(totalItemsLength / DEFAULT_LIMIT)}
+  {localePrefix}
 />

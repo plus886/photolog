@@ -15,4 +15,10 @@ export default defineConfig({
 
   integrations: [svelte()],
   site: "https://photo.kokaiji.tw",
+
+  i18n: {
+    defaultLocale: "ja",
+    locales: ["ja", "zh"],
+    routing: { prefixDefaultLocale: false },
+  },
 });

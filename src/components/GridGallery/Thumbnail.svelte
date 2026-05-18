@@ -3,7 +3,9 @@
   import type { Action } from "svelte/action";
   import type { Day } from "types/index";
 
-  const { image, date, featured, id }: Day = $props();
+  const { image, date, featured, id, localePrefix }: Day & {
+    localePrefix: string;
+  } = $props();
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
 
   const handleScroll: Action<HTMLElement> = (e) => {
@@ -22,7 +24,7 @@
 </script>
 
 <a
-  href={`/days/${id}`}
+  href={`${localePrefix}/days/${id}`}
   class={{
     "relative transition-all": true,
     "col-span-2 row-span-2": featured,
