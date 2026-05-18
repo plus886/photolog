@@ -54,9 +54,7 @@
     class="dark:bg-inky fixed inset-0 z-50 flex items-center justify-center bg-white"
     out:fade={{ duration: 400 }}
   >
-    <div
-      class="size-6 animate-spin rounded-full border-2 border-current border-t-transparent opacity-60"
-    ></div>
+    <div class="spinner"></div>
   </div>
 {/if}
 
@@ -85,3 +83,31 @@
     {/each}
   </ul>
 </div>
+
+<style>
+  /* Gradient-ring spinner: the transparent border reveals the border-box
+     gradient; the padding-box layer (--fill = the loader background) masks
+     the gradient inside, leaving just the ring. */
+  .spinner {
+    --fill: #ffffff;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    background:
+      linear-gradient(var(--fill), var(--fill)) padding-box,
+      linear-gradient(45deg, #e4e4e7, #3f3f46) border-box;
+    backdrop-filter: blur(8px);
+    animation: spinner-spin 1.2s linear infinite;
+  }
+
+  :global(.dark) .spinner {
+    --fill: var(--color-inky);
+  }
+
+  @keyframes spinner-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
