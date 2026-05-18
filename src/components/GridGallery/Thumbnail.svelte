@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { lastShowedDayId } from "libs/stores";
+  import { lastShowedDayId, lenisStore } from "libs/stores";
   import type { Action } from "svelte/action";
   import type { Day } from "types/index";
 
@@ -22,11 +22,16 @@
 
   const handleScroll: Action<HTMLElement> = (e) => {
     if (!isLastShowedBySinglePage) return;
-    e.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "nearest",
-    });
+    // Lenis (when active) owns the scroll position, so a native
+    // scrollIntoView would be overridden on its next frame.
+    const lenis = lenisStore.get();
+    if (lenis) {
+      const wrapper = document.getElementById("scroll-container");
+      const offset = wrapper ? -(wrapper.clientHeight - e.offsetHeight) / 2 : 0;
+      lenis.scrollTo(e, { offset });
+    } else {
+      e.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    }
   };
 </script>
 

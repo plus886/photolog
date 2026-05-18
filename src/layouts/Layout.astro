@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "lenis/dist/lenis.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "components/Header";
 import "@fontsource/shippori-mincho-b1";
@@ -57,15 +58,18 @@ const {
       <!-- overflow-anchor:none — scroll anchoring miscalculates when the
            gallery grid reflows on image load / pagination, yanking the
            scroll position. -->
-      <div class="overflow-auto scroll-smooth [overflow-anchor:none]">
-        <slot />
+      <div id="scroll-container" class="overflow-auto [overflow-anchor:none]">
+        <div id="scroll-content">
+          <slot />
+        </div>
       </div>
     </div>
   </body>
 </html>
 
 <script>
-  import { isDrawerOpen, theme } from "libs/stores";
+  import Lenis from "lenis";
+  import { isDrawerOpen, theme, lenisStore } from "libs/stores";
 
   const applyTheme = (v: string) =>
     document.documentElement.classList.toggle("dark", v === "dark");
@@ -85,7 +89,20 @@ const {
     el?.classList.toggle("md:overflow-auto", open);
   });
 
+  // The scroll container is recreated on each navigation, so re-create
+  // Lenis each time. On mobile the container does not overflow (the
+  // document scrolls), so Lenis sits inert and native touch scroll wins.
+  let lenis: Lenis | undefined;
   document.addEventListener("astro:page-load", () => {
     if (isDrawerOpen.get()) isDrawerOpen.set(false);
+
+    lenis?.destroy();
+    const wrapper = document.getElementById("scroll-container");
+    const content = document.getElementById("scroll-content");
+    lenis =
+      wrapper && content
+        ? new Lenis({ wrapper, content, autoRaf: true })
+        : undefined;
+    lenisStore.set(lenis ?? null);
   });
 </script>
