@@ -2,8 +2,8 @@
   // @ts-ignore
   import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
   import Thumbnail from "./Thumbnail.svelte";
-  import { currentPage, cachedDays } from "libs/stores";
-  import { onDestroy, onMount } from "svelte";
+  import { currentPage, cachedDays, lastShowedDayId } from "libs/stores";
+  import { onDestroy, onMount, tick } from "svelte";
   import { fade } from "svelte/transition";
   import { createObserver } from "libs/intersectionObserver";
   import type { GetDays, GridGalleryProps } from "types/index";
@@ -36,9 +36,22 @@
     observer.observe(e);
   };
 
-  onMount(() => {
-    if (!isInitialLoad) return;
-    fetchItems($currentPage);
+  onMount(async () => {
+    if (isInitialLoad) await fetchItems($currentPage);
+
+    // Reopened from a day page: bring that thumbnail back into view,
+    // centred. tick() ensures the grid DOM reflects cachedDays first;
+    // a native scroll is adopted by Lenis (desktop) / the document
+    // scroll (mobile) once the page settles.
+    await tick();
+    const lastId = lastShowedDayId.get();
+    if (lastId) {
+      document.querySelector(`a[href$="/days/${lastId}"]`)?.scrollIntoView({
+        behavior: "instant",
+        block: "center",
+        inline: "nearest",
+      });
+    }
   });
 
   onDestroy(() => {

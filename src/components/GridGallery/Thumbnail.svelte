@@ -1,26 +1,13 @@
 <script lang="ts">
-  import { lastShowedDayId, lenisStore } from "libs/stores";
-  import type { Action } from "svelte/action";
+  import { lastShowedDayId } from "libs/stores";
   import type { Day } from "types/index";
 
   const { image, publishedAt, featured, id, localePrefix }: Day & {
     localePrefix: string;
   } = $props();
+  // Highlights the thumbnail the visitor last opened as a day page.
+  // The scroll-back-into-view is handled in GridGallery on mount.
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
-
-  const handleScroll: Action<HTMLElement> = (e) => {
-    if (!isLastShowedBySinglePage) return;
-    // Lenis (when active) owns the scroll position, so a native
-    // scrollIntoView would be overridden on its next frame.
-    const lenis = lenisStore.get();
-    if (lenis) {
-      const wrapper = document.getElementById("scroll-container");
-      const offset = wrapper ? -(wrapper.clientHeight - e.offsetHeight) / 2 : 0;
-      lenis.scrollTo(e, { offset });
-    } else {
-      e.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
-    }
-  };
 </script>
 
 <a
@@ -30,7 +17,6 @@
     "col-span-2 row-span-2": featured,
   }}
   style={`view-transition-name: days_${id}_container`}
-  use:handleScroll
 >
   <img
     src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}
