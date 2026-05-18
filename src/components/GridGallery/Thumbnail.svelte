@@ -4,21 +4,7 @@
   import type { Day } from "types/index";
 
   const { image, date, featured, id }: Day = $props();
-  let isLoading = $state(false);
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
-
-  const onload: Action<HTMLImageElement> = (e) => {
-    const handleImageLoad = () => {
-      isLoading = false;
-      e.removeEventListener("load", handleImageLoad);
-    };
-    isLoading = true;
-    if (e.complete) {
-      isLoading = false;
-      return;
-    }
-    e.addEventListener("load", handleImageLoad);
-  };
 
   const handleScroll: Action<HTMLElement> = (e) => {
     if (!isLastShowedBySinglePage) return;
@@ -48,11 +34,9 @@
     src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}
     alt={date}
     class={{
-      "h-full w-full object-cover transition-opacity duration-700": true,
-      "opacity-0": isLoading,
+      "h-full w-full object-cover": true,
       "animate-pulse": isLastShowedBySinglePage,
     }}
-    use:onload
   /></a
 >
 

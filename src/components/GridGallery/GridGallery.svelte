@@ -4,6 +4,7 @@
   import Thumbnail from "./Thumbnail.svelte";
   import { currentPage, cachedDays } from "libs/stores";
   import { onDestroy, onMount } from "svelte";
+  import { fade } from "svelte/transition";
   import { createObserver } from "libs/intersectionObserver";
   import type { GetDays, GridGalleryProps } from "types/index";
   import type { Action } from "svelte/action";
@@ -47,6 +48,18 @@
   });
 </script>
 
+{#if isInitialLoad}
+  <!-- Covers the screen from first paint until the grid data is ready. -->
+  <div
+    class="dark:bg-inky fixed inset-0 z-50 flex items-center justify-center bg-white"
+    out:fade={{ duration: 400 }}
+  >
+    <div
+      class="size-6 animate-spin rounded-full border-2 border-current border-t-transparent opacity-60"
+    ></div>
+  </div>
+{/if}
+
 <div class="grid grid-cols-7 lg:grid-cols-11">
   <ul
     class="col-span-7 grid auto-rows-[4rem] grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-1 md:grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] lg:col-span-10"
@@ -54,7 +67,10 @@
     {#each $cachedDays as item, i}
       {@const year = getYearFromDate(item.date)}
       {@const isLastItem = i === $cachedDays.length - 1}
-      <li>
+      <!-- Per-item random delay (a {@const}, so it is evaluated once per
+           row rather than hoisted) gives a staggered fade-in. -->
+      {@const fadeDelay = Math.random() * 1200}
+      <li in:fade={{ delay: fadeDelay, duration: 500 }}>
         <Thumbnail {...item} />
       </li>
       {#if isLastItem || (i < $cachedDays.length - 1 && year !== getYearFromDate($cachedDays[i + 1].date))}
