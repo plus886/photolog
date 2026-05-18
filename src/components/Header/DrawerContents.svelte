@@ -8,7 +8,7 @@
   import { useTranslations, type Locale } from "i18n/utils";
 
   let { locale, switchUrl }: { locale: Locale; switchUrl: string } = $props();
-  const t = useTranslations(locale);
+  const t = $derived(useTranslations(locale));
 </script>
 
 <div
