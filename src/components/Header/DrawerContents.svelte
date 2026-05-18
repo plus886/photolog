@@ -3,6 +3,8 @@
   import IconSun from "~icons/material-symbols-light/wb-sunny-outline-rounded";
   // @ts-ignore
   import IconMoon from "~icons/material-symbols-light/moon-stars-outline-rounded";
+  // @ts-ignore
+  import IconTranslate from "~icons/material-symbols-light/translate";
   import { fade } from "svelte/transition";
   import { theme } from "libs/stores";
   import { useTranslations, type Locale } from "i18n/utils";
@@ -30,10 +32,11 @@
         </button>
         <a
           href={switchUrl}
-          class="cursor-pointer p-4 text-sm no-underline transition-transform hover:scale-90 md:p-2"
+          aria-label={t("lang.switch")}
+          class="cursor-pointer p-4 no-underline transition-transform hover:scale-90 md:p-2"
           transition:fade={{ duration: 200, delay: 100 }}
         >
-          {t("lang.switch")}
+          <IconTranslate class="animate-wiggle text-xl md:text-2xl" />
         </a>
       {/if}
     </div>
@@ -81,10 +84,11 @@
         </button>
         <a
           href={switchUrl}
-          class="cursor-pointer p-4 text-sm no-underline transition-transform hover:scale-90 md:p-2"
+          aria-label={t("lang.switch")}
+          class="cursor-pointer p-4 no-underline transition-transform hover:scale-90 md:p-2"
           transition:fade={{ duration: 200, delay: 100 }}
         >
-          {t("lang.switch")}
+          <IconTranslate class="animate-wiggle text-xl md:text-2xl" />
         </a>
       {/if}
     </div>
@@ -101,9 +105,10 @@
       </button>
       <a
         href={switchUrl}
-        class="cursor-pointer p-4 text-sm no-underline transition-transform hover:scale-90 md:p-2"
+        aria-label={t("lang.switch")}
+        class="cursor-pointer p-4 no-underline transition-transform hover:scale-90 md:p-2"
       >
-        {t("lang.switch")}
+        <IconTranslate class="animate-wiggle text-xl md:text-2xl" />
       </a>
     </div>
   </div>
