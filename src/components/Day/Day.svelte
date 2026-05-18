@@ -1,7 +1,7 @@
 <script lang="ts">
   import Navigation from "./Navigation.svelte";
   import Image from "./Image.svelte";
-  import Date from "./Date.svelte";
+  import Passage from "./Passage.svelte";
   import DaySpacer from "./Spacer.svelte";
   import DayCaption from "./Caption.svelte";
   import type { DayProps } from "types/index";
@@ -23,4 +23,4 @@
   <Image {...item} />
   <DayCaption camera={item.camera} lens={item.lens} />
 </figure>
-<Date date={item.date} />
+<Passage />
