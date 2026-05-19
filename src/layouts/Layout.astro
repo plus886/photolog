@@ -79,14 +79,6 @@ const {
         </div>
       </div>
     </div>
-    <!-- Loading overlay shown while a navigation is being prepared. -->
-    <div
-      id="nav-loader"
-      class="dark:bg-inky fixed inset-0 z-50 flex items-center justify-center bg-white"
-      hidden
-    >
-      <div class="spinner"></div>
-    </div>
   </body>
 </html>
 
@@ -128,23 +120,4 @@ const {
         : undefined;
     lenisStore.set(lenis ?? null);
   });
-
-  // Navigation loading overlay: reveal the spinner only when the next
-  // page takes a noticeable moment to prepare (SSR day pages), so fast
-  // prerendered navigations never just flash it. It is hidden again as
-  // soon as preparation ends, before the view transition runs.
-  let navLoaderTimer: ReturnType<typeof setTimeout>;
-  const hideNavLoader = () => {
-    clearTimeout(navLoaderTimer);
-    document.getElementById("nav-loader")?.setAttribute("hidden", "");
-  };
-  document.addEventListener("astro:before-preparation", () => {
-    clearTimeout(navLoaderTimer);
-    navLoaderTimer = setTimeout(
-      () => document.getElementById("nav-loader")?.removeAttribute("hidden"),
-      150,
-    );
-  });
-  document.addEventListener("astro:after-preparation", hideNavLoader);
-  document.addEventListener("astro:page-load", hideNavLoader);
 </script>
