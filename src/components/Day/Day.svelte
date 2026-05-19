@@ -32,7 +32,7 @@
   <DayImage {...item} />
   <DayCaption camera={item.camera} lens={item.lens} />
 </figure>
-<Passage {passage} {locale} class="py-16 md:order-3 md:py-0" />
+<Passage {passage} {locale} class="pt-6 pb-16 md:order-3 md:pt-0 md:pb-0" />
 <nav class="self-center md:order-1">
   <Navigation {prevPost} {nextPost} {localePrefix} />
 </nav>
