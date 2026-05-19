@@ -8,6 +8,16 @@
   // Highlights the thumbnail the visitor last opened as a day page.
   // The scroll-back-into-view is handled in GridGallery on mount.
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
+
+  // Preload the full-size photo when the visitor is about to open the
+  // day page (the page HTML itself is hover-prefetched by Astro), so
+  // the morph transition lands on an already-loaded image.
+  let detailPreloaded = false;
+  const preloadDetailImage = () => {
+    if (detailPreloaded) return;
+    detailPreloaded = true;
+    new Image().src = `${image.url}?w=1024`;
+  };
 </script>
 
 <a
@@ -17,6 +27,8 @@
     "col-span-2 row-span-2": featured,
   }}
   style={`view-transition-name: days_${id}_container`}
+  onmouseenter={preloadDetailImage}
+  onpointerdown={preloadDetailImage}
 >
   <img
     src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}

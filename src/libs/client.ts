@@ -42,7 +42,9 @@ export const getAdjacentDays = async (publishedAt: string) => {
   const neighbor = (filters: string, orders: string) =>
     client.getList<Day>({
       endpoint: "days",
-      queries: { filters, orders, limit: 1, fields: ["id"] },
+      // `image` is included so the detail page can preload the
+      // adjacent photos and make next/prev navigation instant.
+      queries: { filters, orders, limit: 1, fields: ["id", "image"] },
     });
   const [newer, older] = await Promise.all([
     neighbor(`publishedAt[greater_than]${publishedAt}`, "publishedAt"),

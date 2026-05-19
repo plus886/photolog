@@ -16,6 +16,10 @@ export default defineConfig({
   integrations: [svelte()],
   site: "https://photo.kokaiji.tw",
 
+  // Hover-prefetch every internal link so opening a day page feels
+  // instant (the view-transition morph then plays without a spinner).
+  prefetch: { prefetchAll: true },
+
   i18n: {
     defaultLocale: "ja",
     locales: ["ja", "zh"],
