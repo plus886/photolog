@@ -89,10 +89,17 @@ const {
   const applyTheme = (v: string) =>
     document.documentElement.classList.toggle("dark", v === "dark");
 
-  // View Transitions reset the <html> class on swap, so re-apply once
-  // after each swap rather than re-subscribing (which would leak).
+  // Apply the theme on user toggles. A view-transition swap copies the
+  // incoming SSR <html> (which has no `.dark`), so also set it on that
+  // document *before* the swap — otherwise the new page paints light
+  // for a frame and the colour transition visibly flickers it dark.
   theme.subscribe(applyTheme);
-  document.addEventListener("astro:after-swap", () => applyTheme(theme.get()));
+  document.addEventListener("astro:before-swap", (event) => {
+    event.newDocument.documentElement.classList.toggle(
+      "dark",
+      theme.get() === "dark",
+    );
+  });
 
   // #layout is recreated on each navigation; query it fresh inside the
   // callback so a single subscription always targets the current element.
