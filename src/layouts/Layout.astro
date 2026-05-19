@@ -58,10 +58,17 @@ const {
     <title>{title}</title>
     <script is:inline>
       (() => {
+        // Theme first — before the locale check below. A mismatched
+        // locale triggers a redirect, but the source page can still
+        // paint during it, so it must already carry the right theme.
+        const isDark = localStorage.getItem("theme") === "dark";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+
         // Explicit /zh/ URLs are shown as-is so shared links keep their
         // language. Only the prefix-less default URLs auto-route to the
         // visitor's preferred locale — a saved choice, else the browser
-        // language — before the page paints.
+        // language.
         const path = location.pathname;
         if (!/^\/zh(?=\/|$)/.test(path)) {
           const saved = localStorage.getItem("locale");
@@ -73,14 +80,8 @@ const {
                 : "ja";
           if (preferred === "zh") {
             location.replace("/zh" + path + location.search + location.hash);
-            return;
           }
         }
-
-        // Theme: apply before paint to avoid a flash.
-        const isDark = localStorage.getItem("theme") === "dark";
-        document.documentElement.classList.toggle("dark", isDark);
-        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
       })();
     </script>
     <ClientRouter />
