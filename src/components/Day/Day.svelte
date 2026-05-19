@@ -1,6 +1,6 @@
 <script lang="ts">
   import Navigation from "./Navigation.svelte";
-  import Image from "./Image.svelte";
+  import DayImage from "./Image.svelte";
   import Passage from "./Passage.svelte";
   import DaySpacer from "./Spacer.svelte";
   import DayCaption from "./Caption.svelte";
@@ -30,7 +30,7 @@
 </nav>
 <figure class="flex flex-col items-center justify-center">
   <DaySpacer />
-  <Image {...item} />
+  <DayImage {...item} />
   <DayCaption camera={item.camera} lens={item.lens} />
 </figure>
 <Passage {passage} {locale} />
