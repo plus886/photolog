@@ -94,30 +94,3 @@
     {/each}
   </ul>
 </div>
-
-<style>
-  /* Gradient-ring spinner: the transparent border reveals the border-box
-     gradient; the padding-box layer (--fill = the loader background) masks
-     the gradient inside, leaving just the ring. */
-  .spinner {
-    --fill: #ffffff;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    background:
-      linear-gradient(var(--fill), var(--fill)) padding-box,
-      linear-gradient(45deg, #e4e4e7, #3f3f46) border-box;
-    animation: spinner-spin 1.2s linear infinite;
-  }
-
-  :global(.dark) .spinner {
-    --fill: var(--color-inky);
-  }
-
-  @keyframes spinner-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style>
