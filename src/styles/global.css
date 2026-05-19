@@ -17,6 +17,14 @@
   color-scheme: dark;
 }
 
+/* Suppress transitions during the initial load: the body element is
+   parsed before its stylesheet arrives, so applying `transition-colors`
+   together with `bg-white` would otherwise animate background-color
+   from transparent to white. Removed on astro:page-load. */
+.no-transition * {
+  transition: none !important;
+}
+
 @layer base {
   a {
     text-decoration: underline;

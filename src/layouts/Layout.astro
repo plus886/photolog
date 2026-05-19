@@ -36,7 +36,7 @@ const {
 ---
 
 <!doctype html>
-<html lang={htmlLang}>
+<html lang={htmlLang} class="no-transition" style="color-scheme: light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -144,6 +144,9 @@ const {
   let lenis: Lenis | undefined;
   document.addEventListener("astro:page-load", () => {
     if (isDrawerOpen.get()) isDrawerOpen.set(false);
+    // The page has settled — re-enable transitions (suppressed during
+    // load so the colour transition doesn't fire as the CSS applies).
+    document.documentElement.classList.remove("no-transition");
 
     lenis?.destroy();
     const wrapper = document.getElementById("scroll-container");
