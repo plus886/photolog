@@ -6,7 +6,6 @@ import Header from "components/Header";
 import "@fontsource/shippori-mincho-b1";
 import "@fontsource/cactus-classical-serif";
 import "@fontsource/hina-mincho";
-import { getDays } from "libs/client";
 import { getAbsoluteLocaleUrl } from "astro:i18n";
 import { resolveLocale, useTranslations } from "i18n/utils";
 
@@ -25,14 +24,16 @@ const pathNoLocale = Astro.url.pathname.replace(/^\/zh(?=\/|$)/, "") || "/";
 const jaHref = getAbsoluteLocaleUrl("ja", pathNoLocale);
 const zhHref = getAbsoluteLocaleUrl("zh", pathNoLocale);
 
-const response = await getDays({ limit: 1 });
-const latestItem = response.contents[0];
-
 const {
   title = "翳光臺灣 | Formosa Chiaroscuro",
   description = t("meta.description"),
-  thumbnail = latestItem.image.url,
+  thumbnail,
 }: Props = Astro.props;
+
+// Detail pages pass a photo; every other page uses the static OGP card.
+const ogImage = thumbnail
+  ? `${thumbnail}?w=1200&h=630&fit=crop`
+  : new URL("/og-image.png", Astro.site).href;
 ---
 
 <!doctype html>
@@ -46,7 +47,7 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${thumbnail}?w=1200&h=630&fit=crop`} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={Astro.request.url} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@plus886" />
