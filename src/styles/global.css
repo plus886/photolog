@@ -8,6 +8,15 @@
   font-display: swap;
 }
 
+/* Match the browser canvas and native controls to the site theme, so
+   a cold load never paints the OS scheme before the page styles do. */
+:root {
+  color-scheme: light;
+}
+:root.dark {
+  color-scheme: dark;
+}
+
 @layer base {
   a {
     text-decoration: underline;

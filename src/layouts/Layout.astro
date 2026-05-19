@@ -57,8 +57,9 @@ const {
     <link rel="alternate" hreflang="x-default" href={jaHref} />
     <title>{title}</title>
     <script is:inline>
-      const lastTheme = localStorage.getItem("theme");
-      document.documentElement.classList.toggle("dark", lastTheme === "dark");
+      const isDark = localStorage.getItem("theme") === "dark";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.style.colorScheme = isDark ? "dark" : "light";
     </script>
     <ClientRouter />
   </head>
@@ -86,8 +87,11 @@ const {
   import Lenis from "lenis";
   import { isDrawerOpen, theme, lenisStore } from "libs/stores";
 
-  const applyTheme = (v: string) =>
-    document.documentElement.classList.toggle("dark", v === "dark");
+  const applyTheme = (v: string) => {
+    const dark = v === "dark";
+    document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.style.colorScheme = dark ? "dark" : "light";
+  };
 
   // Apply the theme on user toggles. A view-transition swap copies the
   // incoming SSR <html> (which has no `.dark`), so also set it on that
@@ -95,10 +99,10 @@ const {
   // for a frame and the colour transition visibly flickers it dark.
   theme.subscribe(applyTheme);
   document.addEventListener("astro:before-swap", (event) => {
-    event.newDocument.documentElement.classList.toggle(
-      "dark",
-      theme.get() === "dark",
-    );
+    const dark = theme.get() === "dark";
+    const root = event.newDocument.documentElement;
+    root.classList.toggle("dark", dark);
+    root.style.colorScheme = dark ? "dark" : "light";
   });
 
   // #layout is recreated on each navigation; query it fresh inside the
