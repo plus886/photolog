@@ -21,9 +21,14 @@
       !$isDrawerOpen,
   }}
 >
-  <div class="flex items-center justify-between gap-4 md:h-dvh md:flex-col">
+  <!-- Mobile: a 3-column grid with equal side columns keeps the menu
+       button at the true centre regardless of the logo / switcher
+       widths. Desktop: the vertical rail (flex column). -->
+  <div
+    class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center md:flex md:h-dvh md:flex-col md:justify-between md:gap-4"
+  >
     <h1
-      class="font-cactus px-6 text-lg tracking-[0.5em] text-nowrap md:px-12 md:text-xl md:tracking-[1em] md:[writing-mode:vertical-lr]"
+      class="font-cactus justify-self-start px-6 text-lg tracking-[0.5em] text-nowrap md:px-12 md:text-xl md:tracking-[1em] md:[writing-mode:vertical-lr]"
     >
       <a href={`${localePrefix}/`} class="no-underline hover:animate-pulse"
         >翳光臺灣</a
@@ -35,7 +40,7 @@
          rail's bottom slot so the menu button keeps the dead-centre. -->
     <nav
       aria-label="Language"
-      class="font-serif flex items-center gap-2 pr-6 text-xs tracking-wide whitespace-nowrap md:px-12 md:pr-0 md:[writing-mode:vertical-lr]"
+      class="font-serif flex items-center justify-self-end gap-2 pr-6 text-xs tracking-wide whitespace-nowrap md:px-12 md:pr-0 md:[writing-mode:vertical-lr]"
     >
       {#each locales as loc, i}
         {#if i > 0}
