@@ -17,11 +17,11 @@ const title = `翳光臺灣 | ${item.id}`;
 ---
 
 <Layout title={title} thumbnail={item.image.url}>
-  <!-- Mobile: the passage row is `auto` so a long single-column tanka
-       extends below the photo (the page grows tall) instead of
-       overlapping it. The photo row keeps its prior 55dvh size. -->
+  <!-- Mobile stacks photo / passage / controls; the passage row is
+       `auto` so a long single-column tanka just makes the page taller.
+       Day.svelte's md:order-* restores the desktop column layout. -->
   <section
-    class="grid min-h-[90dvh] grid-rows-[10dvh_55dvh_auto] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
+    class="grid min-h-[90dvh] grid-rows-[55dvh_auto_10dvh] items-center justify-center md:h-dvh md:grid-cols-[1fr_3fr_2fr] md:grid-rows-1"
   >
     <Day
       item={item}

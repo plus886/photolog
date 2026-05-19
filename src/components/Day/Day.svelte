@@ -25,12 +25,14 @@
   });
 </script>
 
-<nav class="self-center">
-  <Navigation {prevPost} {nextPost} {localePrefix} />
-</nav>
-<figure class="flex flex-col items-center justify-center">
+<!-- DOM order is photo / passage / controls — the mobile stacking
+     order. md:order-* restores the desktop columns (controls left). -->
+<figure class="flex flex-col items-center justify-center md:order-2">
   <DaySpacer />
   <DayImage {...item} />
   <DayCaption camera={item.camera} lens={item.lens} />
 </figure>
-<Passage {passage} {locale} />
+<Passage {passage} {locale} class="py-16 md:order-3 md:py-0" />
+<nav class="self-center md:order-1">
+  <Navigation {prevPost} {nextPost} {localePrefix} />
+</nav>

@@ -4,10 +4,14 @@
   // Per-locale passage text, resolved upstream from the microCMS
   // `passageJa` / `passageZh` fields. Empty until filled in microCMS.
   // ja uses Hina Mincho; zh uses Cactus Classical Serif (the logo face).
-  let { passage, locale }: { passage?: string; locale: Locale } = $props();
+  let {
+    passage,
+    locale,
+    class: className,
+  }: { passage?: string; locale: Locale; class?: string } = $props();
 </script>
 
-<div class="flex h-full items-center justify-center">
+<div class={["flex h-full items-center justify-center", className]}>
   {#if passage}
     <p
       class={[
