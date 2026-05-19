@@ -47,6 +47,7 @@
           <a
             href={switchUrl}
             hreflang={loc}
+            onclick={() => localStorage.setItem("locale", loc)}
             class="no-underline hover:animate-pulse">{localeNames[loc]}</a
           >
         {/if}

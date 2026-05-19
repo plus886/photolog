@@ -57,9 +57,37 @@ const {
     <link rel="alternate" hreflang="x-default" href={jaHref} />
     <title>{title}</title>
     <script is:inline>
-      const isDark = localStorage.getItem("theme") === "dark";
-      document.documentElement.classList.toggle("dark", isDark);
-      document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+      (() => {
+        // Send the visitor to their preferred locale — a saved choice,
+        // otherwise their browser language. Runs before render so the
+        // wrong-language page never paints.
+        const path = location.pathname;
+        const onZh = /^\/zh(?=\/|$)/.test(path);
+        const saved = localStorage.getItem("locale");
+        const preferred =
+          saved === "ja" || saved === "zh"
+            ? saved
+            : (navigator.language || "").toLowerCase().startsWith("zh")
+              ? "zh"
+              : "ja";
+        if (preferred === "zh" && !onZh) {
+          location.replace("/zh" + path + location.search + location.hash);
+          return;
+        }
+        if (preferred === "ja" && onZh) {
+          location.replace(
+            (path.replace(/^\/zh(?=\/|$)/, "") || "/") +
+              location.search +
+              location.hash,
+          );
+          return;
+        }
+
+        // Theme: apply before paint to avoid a flash.
+        const isDark = localStorage.getItem("theme") === "dark";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+      })();
     </script>
     <ClientRouter />
   </head>
