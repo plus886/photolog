@@ -16,7 +16,11 @@ const passage = locale === "zh" ? item.passageZh : item.passageJa;
 const title = `翳光臺灣 | ${item.id}`;
 ---
 
-<Layout title={title} thumbnail={item.image.url}>
+<Layout
+  title={title}
+  thumbnail={item.image.url}
+  description={passage || undefined}
+>
   <!-- Mobile stacks photo / passage / controls; the passage row is
        `auto` so a long single-column tanka just makes the page taller.
        Day.svelte's md:order-* restores the desktop column layout. -->
