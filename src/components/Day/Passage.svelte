@@ -15,7 +15,7 @@
   {#if passage}
     <p
       class={[
-        "text-sm leading-8 tracking-[0.15em] whitespace-pre [writing-mode:vertical-rl]",
+        "leading-8 tracking-[0.15em] whitespace-pre [writing-mode:vertical-rl] md:text-sm",
         locale === "zh" ? "font-cactus" : "font-hina",
       ]}
     >
