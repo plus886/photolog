@@ -5,7 +5,7 @@ export const defaultLocale: Locale = "ja";
 // Each locale's endonym, shown in the header language switcher.
 export const localeNames: Record<Locale, string> = {
   ja: "日本語",
-  zh: "中文",
+  zh: "華語",
 };
 
 // UI string dictionary. `zh` prose (intro, quote) is a first-pass
