@@ -14,11 +14,18 @@ const locale = resolveLocale(Astro.currentLocale);
 const localePrefix = locale === "zh" ? "/zh" : "";
 const passage = locale === "zh" ? item.passageZh : item.passageJa;
 const title = `翳光臺灣 | ${item.id}`;
+
+// Dynamically-generated OG card (photo + dark mask + passage).
+const ogImage = new URL(
+  `/og/${item.id}.png${locale === "zh" ? "?lang=zh" : ""}`,
+  Astro.site,
+).href;
 ---
 
 <Layout
   title={title}
   thumbnail={item.image.url}
+  ogImage={ogImage}
   description={passage || undefined}
 >
   <!-- Mobile stacks photo / passage / controls; the passage row is

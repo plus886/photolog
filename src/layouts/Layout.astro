@@ -13,6 +13,7 @@ export interface Props {
   title?: string;
   description?: string;
   thumbnail?: string;
+  ogImage?: string;
 }
 
 const locale = resolveLocale(Astro.currentLocale);
@@ -28,12 +29,16 @@ const {
   title = "翳光臺灣 | Formosa Chiaroscuro",
   description = t("meta.description"),
   thumbnail,
+  ogImage: ogImageProp,
 }: Props = Astro.props;
 
-// Detail pages pass a photo; every other page uses the static OGP card.
-const ogImage = thumbnail
-  ? `${thumbnail}?w=1200&h=630&fit=crop`
-  : new URL("/og-image.png", Astro.site).href;
+// Day pages pass a generated OG card (ogImage); other pages fall back to
+// the resized photo (if any) or the static OGP card.
+const ogImage =
+  ogImageProp ??
+  (thumbnail
+    ? `${thumbnail}?w=1200&h=630&fit=crop`
+    : new URL("/og-image.png", Astro.site).href);
 ---
 
 <!doctype html>
@@ -48,6 +53,8 @@ const ogImage = thumbnail
     <meta property="og:type" content="website" />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content={Astro.request.url} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@plus886" />
