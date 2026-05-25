@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { getDayDetail } from "libs/client";
-import { SSR_CACHE_CONTROL } from "libs/cache";
+import { OG_CACHE_CONTROL } from "libs/cache";
 import { renderOgImage } from "libs/og";
 
 export const prerender = false;
@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ params, url }) => {
       status: 200,
       headers: {
         "Content-Type": "image/jpeg",
-        "Cache-Control": SSR_CACHE_CONTROL,
+        "Cache-Control": OG_CACHE_CONTROL,
       },
     });
   } catch {
