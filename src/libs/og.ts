@@ -1,7 +1,11 @@
 import { ImageResponse, loadGoogleFont } from "workers-og";
+import { PhotonImage } from "@cf-wasm/photon";
 
 const W = 1200;
 const H = 630;
+// JPEG quality for the final card. Photographic backgrounds make a PNG
+// huge (>900KB); JPEG keeps it well under WhatsApp's 600KB OG limit.
+const JPEG_QUALITY = 82;
 
 // OG card fonts mirror the on-site passage faces (ja = Hina Mincho,
 // zh = Cactus Classical Serif); both are on Google Fonts.
@@ -23,7 +27,8 @@ function fitFontSize(passage: string): number {
 
 /**
  * Renders the day's OG card: the photo darkened by a black mask, with the
- * passage centred in white mincho. Returns PNG bytes.
+ * passage centred in white mincho. Returns JPEG bytes (Satori → PNG via
+ * resvg, then transcoded to JPEG so the photographic card stays small).
  */
 export async function renderOgImage({
   photoUrl,
@@ -33,7 +38,7 @@ export async function renderOgImage({
   photoUrl: string;
   passage: string;
   lang: "ja" | "zh";
-}): Promise<ArrayBuffer> {
+}): Promise<Uint8Array<ArrayBuffer>> {
   const family = FONT_FAMILY[lang];
   // Fetch a glyph subset of the family for exactly this text (TTF, since
   // Satori can't parse woff2 — loadGoogleFont sends a compatible UA).
@@ -113,5 +118,14 @@ export async function renderOgImage({
     height: H,
     fonts: [{ name: family, data: fontData, weight: 400, style: "normal" }],
   });
-  return res.arrayBuffer();
+  const png = new Uint8Array(await res.arrayBuffer());
+
+  const img = PhotonImage.new_from_byteslice(png);
+  try {
+    // Copy out of WASM memory before free(); the copy is also backed by a
+    // plain ArrayBuffer, which Response's BodyInit accepts.
+    return new Uint8Array(img.get_bytes_jpeg(JPEG_QUALITY));
+  } finally {
+    img.free();
+  }
 }

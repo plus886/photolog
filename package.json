@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.1",
     "@astrojs/svelte": "^8.1.1",
+    "@cf-wasm/photon": "^0.3.5",
     "@fontsource/cactus-classical-serif": "^5.2.14",
     "@fontsource/hina-mincho": "^5.2.8",
     "@fontsource/shippori-mincho-b1": "^5.2.8",

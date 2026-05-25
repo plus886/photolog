@@ -19,11 +19,11 @@ export const GET: APIRoute = async ({ params, url }) => {
   const photoUrl = item.image.url;
 
   try {
-    const png = await renderOgImage({ photoUrl, passage, lang });
-    return new Response(png, {
+    const jpeg = await renderOgImage({ photoUrl, passage, lang });
+    return new Response(jpeg, {
       status: 200,
       headers: {
-        "Content-Type": "image/png",
+        "Content-Type": "image/jpeg",
         "Cache-Control": SSR_CACHE_CONTROL,
       },
     });

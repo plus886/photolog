@@ -17,7 +17,7 @@ const title = `翳光臺灣 | ${item.id}`;
 
 // Dynamically-generated OG card (photo + dark mask + passage).
 const ogImage = new URL(
-  `/og/${item.id}.png${locale === "zh" ? "?lang=zh" : ""}`,
+  `/og/${item.id}.jpg${locale === "zh" ? "?lang=zh" : ""}`,
   Astro.site,
 ).href;
 ---
