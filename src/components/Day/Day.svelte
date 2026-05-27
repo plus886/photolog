@@ -34,5 +34,10 @@
 </figure>
 <Passage {passage} {locale} class="pt-10 pb-16 md:order-3 md:pt-0 md:pb-0" />
 <nav class="self-center md:order-1">
-  <Navigation {prevPost} {nextPost} {localePrefix} />
+  <Navigation
+    {prevPost}
+    {nextPost}
+    {localePrefix}
+    currentId={item.id}
+  />
 </nav>

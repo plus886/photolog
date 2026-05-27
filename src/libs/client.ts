@@ -60,6 +60,19 @@ export const getAllDayIds = async () => {
   return client.getAllContentIds({ endpoint: "days" });
 };
 
+export type DayPeek = { id: string; imageUrl: string };
+
+// Random ボタン用のミニマルなリスト：id と写真 URL だけ全件分。
+// ページロード時に飛び先を 1 件選んで HTML と写真をプリフェッチするのに
+// 使う。`image` だけに絞ることで全件取得でも転送量を小さく保てる。
+export const getAllDayPeeks = async (): Promise<DayPeek[]> => {
+  const items = await client.getAllContents<Pick<Day, "image">>({
+    endpoint: "days",
+    queries: { fields: ["id", "image"] },
+  });
+  return items.map(({ id, image }) => ({ id, imageUrl: image.url }));
+};
+
 export const getDayDetail = async (
   contentId: string,
   queries?: MicroCMSQueries,

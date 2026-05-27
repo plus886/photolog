@@ -11,18 +11,46 @@
   import IconReload from "~icons/material-symbols-light/autorenew-rounded";
   import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
+  import { prefetch } from "astro:prefetch";
   import hotkeys from "hotkeys-js";
   import type { DayProps } from "types/index";
+  import type { DayPeek } from "libs/client";
 
-  type Props = Pick<DayProps, "nextPost" | "prevPost" | "localePrefix">;
+  type Props = Pick<DayProps, "nextPost" | "prevPost" | "localePrefix"> & {
+    currentId: string;
+  };
 
-  let { nextPost, prevPost, localePrefix }: Props = $props();
+  let { nextPost, prevPost, localePrefix, currentId }: Props = $props();
   let isRandomizing = $state(false);
+  // onMount で 1 件決めて HTML と写真を温めておく。クリック時は
+  // navigate() を呼ぶだけになり、Random ボタンが next/prev と同じ
+  // ように即座に遷移する。
+  let randomTargetId: string | null = null;
+  let randomReady: Promise<string | null> | null = null;
   const nextId = nextPost && nextPost.id;
   const prevId = prevPost && prevPost.id;
 
+  const prepareRandom = async (): Promise<string | null> => {
+    try {
+      const res = await fetch("/api/day/random.json");
+      const peeks: DayPeek[] = await res.json();
+      // 今いるページ自身は除外（選んでも遷移が起きず無反応に見える）。
+      const pool = peeks.filter((p) => p.id !== currentId);
+      if (pool.length === 0) return null;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      // next/prev と同じ温め方：HTML と原寸近い写真の両方を先に取る。
+      prefetch(`${localePrefix}/days/${pick.id}`);
+      new Image().src = `${pick.imageUrl}?w=1024`;
+      randomTargetId = pick.id;
+      return pick.id;
+    } catch {
+      return null;
+    }
+  };
+
   onMount(() => {
     isRandomizing = false;
+    randomReady = prepareRandom();
     hotkeys("left", () => {
       if (!nextId) return;
       navigate(`${localePrefix}/days/${nextId}`);
@@ -46,11 +74,26 @@
 
   const randomize = async () => {
     isRandomizing = true;
-    const res = await fetch("/api/day/random.json");
-    const ids: string[] = await res.json();
-    navigate(
-      `${localePrefix}/days/${ids[Math.floor(Math.random() * ids.length)]}`,
-    );
+    // 事前準備が間に合っていればそれを使う。まだ in-flight なら待つ。
+    // それでも取れなければ最終手段としてもう一度 fetch する。
+    let target =
+      randomTargetId ?? (randomReady ? await randomReady : null);
+    if (!target) {
+      try {
+        const res = await fetch("/api/day/random.json");
+        const peeks: DayPeek[] = await res.json();
+        const pool = peeks.filter((p) => p.id !== currentId);
+        target =
+          pool[Math.floor(Math.random() * pool.length)]?.id ?? null;
+      } catch {
+        // give up
+      }
+    }
+    if (!target) {
+      isRandomizing = false;
+      return;
+    }
+    navigate(`${localePrefix}/days/${target}`);
   };
 </script>
 
