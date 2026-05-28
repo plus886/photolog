@@ -60,12 +60,16 @@
   }
   .on {
     /* All four lit cells share the same clock so they reset together
-       at each iteration boundary. step-end gives a crisp snap at the
-       cell's threshold rather than a fade. */
+       at each iteration boundary. The keyframes carry a short
+       (≈0.14s) fade-in window leading up to each cell's threshold;
+       outside that window linear interpolation is a no-op because
+       the surrounding stops carry the same value. The iteration
+       boundary (100% → next 0%) is still an instant snap — no time
+       passes between iterations, so all four cells reset together. */
     background-color: var(--off);
     animation-duration: 1.4s;
     animation-iteration-count: infinite;
-    animation-timing-function: step-end;
+    animation-timing-function: linear;
   }
   .on-0 {
     animation-name: light-up-0;
@@ -80,13 +84,14 @@
     animation-name: light-up-3;
   }
 
-  /* Each cell flips on at its own threshold (20/40/60/80%) and holds
-     until 100%. step-end + the (--off → --on) jump means the value
-     stays at --off through the segment and snaps to --on at the stop.
-     At iteration boundary (100% → next 0%) all four snap back to --off
-     together — that's the "reset to all-black" frame. */
+  /* Each cell stays at --off through most of the cycle, then fades to
+     --on over a short ≈0.14s window (10% of the 1.4s cycle) ending at
+     its threshold (20/40/60/80%). Holds --on until 100%, and the
+     iteration boundary instantly returns to --off so all four reset
+     together. */
   @keyframes light-up-0 {
-    0% {
+    0%,
+    10% {
       background-color: var(--off);
     }
     20%,
@@ -95,7 +100,8 @@
     }
   }
   @keyframes light-up-1 {
-    0% {
+    0%,
+    30% {
       background-color: var(--off);
     }
     40%,
@@ -104,7 +110,8 @@
     }
   }
   @keyframes light-up-2 {
-    0% {
+    0%,
+    50% {
       background-color: var(--off);
     }
     60%,
@@ -113,7 +120,8 @@
     }
   }
   @keyframes light-up-3 {
-    0% {
+    0%,
+    70% {
       background-color: var(--off);
     }
     80%,
