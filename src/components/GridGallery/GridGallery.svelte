@@ -1,6 +1,7 @@
 <script lang="ts">
   // @ts-ignore
   import IconLeft from "~icons/material-symbols-light/arrow-left-rounded";
+  import Spinner from "../Spinner.svelte";
   import Thumbnail from "./Thumbnail.svelte";
   import { currentPage, cachedDays, lastShowedDayId } from "libs/stores";
   import { onDestroy, onMount, tick } from "svelte";
@@ -65,7 +66,7 @@
     class="dark:bg-inky fixed inset-0 z-50 flex items-center justify-center bg-white"
     out:fade={{ duration: 400 }}
   >
-    <div class="spinner"></div>
+    <Spinner size={56} />
   </div>
 {/if}
 
@@ -95,29 +96,3 @@
   </ul>
 </div>
 
-<style>
-  /* Gradient-ring spinner: the transparent border reveals the border-box
-     gradient; the padding-box layer (--fill = the loader background) masks
-     the gradient inside, leaving just the ring. */
-  .spinner {
-    --fill: #ffffff;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    background:
-      linear-gradient(var(--fill), var(--fill)) padding-box,
-      linear-gradient(45deg, #e4e4e7, #3f3f46) border-box;
-    animation: spinner-spin 1.2s linear infinite;
-  }
-
-  :global(.dark) .spinner {
-    --fill: var(--color-inky);
-  }
-
-  @keyframes spinner-spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style>
