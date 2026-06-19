@@ -61,8 +61,14 @@
 </script>
 
 {#if isInitialLoad}
-  <!-- Covers the screen from first paint until the grid data is ready. -->
+  <!-- Covers the screen from first paint until the grid data is ready.
+       On a back-navigation the days are already cached in memory and the
+       island re-hydrates from them instantly, so Layout strips this
+       overlay from the incoming document (keyed by data-grid-overlay) —
+       otherwise it paints white and then fades out on hydration, a flash
+       on every return to the grid. -->
   <div
+    data-grid-overlay
     class="dark:bg-inky fixed inset-0 z-50 flex items-center justify-center bg-white"
     out:fade={{ duration: 400 }}
   >

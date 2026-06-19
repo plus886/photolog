@@ -123,7 +123,7 @@ const ogImage =
 
 <script>
   import Lenis from "lenis";
-  import { isDrawerOpen, theme, lenisStore } from "libs/stores";
+  import { isDrawerOpen, theme, lenisStore, cachedDays } from "libs/stores";
 
   const applyTheme = (v: string) => {
     const dark = v === "dark";
@@ -141,6 +141,14 @@ const ogImage =
     const root = event.newDocument.documentElement;
     root.classList.toggle("dark", dark);
     root.style.colorScheme = dark ? "dark" : "light";
+
+    // Returning to the grid: the day list is already cached in memory, so
+    // the island will re-hydrate the grid from it instantly. Drop the SSR
+    // loading overlay from the incoming page — otherwise it paints (white)
+    // and then fades out on hydration, flashing on every back-navigation.
+    if (cachedDays.get().length > 0) {
+      event.newDocument.querySelector("[data-grid-overlay]")?.remove();
+    }
   });
 
   // #layout is recreated on each navigation; query it fresh inside the
