@@ -17,8 +17,7 @@
     locale: Locale;
   } = $props();
 
-  // Falls back to the date for entries whose alt hasn't been generated yet
-  // (see scripts/generate-alt.ts).
+  // Falls back to the date for older entries that have no alt in the CMS.
   const alt = $derived(
     (locale === "zh" ? altZh : altJa) || publishedAt?.slice(0, 10) || "",
   );
