@@ -5,7 +5,8 @@ import { resolveLocale } from "i18n/utils";
 
 const res = await getAllDayIds();
 const totalItemsLength = res.length;
-const localePrefix = resolveLocale(Astro.currentLocale) === "zh" ? "/zh" : "";
+const locale = resolveLocale(Astro.currentLocale);
+const localePrefix = locale === "zh" ? "/zh" : "";
 ---
 
 <GridGallery
@@ -13,4 +14,5 @@ const localePrefix = resolveLocale(Astro.currentLocale) === "zh" ? "/zh" : "";
   {totalItemsLength}
   totalPages={Math.ceil(totalItemsLength / DEFAULT_LIMIT)}
   {localePrefix}
+  {locale}
 />

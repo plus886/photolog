@@ -16,4 +16,5 @@ export type GridGalleryProps = {
   totalItemsLength: number;
   totalPages: number;
   localePrefix: string;
+  locale: Locale;
 };

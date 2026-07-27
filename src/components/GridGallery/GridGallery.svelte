@@ -10,7 +10,7 @@
   import type { GetDays, GridGalleryProps } from "types/index";
   import type { Action } from "svelte/action";
 
-  const { totalPages, localePrefix }: GridGalleryProps = $props();
+  const { totalPages, localePrefix, locale }: GridGalleryProps = $props();
   let isInitialLoad = $derived($cachedDays.length === 0);
 
   const fetchItems = async (page: number): Promise<void> => {
@@ -86,7 +86,7 @@
            row rather than hoisted) gives a staggered fade-in. -->
       {@const fadeDelay = Math.random() * 1200}
       <li in:fade={{ delay: fadeDelay, duration: 500 }}>
-        <Thumbnail {...item} {localePrefix} />
+        <Thumbnail {...item} {localePrefix} {locale} />
       </li>
       {#if isLastItem}
         <!-- Sentinel cell at the tail of the loaded items; the

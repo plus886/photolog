@@ -4,9 +4,16 @@
   import { isDayImageLoading } from "libs/stores";
   import { fade } from "svelte/transition";
   import Spinner from "../Spinner.svelte";
-  type Props = Day;
+  import type { Locale } from "i18n/utils";
+  type Props = Day & { locale: Locale };
 
-  let { image, publishedAt, id }: Props = $props();
+  let { image, publishedAt, id, locale, altJa, altZh }: Props = $props();
+
+  // Falls back to the date for entries whose alt hasn't been generated yet
+  // (see scripts/generate-alt.ts).
+  const alt = $derived(
+    (locale === "zh" ? altZh : altJa) || publishedAt?.slice(0, 10) || "",
+  );
 
   const onload: Action<HTMLImageElement> = (e) => {
     const handleImageLoad = () => {
@@ -29,7 +36,8 @@
   <div style={`view-transition-name: days_${id}_container`}>
     <img
       src={`${image.url}?w=1024`}
-      alt={publishedAt?.slice(0, 10)}
+      {alt}
+      fetchpriority="high"
       class={{
         "max-h-[50dvh] w-[90dvw] object-contain transition-all md:max-h-[70dvh] md:w-full": true,
         // While loading, hide the (empty) <img> but reserve space so the

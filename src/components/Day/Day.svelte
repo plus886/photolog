@@ -29,7 +29,7 @@
      order. md:order-* restores the desktop columns (controls left). -->
 <figure class="flex flex-col items-center justify-center md:order-2">
   <DaySpacer />
-  <DayImage {...item} />
+  <DayImage {...item} {locale} />
   <DayCaption camera={item.camera} lens={item.lens} />
 </figure>
 <Passage {passage} {locale} class="pt-10 pb-16 md:order-3 md:pt-0 md:pb-0" />

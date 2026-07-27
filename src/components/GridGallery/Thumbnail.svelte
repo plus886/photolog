@@ -1,10 +1,27 @@
 <script lang="ts">
   import { lastShowedDayId } from "libs/stores";
   import type { Day } from "types/index";
+  import type { Locale } from "i18n/utils";
 
-  const { image, publishedAt, featured, id, localePrefix }: Day & {
+  const {
+    image,
+    publishedAt,
+    featured,
+    id,
+    localePrefix,
+    locale,
+    altJa,
+    altZh,
+  }: Day & {
     localePrefix: string;
+    locale: Locale;
   } = $props();
+
+  // Falls back to the date for entries whose alt hasn't been generated yet
+  // (see scripts/generate-alt.ts).
+  const alt = $derived(
+    (locale === "zh" ? altZh : altJa) || publishedAt?.slice(0, 10) || "",
+  );
   // Highlights the thumbnail the visitor last opened as a day page.
   // The scroll-back-into-view is handled in GridGallery on mount.
   let isLastShowedBySinglePage = $derived($lastShowedDayId === id);
@@ -32,7 +49,8 @@
 >
   <img
     src={`${image.url}?w=${featured ? 220 : 110}&h=${featured ? 140 : 70}&fit=crop&q=40`}
-    alt={publishedAt?.slice(0, 10)}
+    {alt}
+    loading="lazy"
     class={{
       "h-full w-full object-cover": true,
       "animate-pulse": isLastShowedBySinglePage,
