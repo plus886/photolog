@@ -6,14 +6,20 @@
   import DayCaption from "./Caption.svelte";
   import type { DayProps } from "types/index";
   import { lastShowedDayId } from "libs/stores";
-  import { prefetch } from "astro:prefetch";
   import { onMount } from "svelte";
 
   let { item, nextPost, prevPost, localePrefix, locale, passage }: DayProps =
     $props();
 
-  onMount(() => {
+  onMount(async () => {
     lastShowedDayId.set(item.id);
+
+    // Imported here rather than at the top: astro:prefetch is browser-only,
+    // and a static import pulls it into the SSR graph, where `astro dev`
+    // serves it from Vite's pre-bundled deps with the build-time
+    // __PREFETCH_PREFETCH_ALL__ token still unreplaced — the render then
+    // throws. onMount never runs on the server, so this stays client-side.
+    const { prefetch } = await import("astro:prefetch");
 
     // Warm both neighbours — page HTML and full-size photo — so that
     // next/prev navigation (click or arrow keys) is instant.

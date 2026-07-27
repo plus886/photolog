@@ -11,7 +11,6 @@
   import IconReload from "~icons/material-symbols-light/autorenew-rounded";
   import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
-  import { prefetch } from "astro:prefetch";
   import hotkeys from "hotkeys-js";
   import type { DayProps } from "types/index";
   import type { DayPeek } from "libs/client";
@@ -39,6 +38,10 @@
       if (pool.length === 0) return null;
       const pick = pool[Math.floor(Math.random() * pool.length)];
       // next/prev と同じ温め方：HTML と原寸近い写真の両方を先に取る。
+      // astro:prefetch はブラウザ専用。トップレベルで import すると SSR
+      // グラフに入り、dev では未置換の __PREFETCH_PREFETCH_ALL__ を踏んで
+      // レンダリングが落ちる（Day.svelte 側と同じ理由）。
+      const { prefetch } = await import("astro:prefetch");
       prefetch(`${localePrefix}/days/${pick.id}`);
       new Image().src = `${pick.imageUrl}?w=1024`;
       randomTargetId = pick.id;
