@@ -11,6 +11,13 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss(), Icons({ compiler: "svelte" })],
+    // Svelte 5's client runtime keeps module-level state (the hydration
+    // cursor among it). Letting Vite pre-bundle it in dev hands the
+    // components a different instance than the one hydration runs in, and
+    // every island dies on `get_first_child(undefined)`. Serving it from
+    // source keeps a single instance. Only affects dev — the production
+    // build doesn't use the dep optimizer.
+    optimizeDeps: { exclude: ["svelte", "@astrojs/svelte"] },
   },
 
   integrations: [svelte()],
