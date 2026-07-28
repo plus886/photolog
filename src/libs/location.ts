@@ -33,3 +33,25 @@ export function locationCountry(
 ): string | undefined {
   return location?.country?.[0] || undefined;
 }
+
+/**
+ * schema.org Place for an ImageObject's contentLocation. Goes through
+ * locationName, so a private location contributes its city and nothing more.
+ */
+export function locationPlace(location: Location | undefined, locale: Locale) {
+  const name = locationName(location, locale);
+  if (!location || !name) return undefined;
+  const city = locale === "zh" ? location.cityZh : location.cityJa;
+  const country = locationCountry(location);
+  return {
+    "@type": "Place",
+    name,
+    address: {
+      "@type": "PostalAddress",
+      // Omitted when the name already *is* the city — repeating it as both
+      // the place and its locality says nothing.
+      ...(city && city !== name ? { addressLocality: city } : {}),
+      ...(country ? { addressCountry: country } : {}),
+    },
+  };
+}

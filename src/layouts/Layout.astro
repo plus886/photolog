@@ -109,6 +109,8 @@ const ogImage =
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"token": "d44be86bc1dd4ac59bcd43af9c13aaca"}'
     ></script>
+    <!-- Per-page structured data. -->
+    <slot name="head" />
   </head>
   <body
     class="bg-white text-zinc-800 transition-colors delay-150 duration-500 dark:bg-inky dark:text-pale"

@@ -2,7 +2,7 @@
 import Layout from "layouts/Layout.astro";
 import Day from "components/Day";
 import { resolveLocale } from "i18n/utils";
-import { locationName } from "libs/location";
+import { locationName, locationPlace } from "libs/location";
 import type { DayPageData } from "libs/dayPage";
 
 interface Props {
@@ -29,6 +29,34 @@ const ogImage = new URL(
   `/og/${item.id}.jpg${locale === "zh" ? "?lang=zh" : ""}`,
   Astro.site,
 ).href;
+
+// ImageObject is what image search reads: it ties the file to its author,
+// its description and where it was taken, none of which are recoverable
+// from the markup alone. contentUrl points at the same resized file the
+// page renders so the two aren't treated as separate images.
+const alt = locale === "zh" ? item.altZh : item.altJa;
+const contentLocation = locationPlace(item.location, locale);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  contentUrl: `${item.image.url}?w=1024`,
+  thumbnailUrl: `${item.image.url}?w=220&h=140&fit=crop`,
+  ...(item.image.width ? { width: item.image.width } : {}),
+  ...(item.image.height ? { height: item.image.height } : {}),
+  name: title,
+  ...(alt ? { description: alt } : {}),
+  ...(passage ? { text: passage } : {}),
+  ...(item.date ?? item.publishedAt
+    ? { datePublished: item.date ?? item.publishedAt }
+    : {}),
+  creator: { "@type": "Person", name: "康凱爾" },
+  creditText: "康凱爾",
+  copyrightNotice: "© 康凱爾",
+  ...(contentLocation ? { contentLocation } : {}),
+};
+// `<` is escaped so a passage or alt containing "</script>" can't close the
+// block early.
+const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 ---
 
 <Layout
@@ -37,6 +65,12 @@ const ogImage = new URL(
   ogImage={ogImage}
   description={passage || undefined}
 >
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={jsonLdHtml}
+  />
   <!-- Mobile stacks photo / passage / controls; the passage row is
        `auto` so a long single-column tanka just makes the page taller.
        Day.svelte's md:order-* restores the desktop column layout. -->
