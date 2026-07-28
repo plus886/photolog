@@ -6,10 +6,20 @@
   import DayCaption from "./Caption.svelte";
   import type { DayProps } from "types/index";
   import { lastShowedDayId } from "libs/stores";
+  import { locationName, isPrivateLocation } from "libs/location";
   import { onMount } from "svelte";
 
   let { item, nextPost, prevPost, localePrefix, locale, passage }: DayProps =
     $props();
+
+  // Private places show their city in the caption but get no link — they
+  // have no archive page to point at.
+  const place = $derived(locationName(item.location, locale));
+  const placeHref = $derived(
+    item.location && !isPrivateLocation(item.location)
+      ? `${localePrefix}/locations/${item.location.id}`
+      : undefined,
+  );
 
   onMount(async () => {
     lastShowedDayId.set(item.id);
@@ -36,7 +46,7 @@
 <figure class="flex flex-col items-center justify-center md:order-2">
   <DaySpacer />
   <DayImage {...item} {locale} />
-  <DayCaption camera={item.camera} lens={item.lens} />
+  <DayCaption camera={item.camera} lens={item.lens} {place} {placeHref} />
 </figure>
 <Passage {passage} {locale} class="pt-10 pb-16 md:order-3 md:pt-0 md:pb-0" />
 <nav class="self-center md:order-1">
