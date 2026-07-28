@@ -13,6 +13,10 @@ export const localeNames: Record<Locale, string> = {
 export const ui = {
   ja: {
     "meta.description": "台湾で生きる日本人が写真と言葉で日常を綴るフォトログ",
+    "locations.title": "撮影地",
+    "locations.description": "撮影地から写真を辿る。",
+    "locations.count": "枚",
+    "locations.photosAt": "の写真",
     "drawer.intro":
       "台湾人の家族と共に生きる日本人が、日常を写真と短歌で綴るフォトログです。以下のキーボードショートカットが使えます。",
     "drawer.shortcut.next": "次の日",
@@ -27,6 +31,10 @@ export const ui = {
   },
   zh: {
     "meta.description": "在台灣生活的日本人，以照片與文字書寫日常的 Photolog。",
+    "locations.title": "拍攝地",
+    "locations.description": "從拍攝地瀏覽照片。",
+    "locations.count": "張",
+    "locations.photosAt": "的照片",
     "drawer.intro":
       "與台灣家人一同生活的日本人，以照片記錄日常的攝影日誌。可使用以下鍵盤快捷鍵。",
     "drawer.shortcut.next": "下一天",

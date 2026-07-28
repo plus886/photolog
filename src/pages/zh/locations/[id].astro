@@ -1,0 +1,14 @@
+---
+export const prerender = false;
+
+import { loadLocationPage } from "libs/locationPage";
+import { SSR_CACHE_CONTROL } from "libs/cache";
+import LocationPage from "components/LocationPage.astro";
+
+const data = await loadLocationPage(Astro.params.id);
+if (!data) return new Response(null, { status: 404, statusText: "Not Found" });
+
+Astro.response.headers.set("Cache-Control", SSR_CACHE_CONTROL);
+---
+
+<LocationPage location={data.location} days={data.days} />

@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
-import { getAllDaySummaries } from "libs/client";
+import { getAllDaySummaries, getLocationSummaries } from "libs/client";
+import { isPrivateLocation } from "libs/location";
 import { SSR_CACHE_CONTROL } from "libs/cache";
 
 export const prerender = false;
@@ -39,11 +40,24 @@ const renderUrl = ({ loc, lastmod, image }: Entry) =>
 
 export const GET: APIRoute = async ({ site }) => {
   const base = (site ?? new URL("https://photo.kokaiji.tw")).origin;
-  const days = await getAllDaySummaries();
+  const [days, locations] = await Promise.all([
+    getAllDaySummaries(),
+    getLocationSummaries(),
+  ]);
+  const publicLocations = locations.filter(
+    (l) => !isPrivateLocation(l.location),
+  );
 
   const entries: Entry[] = [];
   for (const prefix of ["", "/zh"]) {
     entries.push({ loc: `${base}${prefix}/` });
+    entries.push({ loc: `${base}${prefix}/locations` });
+    for (const { location, cover } of publicLocations) {
+      entries.push({
+        loc: `${base}${prefix}/locations/${location.id}`,
+        image: `${cover.url}?w=1024`,
+      });
+    }
     for (const day of days) {
       entries.push({
         loc: `${base}${prefix}/days/${day.id}`,

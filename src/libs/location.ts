@@ -8,6 +8,11 @@ import type { Locale } from "i18n/utils";
 // list grows beyond a couple of entries.
 const PRIVATE_LOCATION_IDS = new Set(["myhome"]);
 
+/** Private places get no archive page of their own and no sitemap entry. */
+export function isPrivateLocation(location: Pick<Location, "id">): boolean {
+  return PRIVATE_LOCATION_IDS.has(location.id);
+}
+
 /**
  * The place name to show for a locale — the specific area when one was
  * recorded, otherwise the city. Returns undefined when there's no location,

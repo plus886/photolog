@@ -1,0 +1,16 @@
+---
+export const prerender = false;
+
+import { getLocationSummaries } from "libs/client";
+import { isPrivateLocation } from "libs/location";
+import { SSR_CACHE_CONTROL } from "libs/cache";
+import LocationIndexPage from "components/LocationIndexPage.astro";
+
+const summaries = (await getLocationSummaries()).filter(
+  (s) => !isPrivateLocation(s.location),
+);
+
+Astro.response.headers.set("Cache-Control", SSR_CACHE_CONTROL);
+---
+
+<LocationIndexPage summaries={summaries} />

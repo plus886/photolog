@@ -95,6 +95,69 @@ export const getAllDayPeeks = async (): Promise<DayPeek[]> => {
   return items.map(({ id, image }) => ({ id, imageUrl: image.url }));
 };
 
+export const getAllLocations = async (): Promise<Location[]> => {
+  return client.getAllContents<Omit<Location, keyof MicroCMSListContent>>({
+    endpoint: "locations",
+  });
+};
+
+export const getLocation = async (contentId: string): Promise<Location> => {
+  return client.getListDetail<Omit<Location, keyof MicroCMSListContent>>({
+    endpoint: "locations",
+    contentId,
+  });
+};
+
+// What a photo grid needs and nothing else — no passages, camera or lens.
+export type DayCard = MicroCMSListContent &
+  Pick<Day, "image" | "altJa" | "altZh" | "date">;
+
+// Every photo taken at one place, newest first. `location` is a content
+// reference, so it filters on the referenced entry's ID.
+export const getDaysByLocation = async (
+  contentId: string,
+): Promise<DayCard[]> => {
+  return client.getAllContents<Pick<Day, "image" | "altJa" | "altZh" | "date">>(
+    {
+      endpoint: "days",
+      queries: {
+        filters: `location[equals]${contentId}`,
+        orders: "-publishedAt",
+        fields: ["id", "image", "altJa", "altZh", "date", "publishedAt"],
+      },
+    },
+  );
+};
+
+// One pass over every day, grouped by place: gives both the count and a
+// cover photo for the index without a query per location.
+export type LocationSummary = {
+  location: Location;
+  count: number;
+  cover: MicroCMSImage;
+};
+
+export const getLocationSummaries = async (): Promise<LocationSummary[]> => {
+  const days = await client.getAllContents<Pick<Day, "image" | "location">>({
+    endpoint: "days",
+    queries: { orders: "-publishedAt", fields: ["id", "image", "location"] },
+  });
+  const byId = new Map<string, LocationSummary>();
+  for (const day of days) {
+    if (!day.location) continue;
+    const found = byId.get(day.location.id);
+    // Days arrive newest first, so the first one seen is the cover.
+    if (found) found.count++;
+    else
+      byId.set(day.location.id, {
+        location: day.location,
+        count: 1,
+        cover: day.image,
+      });
+  }
+  return [...byId.values()].sort((a, b) => b.count - a.count);
+};
+
 // Sitemap input: enough of every day to emit its URL, its photo and a
 // lastmod, without pulling the passages and camera data along for 529 items.
 export type DaySummary = MicroCMSListContent & {
