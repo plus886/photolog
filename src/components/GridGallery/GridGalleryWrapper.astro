@@ -1,18 +1,21 @@
 ---
 import GridGallery from "./GridGallery.svelte";
-import { getAllDayIds, DEFAULT_LIMIT } from "libs/client";
+import { getDays, DEFAULT_LIMIT } from "libs/client";
 import { resolveLocale } from "i18n/utils";
 
-const res = await getAllDayIds();
-const totalItemsLength = res.length;
+// The first page is fetched here rather than by the island on mount, so the
+// thumbnails are in the served HTML. `totalCount` comes back with it, which
+// also saves the separate all-ids request this used to make.
+const { contents: initialDays, totalCount } = await getDays();
 const locale = resolveLocale(Astro.currentLocale);
 const localePrefix = locale === "zh" ? "/zh" : "";
 ---
 
 <GridGallery
   client:load
-  {totalItemsLength}
-  totalPages={Math.ceil(totalItemsLength / DEFAULT_LIMIT)}
+  totalItemsLength={totalCount}
+  totalPages={Math.ceil(totalCount / DEFAULT_LIMIT)}
+  {initialDays}
   {localePrefix}
   {locale}
 />

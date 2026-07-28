@@ -17,4 +17,6 @@ export type GridGalleryProps = {
   totalPages: number;
   localePrefix: string;
   locale: Locale;
+  // The first page, fetched server-side so the grid is in the HTML.
+  initialDays: Day[];
 };
