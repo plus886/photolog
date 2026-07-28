@@ -1,7 +1,7 @@
-import type { GetDays, Day } from "libs/client";
+import type { GetDays, Day, DayCard } from "libs/client";
 import type { Locale } from "i18n/utils";
 
-export type { GetDays, Day };
+export type { GetDays, Day, DayCard };
 
 export type DayProps = {
   item: Day;

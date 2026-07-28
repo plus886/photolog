@@ -1,5 +1,6 @@
 ---
 import Layout from "layouts/Layout.astro";
+import Thumbnail from "components/GridGallery/Thumbnail.svelte";
 import { resolveLocale, useTranslations } from "i18n/utils";
 import { locationName, locationPlace } from "libs/location";
 import type { Location, DayCard } from "libs/client";
@@ -59,47 +60,28 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
     is:inline
     set:html={jsonLdHtml}
   />
-  <section class="px-6 py-10 md:px-12">
-    <header class="pb-8">
-      <h1 class="font-serif text-2xl tracking-widest md:text-3xl">
-        {name}
-      </h1>
-      <p class="pt-2 text-xs opacity-60">
-        {city && city !== name ? `${city} · ` : ""}{days.length}{
-          t("locations.count")
-        }
-      </p>
-    </header>
 
-    <!-- Server-rendered, unlike the home grid: this page exists to be
-         crawled, so the photos have to be in the HTML. -->
+  <h1 class="px-2 pt-3 pb-2 font-serif text-xs tracking-[0.3em]">
+    {name}<span class="pl-3 text-[0.6rem] opacity-40"
+      >{days.length}{t("locations.count")}</span
+    >
+  </h1>
+
+  <!-- Same grid as the home page, and Thumbnail renders without a client
+       directive: this page exists to be crawled, so the photos and their
+       alt text have to be in the HTML. The links work without hydration,
+       and Astro hover-prefetches them anyway. -->
+  <div class="grid grid-cols-7 lg:grid-cols-11">
     <ul
-      class="grid grid-cols-[repeat(auto-fill,minmax(8rem,1fr))] gap-2 md:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))]"
+      class="col-span-7 grid auto-rows-[4rem] grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-1 md:grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] lg:col-span-10"
     >
       {
         days.map((day) => (
           <li>
-            <a href={`${localePrefix}/days/${day.id}`} class="block">
-              <img
-                src={`${day.image.url}?w=340&h=230&fit=crop&q=60`}
-                alt={
-                  (locale === "zh" ? day.altZh : day.altJa) ||
-                  (day.date ?? day.publishedAt)?.slice(0, 10) ||
-                  ""
-                }
-                width="340"
-                height="230"
-                loading="lazy"
-                class="h-full w-full object-cover transition-opacity hover:opacity-80"
-              />
-            </a>
+            <Thumbnail {...day} {localePrefix} {locale} />
           </li>
         ))
       }
     </ul>
-
-    <p class="pt-10 text-xs">
-      <a href={`${localePrefix}/locations`}>{t("locations.title")}</a>
-    </p>
-  </section>
+  </div>
 </Layout>

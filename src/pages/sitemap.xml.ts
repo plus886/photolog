@@ -51,7 +51,6 @@ export const GET: APIRoute = async ({ site }) => {
   const entries: Entry[] = [];
   for (const prefix of ["", "/zh"]) {
     entries.push({ loc: `${base}${prefix}/` });
-    entries.push({ loc: `${base}${prefix}/locations` });
     for (const { location, cover } of publicLocations) {
       entries.push({
         loc: `${base}${prefix}/locations/${location.id}`,

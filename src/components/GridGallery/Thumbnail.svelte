@@ -1,6 +1,6 @@
 <script lang="ts">
   import { lastShowedDayId } from "libs/stores";
-  import type { Day } from "types/index";
+  import type { DayCard } from "types/index";
   import type { Locale } from "i18n/utils";
 
   const {
@@ -12,7 +12,9 @@
     locale,
     altJa,
     altZh,
-  }: Day & {
+    // DayCard, not Day: only what a thumbnail needs, so the location
+    // archive's trimmed projection can render one too.
+  }: DayCard & {
     localePrefix: string;
     locale: Locale;
   } = $props();

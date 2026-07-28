@@ -9,6 +9,8 @@
   import IconGrid from "~icons/material-symbols-light/grid-view";
   // @ts-ignore
   import IconReload from "~icons/material-symbols-light/autorenew-rounded";
+  // @ts-ignore
+  import IconMap from "~icons/material-symbols-light/map";
   import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
   import hotkeys from "hotkeys-js";
@@ -17,9 +19,12 @@
 
   type Props = Pick<DayProps, "nextPost" | "prevPost" | "localePrefix"> & {
     currentId: string;
+    // Absent when the photo has no location, or one that gets no archive.
+    locationHref?: string;
   };
 
-  let { nextPost, prevPost, localePrefix, currentId }: Props = $props();
+  let { nextPost, prevPost, localePrefix, currentId, locationHref }: Props =
+    $props();
   let isRandomizing = $state(false);
   // onMount で 1 件決めて HTML と写真を温めておく。クリック時は
   // navigate() を呼ぶだけになり、Random ボタンが next/prev と同じ
@@ -79,15 +84,13 @@
     isRandomizing = true;
     // 事前準備が間に合っていればそれを使う。まだ in-flight なら待つ。
     // それでも取れなければ最終手段としてもう一度 fetch する。
-    let target =
-      randomTargetId ?? (randomReady ? await randomReady : null);
+    let target = randomTargetId ?? (randomReady ? await randomReady : null);
     if (!target) {
       try {
         const res = await fetch("/api/day/random.json");
         const peeks: DayPeek[] = await res.json();
         const pool = peeks.filter((p) => p.id !== currentId);
-        target =
-          pool[Math.floor(Math.random() * pool.length)]?.id ?? null;
+        target = pool[Math.floor(Math.random() * pool.length)]?.id ?? null;
       } catch {
         // give up
       }
@@ -121,6 +124,17 @@
         class="flex cursor-pointer justify-center p-2 transition-all hover:scale-130"
       >
         <IconGrid class="text-xl" />
+      </button>
+    </a>
+    <!-- Every other photo taken at this one's location. -->
+    <a href={locationHref ?? ""}>
+      <button
+        class={{
+          "flex cursor-pointer justify-center p-2 transition-all hover:scale-130": true,
+          "pointer-events-none opacity-20": !locationHref,
+        }}
+      >
+        <IconMap class="text-xl" />
       </button>
     </a>
     <button

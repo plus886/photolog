@@ -110,23 +110,31 @@ export const getLocation = async (contentId: string): Promise<Location> => {
 
 // What a photo grid needs and nothing else — no passages, camera or lens.
 export type DayCard = MicroCMSListContent &
-  Pick<Day, "image" | "altJa" | "altZh" | "date">;
+  Pick<Day, "image" | "altJa" | "altZh" | "date" | "featured">;
 
 // Every photo taken at one place, newest first. `location` is a content
 // reference, so it filters on the referenced entry's ID.
 export const getDaysByLocation = async (
   contentId: string,
 ): Promise<DayCard[]> => {
-  return client.getAllContents<Pick<Day, "image" | "altJa" | "altZh" | "date">>(
-    {
-      endpoint: "days",
-      queries: {
-        filters: `location[equals]${contentId}`,
-        orders: "-publishedAt",
-        fields: ["id", "image", "altJa", "altZh", "date", "publishedAt"],
-      },
+  return client.getAllContents<
+    Pick<Day, "image" | "altJa" | "altZh" | "date" | "featured">
+  >({
+    endpoint: "days",
+    queries: {
+      filters: `location[equals]${contentId}`,
+      orders: "-publishedAt",
+      fields: [
+        "id",
+        "image",
+        "altJa",
+        "altZh",
+        "date",
+        "featured",
+        "publishedAt",
+      ],
     },
-  );
+  });
 };
 
 // One pass over every day, grouped by place: gives both the count and a
