@@ -61,10 +61,12 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
     set:html={jsonLdHtml}
   />
 
-  <h1 class="px-2 pt-3 pb-2 font-serif text-xs tracking-[0.3em]">
-    {name}<span class="pl-3 text-[0.6rem] opacity-40"
-      >{days.length}{t("locations.count")}</span
-    >
+  <h1
+    class="flex h-[16dvh] items-center justify-end px-2 pt-3 pb-2 font-serif text-xl tracking-[0.3em] md:h-[30dvh] md:text-lg"
+  >
+    <span class="pr-3 text-[0.6rem] opacity-40">
+      {days.length}{t("locations.count")} /
+    </span>{name}
   </h1>
 
   <!-- Same grid as the home page, and Thumbnail renders without a client
