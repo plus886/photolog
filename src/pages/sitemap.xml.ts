@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
 import { getAllDaySummaries, getLocationSummaries } from "libs/client";
-import { isPrivateLocation } from "libs/location";
 import { SSR_CACHE_CONTROL } from "libs/cache";
 
 export const prerender = false;
@@ -44,14 +43,10 @@ export const GET: APIRoute = async ({ site }) => {
     getAllDaySummaries(),
     getLocationSummaries(),
   ]);
-  const publicLocations = locations.filter(
-    (l) => !isPrivateLocation(l.location),
-  );
-
   const entries: Entry[] = [];
   for (const prefix of ["", "/zh"]) {
     entries.push({ loc: `${base}${prefix}/` });
-    for (const { location, cover } of publicLocations) {
+    for (const { location, cover } of locations) {
       entries.push({
         loc: `${base}${prefix}/locations/${location.id}`,
         image: `${cover.url}?w=1024`,

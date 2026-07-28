@@ -6,18 +6,15 @@
   import DayCaption from "./Caption.svelte";
   import type { DayProps } from "types/index";
   import { lastShowedDayId } from "libs/stores";
-  import { isPrivateLocation } from "libs/location";
   import { onMount } from "svelte";
 
   let { item, nextPost, prevPost, localePrefix, locale, passage }: DayProps =
     $props();
 
-  // Private places have no archive page, so the map control has nowhere to
-  // go and renders disabled.
+  // Absent only for entries with no location at all, which disables the map
+  // control.
   const locationHref = $derived(
-    item.location && !isPrivateLocation(item.location)
-      ? `${localePrefix}/locations/${item.location.id}`
-      : undefined,
+    item.location ? `${localePrefix}/locations/${item.location.id}` : undefined,
   );
 
   onMount(async () => {
