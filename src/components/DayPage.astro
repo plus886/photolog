@@ -2,6 +2,7 @@
 import Layout from "layouts/Layout.astro";
 import Day from "components/Day";
 import { resolveLocale } from "i18n/utils";
+import { locationName } from "libs/location";
 import type { DayPageData } from "libs/dayPage";
 
 interface Props {
@@ -13,7 +14,15 @@ const { item, nextPost, prevPost } = Astro.props.data;
 const locale = resolveLocale(Astro.currentLocale);
 const localePrefix = locale === "zh" ? "/zh" : "";
 const passage = locale === "zh" ? item.passageZh : item.passageJa;
-const title = `翳光臺灣 | ${item.id}`;
+
+// Title leads with where and when, because that's what someone searches and
+// because a truncated result should still show it — the site name goes last.
+// `date` is when the photo was taken; publishedAt is a day or two later.
+const place = locationName(item.location, locale);
+const taken = (item.date ?? item.publishedAt)?.slice(0, 10);
+const title = [[place, taken].filter(Boolean).join(" "), "翳光臺灣"]
+  .filter(Boolean)
+  .join(" | ");
 
 // Dynamically-generated OG card (photo + dark mask + passage).
 const ogImage = new URL(

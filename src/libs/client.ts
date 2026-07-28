@@ -10,11 +10,28 @@ const client = createClient({
   apiKey: import.meta.env.MICROCMS_API_KEY,
 });
 
+// A place the photos were taken, referenced from `days`. Entered by hand in
+// microCMS, so precision varies: `nameJa`/`nameZh` hold the area someone
+// would actually search for (大稻埕, 九份 — not the administrative division),
+// and are empty when only the city was remembered.
+export type Location = MicroCMSListContent & {
+  nameJa?: string;
+  nameZh?: string;
+  cityJa: string;
+  cityZh: string;
+  // microCMS select fields come back as arrays even when single-choice.
+  country: string[];
+};
+
 type DayContent = {
   image: MicroCMSImage;
   camera: string[];
   lens: string[];
   featured: boolean;
+  // When the photo was taken. Distinct from publishedAt, which is when it
+  // went up — often a day or more later.
+  date?: string;
+  location?: Location;
   // Per-locale vertical-text passage (microCMS textArea fields).
   // Optional: existing entries are empty until filled in microCMS.
   passageJa?: string;

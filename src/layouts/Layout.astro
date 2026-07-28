@@ -25,6 +25,10 @@ const pathNoLocale = Astro.url.pathname.replace(/^\/zh(?=\/|$)/, "") || "/";
 const jaHref = getAbsoluteLocaleUrl("ja", pathNoLocale);
 const zhHref = getAbsoluteLocaleUrl("zh", pathNoLocale);
 
+// Canonical without the query string: the OG card and prefetch links append
+// params, and a crawler that picks one up shouldn't index it as its own page.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
 const {
   title = "翳光臺灣 | Formosa Chiaroscuro",
   description = t("meta.description"),
@@ -49,6 +53,10 @@ const ogImage =
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="author" content="康凱爾" />
+    <!-- Without this Google caps image previews at a thumbnail, which is
+         most of the value on a photo site — it gates the large preview in
+         image search and Discover. -->
+    <meta name="robots" content="max-image-preview:large" />
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:description" content={description} />
@@ -59,6 +67,7 @@ const ogImage =
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@plus886" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="alternate" hreflang="ja" href={jaHref} />
     <link rel="alternate" hreflang="zh-Hant" href={zhHref} />
