@@ -20,9 +20,8 @@ const passage = locale === "zh" ? item.passageZh : item.passageJa;
 // `date` is when the photo was taken; publishedAt is a day or two later.
 const place = locationName(item.location, locale);
 const taken = (item.date ?? item.publishedAt)?.slice(0, 10);
-const title = [[place, taken].filter(Boolean).join(" "), "翳光臺灣"]
-  .filter(Boolean)
-  .join(" | ");
+const heading = [place, taken].filter(Boolean).join(" ");
+const title = [heading, "翳光臺灣"].filter(Boolean).join(" | ");
 
 // Dynamically-generated OG card (photo + dark mask + passage).
 const ogImage = new URL(
@@ -46,7 +45,7 @@ const jsonLd = {
   name: title,
   ...(alt ? { description: alt } : {}),
   ...(passage ? { text: passage } : {}),
-  ...(item.date ?? item.publishedAt
+  ...((item.date ?? item.publishedAt)
     ? { datePublished: item.date ?? item.publishedAt }
     : {}),
   creator: { "@type": "Person", name: "康凱爾" },
@@ -71,6 +70,10 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
     is:inline
     set:html={jsonLdHtml}
   />
+  <!-- The page's heading, kept out of the layout: the design is a photo
+       and its tanka, with nothing else to look at. Screen readers and
+       crawlers still get a heading that says which place and day this is. -->
+  {heading && <h1 class="sr-only">{heading}</h1>}
   <!-- Mobile stacks photo / passage / controls; the passage row is
        `auto` so a long single-column tanka just makes the page taller.
        Day.svelte's md:order-* restores the desktop column layout. -->

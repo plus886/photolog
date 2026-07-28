@@ -9,7 +9,13 @@
     locale,
     switchUrl,
     localePrefix,
-  }: { locale: Locale; switchUrl: string; localePrefix: string } = $props();
+    isHome,
+  }: {
+    locale: Locale;
+    switchUrl: string;
+    localePrefix: string;
+    isHome: boolean;
+  } = $props();
 </script>
 
 <div
@@ -27,20 +33,21 @@
   <div
     class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center md:flex md:h-dvh md:flex-col md:justify-between md:gap-4"
   >
-    <h1
+    <svelte:element
+      this={isHome ? "h1" : "p"}
       class="font-cactus justify-self-start px-6 text-lg tracking-[0.5em] text-nowrap md:px-12 md:text-xl md:tracking-[1em] md:[writing-mode:vertical-lr]"
     >
       <a href={`${localePrefix}/`} class="no-underline hover:animate-pulse"
         >翳光臺灣</a
       >
-    </h1>
+    </svelte:element>
     <DrawerButton />
     <!-- Always-visible language switcher: both endonyms, the current
          one dimmed, the other a link to the same page. It occupies the
          rail's bottom slot so the menu button keeps the dead-centre. -->
     <nav
       aria-label="Language"
-      class="font-serif flex items-center justify-self-end gap-2 pr-6 text-xs tracking-wide whitespace-nowrap md:px-12 md:pr-0 md:[writing-mode:vertical-lr]"
+      class="flex items-center gap-2 justify-self-end pr-6 font-serif text-xs tracking-wide whitespace-nowrap md:px-12 md:pr-0 md:[writing-mode:vertical-lr]"
     >
       {#each locales as loc, i}
         {#if i > 0}

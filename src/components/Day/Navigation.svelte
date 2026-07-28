@@ -10,7 +10,7 @@
   // @ts-ignore
   import IconReload from "~icons/material-symbols-light/autorenew-rounded";
   // @ts-ignore
-  import IconMap from "~icons/material-symbols-light/map";
+  import IconPin from "~icons/material-symbols-light/location-on";
   import { isDrawerOpen } from "libs/stores";
   import { navigate } from "astro:transitions/client";
   import hotkeys from "hotkeys-js";
@@ -134,7 +134,7 @@
           "pointer-events-none opacity-20": !locationHref,
         }}
       >
-        <IconMap class="text-xl" />
+        <IconPin class="text-xl" />
       </button>
     </a>
     <button
