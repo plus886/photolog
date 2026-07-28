@@ -1,22 +1,63 @@
 import type { APIRoute } from "astro";
-import { getAllDayIds } from "libs/client";
+import { getAllDaySummaries } from "libs/client";
 import { SSR_CACHE_CONTROL } from "libs/cache";
 
 export const prerender = false;
 
+const escapeXml = (s: string) =>
+  s.replace(
+    /[<>&'"]/g,
+    (c) =>
+      ({
+        "<": "&lt;",
+        ">": "&gt;",
+        "&": "&amp;",
+        "'": "&apos;",
+        '"': "&quot;",
+      })[c]!,
+  );
+
+type Entry = { loc: string; lastmod?: string; image?: string };
+
+const renderUrl = ({ loc, lastmod, image }: Entry) =>
+  [
+    "  <url>",
+    `    <loc>${escapeXml(loc)}</loc>`,
+    ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+    // Only image:loc — Google dropped support for image:title / image:caption
+    // / image:license in 2022, so the alt text earns its keep in the page
+    // markup rather than here.
+    ...(image
+      ? [
+          "    <image:image>",
+          `      <image:loc>${escapeXml(image)}</image:loc>`,
+          "    </image:image>",
+        ]
+      : []),
+    "  </url>",
+  ].join("\n");
+
 export const GET: APIRoute = async ({ site }) => {
   const base = (site ?? new URL("https://photo.kokaiji.tw")).origin;
-  const ids = await getAllDayIds();
+  const days = await getAllDaySummaries();
 
-  const paths = ["/", ...ids.map((id) => `/days/${id}`)];
-  const urls = [
-    ...paths.map((p) => `${base}${p}`),
-    ...paths.map((p) => `${base}/zh${p}`),
-  ];
+  const entries: Entry[] = [];
+  for (const prefix of ["", "/zh"]) {
+    entries.push({ loc: `${base}${prefix}/` });
+    for (const day of days) {
+      entries.push({
+        loc: `${base}${prefix}/days/${day.id}`,
+        lastmod: (day.revisedAt ?? day.publishedAt)?.slice(0, 10),
+        // The same resized file the page renders, so the crawler doesn't
+        // treat the original and the displayed image as two.
+        image: `${day.image.url}?w=1024`,
+      });
+    }
+  }
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((loc) => `  <url><loc>${loc}</loc></url>`).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${entries.map(renderUrl).join("\n")}
 </urlset>`;
 
   return new Response(body, {

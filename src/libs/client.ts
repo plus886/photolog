@@ -95,6 +95,20 @@ export const getAllDayPeeks = async (): Promise<DayPeek[]> => {
   return items.map(({ id, image }) => ({ id, imageUrl: image.url }));
 };
 
+// Sitemap input: enough of every day to emit its URL, its photo and a
+// lastmod, without pulling the passages and camera data along for 529 items.
+export type DaySummary = MicroCMSListContent & {
+  image: MicroCMSImage;
+  revisedAt?: string;
+};
+
+export const getAllDaySummaries = async (): Promise<DaySummary[]> => {
+  return client.getAllContents<Pick<Day, "image">>({
+    endpoint: "days",
+    queries: { fields: ["id", "image", "revisedAt", "publishedAt"] },
+  });
+};
+
 export const getDayDetail = async (
   contentId: string,
   queries?: MicroCMSQueries,
