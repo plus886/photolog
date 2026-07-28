@@ -61,19 +61,21 @@ const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
     set:html={jsonLdHtml}
   />
 
-  <h1
-    class="flex h-[16dvh] items-center justify-end px-2 pt-3 pb-2 font-serif text-xl tracking-[0.3em] md:h-[30dvh] md:text-lg"
-  >
-    <span class="pr-3 text-[0.6rem] opacity-40">
-      {days.length}{t("locations.count")} /
-    </span>{name}
-  </h1>
-
   <!-- Same grid as the home page, and Thumbnail renders without a client
        directive: this page exists to be crawled, so the photos and their
        alt text have to be in the HTML. The links work without hydration,
        and Astro hover-prefetches them anyway. -->
   <div class="grid grid-cols-7 lg:grid-cols-11">
+    <!-- Shares the grid and the thumbnails' column span so the two right
+         edges line up; the last glyph gets a negative margin to cancel the
+         trailing letter-space that tracking leaves after it. -->
+    <h1
+      class="col-span-7 flex h-[16dvh] items-center justify-end pt-3 pb-2 font-serif text-xl tracking-[0.3em] md:h-[30dvh] md:text-lg lg:col-span-10"
+    >
+      <span class="pr-3 text-[0.6rem] opacity-40">
+        {days.length}{t("locations.count")} /
+      </span><span class="-mr-[0.3em]">{name}</span>
+    </h1>
     <ul
       class="col-span-7 grid auto-rows-[4rem] grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] gap-1 md:grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] lg:col-span-10"
     >
