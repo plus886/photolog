@@ -1,6 +1,13 @@
 ---
+// The grid is fetched in GridGalleryWrapper, so prerendering would bake the
+// day list in at build time and new photos would only appear on redeploy.
+export const prerender = false;
+
 import Layout from "layouts/Layout.astro";
 import GridGallery from "components/GridGallery";
+import { SSR_CACHE_CONTROL } from "libs/cache";
+
+Astro.response.headers.set("Cache-Control", SSR_CACHE_CONTROL);
 ---
 
 <Layout>
