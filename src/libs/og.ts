@@ -14,6 +14,8 @@ const FONT_FAMILY: Record<"ja" | "zh", string> = {
   zh: "Cactus Classical Serif",
 };
 
+const LINE_HEIGHT = 1.6;
+
 // Deterministic fit: size the text so the widest line fits the width box
 // and all lines fit the height box, clamped to a tasteful range. The
 // maxWidth/maxHeight + overflow:hidden on the text node is the safety net.
@@ -21,8 +23,34 @@ function fitFontSize(passage: string): number {
   const lines = passage.split("\n");
   const longest = Math.max(1, ...lines.map((l) => [...l].length));
   const byWidth = Math.floor(1000 / (longest * 1.08)); // CJK glyph ≈ 1em
-  const byHeight = Math.floor(520 / (lines.length * 1.6));
+  const byHeight = Math.floor(520 / (lines.length * LINE_HEIGHT));
   return Math.max(28, Math.min(72, byWidth, byHeight));
+}
+
+// The passages use U+3000 (ideographic space) as a caesura, but Google
+// Fonts' subsetter drops it from every `text=` subset — it substitutes
+// U+0020 — so Satori finds no glyph and draws .notdef (tofu). No
+// substitute character works for both faces either: Cactus Classical Serif
+// carries U+2003 EM SPACE, Hina Mincho doesn't. So the gap is laid out
+// rather than typeset — an empty 1em box, exactly the width U+3000 would
+// have had, in any font.
+const IDEOGRAPHIC_SPACE = "　";
+
+function lineChildren(line: string, fontSize: number): unknown[] {
+  const children: unknown[] = [];
+  line.split(IDEOGRAPHIC_SPACE).forEach((part, i) => {
+    if (i > 0)
+      children.push({
+        type: "div",
+        props: { style: { width: fontSize, flexShrink: 0 } },
+      });
+    if (part)
+      children.push({
+        type: "div",
+        props: { style: { whiteSpace: "pre" }, children: part },
+      });
+  });
+  return children;
 }
 
 /**
@@ -42,7 +70,13 @@ export async function renderOgImage({
   const family = FONT_FAMILY[lang];
   // Fetch a glyph subset of the family for exactly this text (TTF, since
   // Satori can't parse woff2 — loadGoogleFont sends a compatible UA).
-  const fontData = await loadGoogleFont({ family, text: passage || " ", weight: 400 });
+  const fontData = await loadGoogleFont({
+    family,
+    // U+3000 is drawn as layout, not as a glyph, so it isn't part of the
+    // subset we need (the subsetter drops it regardless).
+    text: passage.split(IDEOGRAPHIC_SPACE).join("") || " ",
+    weight: 400,
+  });
 
   const children: unknown[] = [
     {
@@ -77,23 +111,38 @@ export async function renderOgImage({
   ];
 
   if (passage) {
+    const fontSize = fitFontSize(passage);
     children.push({
       type: "div",
       props: {
         style: {
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           maxWidth: 1000,
           maxHeight: 520,
           overflow: "hidden",
           color: "#ffffff",
           fontFamily: family,
-          fontSize: fitFontSize(passage),
-          lineHeight: 1.6,
+          fontSize,
           letterSpacing: 2,
-          whiteSpace: "pre-wrap",
-          textAlign: "center",
           textShadow: "0 2px 12px rgba(0, 0, 0, 0.6)",
         },
-        children: passage,
+        children: passage.split("\n").map((line) => ({
+          type: "div",
+          props: {
+            // Explicit row height so a blank line still takes one up.
+            // Unrounded, to keep the exact line spacing lineHeight gave.
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: fontSize * LINE_HEIGHT,
+            },
+            children: lineChildren(line, fontSize),
+          },
+        })),
       },
     });
   }
